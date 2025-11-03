@@ -4,6 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
+import SettingsIcon from "../../../public/svg/settings";
+import DashboardIcon from "../../../public/svg/dashboard";
+import RestaurantIcon from "../../../public/svg/restaurant";
+import ReviewsIcon from "../../../public/svg/reviews";
 export default function Header() {
     const pathname = usePathname();
     console.log(pathname.includes("/register"));
@@ -35,7 +39,16 @@ export default function Header() {
 
     return (
 
-        <header className={`${isLoginPage ? 'hidden' : 'border gap-3 py-3 flex justify-between w-full'} : `}>
+        <header className={`${isLoginPage ? 'hidden' : ' gap-3 py-3 flex bg-white justify-between items-center w-full'} : `}
+         style={{
+                "background": "linear-gradient(135deg,rgba (255,255,255,0.1),rgba(175, 158, 158, 0.17))",
+                "WebkitBackdropFilter": "blur(20px)",
+                "backdropFilter": "blur(5px)",
+                "boxShadow": "0 8px 20px 0 rgba(0, 0, 0, 0.15)"
+                 
+            }}
+        
+        >
 
             <div className='px-3 py-3 flex jusitfy-between 
             w-fit'>
@@ -45,24 +58,38 @@ export default function Header() {
                 }}
                 >Point of Sale</h1>
             </div>
-            <div className='flex border'>
+            <div className='flex '>
                 <nav className='w-fit'>
                     <ul className='px-3 py-3 w-full flex jusitfy-between gap-4' >
-                        <li>Home</li>
+                        <li>
+                            <a href="/pages/dashboard">
+                                 <DashboardIcon className="w-7 h-7 cursor-pointer text-gray-500" />
+                            </a>
+                           
+                        </li>
                         {
                             role === "RESTO_SUPER_ADMIN" && <li><a href="/pages/pointOfSale">
-                                My Point of Sale</a></li>
+                                <RestaurantIcon className="w-7 h-7 cursor-pointer text-gray-500" />
+                                </a></li>
                         }
+                        <li>
+                            <a href='/pages/reviews/owner'><ReviewsIcon className="w-7 h-7 cursor-pointer text-gray-500" />
+                                </a>
+                        </li>
                       
-                        <li>Products</li>  
+                        
                        
                     </ul>
                 </nav>
                  <div className='px-3 py-3 flex justify-between w-fit justify-self-end gap-3'>
-                <div>
+                   <SettingsIcon className="w-7 h-7 cursor-pointer text-gray-500" />
+                {/* <div>
                     <p>Welcome {role === "SUPER_ADMIN" ? "Admin" : role === "RESTO_SUPER_ADMIN" ? "Owner" : "User"}</p>
                 </div>
-                <div> {token ? <button className="cursor-pointer"onClick={handleLogout}>
+                <div
+                
+                >  */}
+                {/* {token ? <button className="cursor-pointer"onClick={handleLogout}>
                      Logout
                 </button> : <button>
                     <Link href="/pages/register"> Login</Link>
@@ -78,7 +105,9 @@ export default function Header() {
                     !token && <button >
                         <Link href="/pages/login"> Login</Link>
                     </button>
-                }</div>
+                }
+                 */}
+                {/* </div> */}
 
                
 

@@ -47,6 +47,9 @@ label{
    @apply  px-2  text-sm text-gray-500  flex justify-center items-center gap-3;
    
 }
+p{
+  font-size: 12px;
+}
 
 .formFields{
     @apply bg-white rounded-full px-4 text-sm text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent mt-0 mb-3;

@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
      
          <body className="">
           
-          <main>
+          <main className="">
             <Header/>
              <BackgroundWrapper>
       {children} 
