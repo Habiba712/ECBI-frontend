@@ -14,6 +14,7 @@ export default function Header() {
     const sessionData = JSON.parse(localStorage?.getItem("sessionData"));
     const token = sessionData?.token;
     const role = sessionData?.role;
+    const buisinessName = sessionData?.businessName;
 
     const isLoginPage = pathname.includes("/register") || pathname.includes("/login") || pathname.includes("/createOwner") || pathname.includes("/password");
 
@@ -56,7 +57,7 @@ export default function Header() {
                 style={{
                     
                 }}
-                >Point of Sale</h1>
+                >{buisinessName}</h1>
             </div>
             <div className='flex '>
                 <nav className='w-fit'>

@@ -234,22 +234,499 @@ const ReviewsData = [
     }
   
 ]
+const users= {
+  "users": [
+    {
+      "id": 101,
+      "role": "client",
+      "name": "Sarah Johnson",
+      "email": "sarah.j@example.com",
+      "password": "$2b$10$hashedpassword1",
+      "phone": "+1 234 567 1001",
 
-// ],
-//   "stats": {
-//     "totalReviews": 10,
-//     "averageRating": 4.3,
-//     "pendingReplies": 4,
-//     "repliedReviews": 6,
-//     "ratingDistribution": {
-//       "5": 5,
-//       "4": 3,
-//       "3": 1,
-//       "2": 1,
-//       "1": 0
-//     },
-//     "totalPhotos": 15,
-//     "totalPointsAwarded": 145
-//   }
+      "avatar": "https://i.pravatar.cc/150?img=1",
+      "points": 180,
+      "totalVisits": 12,
+      "totalReviews": 8,
+      "memberSince": "2024-03-15T10:00:00Z",
+      "status": "active",
+      "verified": true,
+      "preferences": {
+        "notifications": true,
+        "emailUpdates": true,
+        "favoriteCuisines": ["Italian", "Japanese"]
+      },
+      "visitHistory": [
+        {
+          "restaurantId": 1,
+          "restaurantName": "Pizza Paradise",
+          "date": "2025-01-15T18:30:00Z",
+          "pointsEarned": 15
+        },
+        {
+          "restaurantId": 2,
+          "restaurantName": "Burger Hub",
+          "date": "2025-01-10T19:00:00Z",
+          "pointsEarned": 15
+        }
+      ],
+      "createdAt": "2024-03-15T10:00:00Z",
+      "updatedAt": "2025-01-15T19:45:00Z",
+      "lastLogin": "2025-01-15T18:00:00Z"
+    },
+    {
+      "id": 102,
+      "role": "client",
+      "name": "Mike Chen",
+      "email": "mike.chen@example.com",
+      "password": "$2b$10$hashedpassword2",
+      "phone": "+1 234 567 1002",
+      "avatar": "https://i.pravatar.cc/150?img=12",
+      "points": 120,
+      "totalVisits": 8,
+      "totalReviews": 5,
+      "memberSince": "2024-05-20T14:30:00Z",
+      "status": "active",
+      "verified": true,
+      "preferences": {
+        "notifications": true,
+        "emailUpdates": false,
+        "favoriteCuisines": ["Italian", "American"]
+      },
+      "visitHistory": [
+        {
+          "restaurantId": 1,
+          "restaurantName": "Pizza Paradise",
+          "date": "2025-01-14T20:15:00Z",
+          "pointsEarned": 15
+        }
+      ],
+      "createdAt": "2024-05-20T14:30:00Z",
+      "updatedAt": "2025-01-14T21:30:00Z",
+      "lastLogin": "2025-01-14T20:00:00Z"
+    },
+    {
+      "id": 103,
+      "role": "client",
+      "name": "Emma Wilson",
+      "email": "emma.w@example.com",
+      "password": "$2b$10$hashedpassword3",
+      "phone": "+1 234 567 1003",
+      "avatar": "https://i.pravatar.cc/150?img=5",
+      "points": 90,
+      "totalVisits": 6,
+      "totalReviews": 4,
+      "memberSince": "2024-06-10T09:00:00Z",
+      "status": "active",
+      "verified": true,
+      "preferences": {
+        "notifications": true,
+        "emailUpdates": true,
+        "favoriteCuisines": ["American", "Mexican"]
+      },
+      "visitHistory": [
+        {
+          "restaurantId": 2,
+          "restaurantName": "Burger Hub",
+          "date": "2025-01-13T19:00:00Z",
+          "pointsEarned": 15
+        }
+      ],
+      "createdAt": "2024-06-10T09:00:00Z",
+      "updatedAt": "2025-01-13T20:15:00Z",
+      "lastLogin": "2025-01-13T18:45:00Z"
+    },
+    {
+      "id": 104,
+      "role": "client",
+      "name": "David Brown",
+      "email": "david.b@example.com",
+      "password": "$2b$10$hashedpassword4",
+      "phone": "+1 234 567 1004",
+      "avatar": "https://i.pravatar.cc/150?img=33",
+      "points": 150,
+      "totalVisits": 10,
+      "totalReviews": 7,
+      "memberSince": "2024-04-05T11:20:00Z",
+      "status": "active",
+      "verified": true,
+      "preferences": {
+        "notifications": false,
+        "emailUpdates": true,
+        "favoriteCuisines": ["Italian", "Thai"]
+      },
+      "visitHistory": [
+        {
+          "restaurantId": 1,
+          "restaurantName": "Pizza Paradise",
+          "date": "2025-01-12T17:45:00Z",
+          "pointsEarned": 15
+        }
+      ],
+      "createdAt": "2024-04-05T11:20:00Z",
+      "updatedAt": "2025-01-12T18:50:00Z",
+      "lastLogin": "2025-01-12T17:30:00Z"
+    },
+    {
+      "id": 105,
+      "role": "client",
+      "name": "Lisa Anderson",
+      "email": "lisa.a@example.com",
+      "password": "$2b$10$hashedpassword5",
+      "phone": "+1 234 567 1005",
+      "avatar": "https://i.pravatar.cc/150?img=9",
+      "points": 200,
+      "totalVisits": 14,
+      "totalReviews": 10,
+      "memberSince": "2024-02-28T08:15:00Z",
+      "status": "active",
+      "verified": true,
+      "preferences": {
+        "notifications": true,
+        "emailUpdates": true,
+        "favoriteCuisines": ["American", "Japanese", "Mexican"]
+      },
+      "visitHistory": [
+        {
+          "restaurantId": 2,
+          "restaurantName": "Burger Hub",
+          "date": "2025-01-11T18:30:00Z",
+          "pointsEarned": 15
+        }
+      ],
+      "createdAt": "2024-02-28T08:15:00Z",
+      "updatedAt": "2025-01-11T19:45:00Z",
+      "lastLogin": "2025-01-11T18:15:00Z"
+    },
+    {
+      "id": 106,
+      "role": "client",
+      "name": "James Taylor",
+      "email": "james.t@example.com",
+      "password": "$2b$10$hashedpassword6",
+      "phone": "+1 234 567 1006",
+      "avatar": "https://i.pravatar.cc/150?img=15",
+      "points": 65,
+      "totalVisits": 5,
+      "totalReviews": 3,
+      "memberSince": "2024-08-12T16:00:00Z",
+      "status": "active",
+      "verified": true,
+      "preferences": {
+        "notifications": true,
+        "emailUpdates": false,
+        "favoriteCuisines": ["Italian"]
+      },
+      "visitHistory": [
+        {
+          "restaurantId": 1,
+          "restaurantName": "Pizza Paradise",
+          "date": "2025-01-10T19:30:00Z",
+          "pointsEarned": 10
+        }
+      ],
+      "createdAt": "2024-08-12T16:00:00Z",
+      "updatedAt": "2025-01-10T21:00:00Z",
+      "lastLogin": "2025-01-10T19:15:00Z"
+    },
+    {
+      "id": 107,
+      "role": "client",
+      "name": "Sophia Martinez",
+      "email": "sophia.m@example.com",
+      "password": "$2b$10$hashedpassword7",
+      "phone": "+1 234 567 1007",
+      "avatar": "https://i.pravatar.cc/150?img=44",
+      "points": 135,
+      "totalVisits": 9,
+      "totalReviews": 6,
+      "memberSince": "2024-07-03T13:45:00Z",
+      "status": "active",
+      "verified": true,
+      "preferences": {
+        "notifications": true,
+        "emailUpdates": true,
+        "favoriteCuisines": ["American", "Italian", "Thai"]
+      },
+      "visitHistory": [
+        {
+          "restaurantId": 2,
+          "restaurantName": "Burger Hub",
+          "date": "2025-01-09T20:00:00Z",
+          "pointsEarned": 15
+        }
+      ],
+      "createdAt": "2024-07-03T13:45:00Z",
+      "updatedAt": "2025-01-09T21:30:00Z",
+      "lastLogin": "2025-01-09T19:45:00Z"
+    },
+    {
+      "id": 108,
+      "role": "client",
+      "name": "Robert Kim",
+      "email": "robert.k@example.com",
+      "password": "$2b$10$hashedpassword8",
+      "phone": "+1 234 567 1008",
+      "avatar": "https://i.pravatar.cc/150?img=52",
+      "points": 95,
+      "totalVisits": 7,
+      "totalReviews": 4,
+      "memberSince": "2024-09-18T10:30:00Z",
+      "status": "active",
+      "verified": true,
+      "preferences": {
+        "notifications": false,
+        "emailUpdates": false,
+        "favoriteCuisines": ["Italian", "Chinese"]
+      },
+      "visitHistory": [
+        {
+          "restaurantId": 1,
+          "restaurantName": "Pizza Paradise",
+          "date": "2025-01-08T18:00:00Z",
+          "pointsEarned": 15
+        }
+      ],
+      "createdAt": "2024-09-18T10:30:00Z",
+      "updatedAt": "2025-01-08T19:20:00Z",
+      "lastLogin": "2025-01-08T17:45:00Z"
+    },
+    {
+      "id": 109,
+      "role": "client",
+      "name": "Jessica Lee",
+      "email": "jessica.l@example.com",
+      "password": "$2b$10$hashedpassword9",
+      "phone": "+1 234 567 1009",
+      "avatar": "https://i.pravatar.cc/150?img=20",
+      "points": 175,
+      "totalVisits": 11,
+      "totalReviews": 9,
+      "memberSince": "2024-03-25T15:00:00Z",
+      "status": "active",
+      "verified": true,
+      "preferences": {
+        "notifications": true,
+        "emailUpdates": true,
+        "favoriteCuisines": ["American", "Japanese"]
+      },
+      "visitHistory": [
+        {
+          "restaurantId": 2,
+          "restaurantName": "Burger Hub",
+          "date": "2025-01-07T19:45:00Z",
+          "pointsEarned": 15
+        }
+      ],
+      "createdAt": "2024-03-25T15:00:00Z",
+      "updatedAt": "2025-01-07T21:00:00Z",
+      "lastLogin": "2025-01-07T19:30:00Z"
+    },
+    {
+      "id": 110,
+      "role": "client",
+      "name": "Michael Torres",
+      "email": "michael.t@example.com",
+      "password": "$2b$10$hashedpassword10",
+      "phone": "+1 234 567 1010",
+      "avatar": "https://i.pravatar.cc/150?img=68",
+      "points": 50,
+      "totalVisits": 4,
+      "totalReviews": 2,
+      "memberSince": "2024-10-01T12:00:00Z",
+      "status": "active",
+      "verified": true,
+      "preferences": {
+        "notifications": true,
+        "emailUpdates": true,
+        "favoriteCuisines": ["Italian"]
+      },
+      "visitHistory": [
+        {
+          "restaurantId": 1,
+          "restaurantName": "Pizza Paradise",
+          "date": "2025-01-06T20:00:00Z",
+          "pointsEarned": 10
+        }
+      ],
+      "createdAt": "2024-10-01T12:00:00Z",
+      "updatedAt": "2025-01-06T21:30:00Z",
+      "lastLogin": "2025-01-06T19:45:00Z"
+    },
 
+    
+    {
+      "id": 201,
+      "role": "owner",
+      "name": "John Restaurant",
+      "email": "john@restaurants.com",
+      "password": "$2b$10$hashedpasswordowner1",
+      "phone": "+1 234 567 2001",
+      "avatar": "https://i.pravatar.cc/150?img=60",
+      "businessName": "Restaurant Group Inc.",
+      "totalRestaurants": 2,
+      "memberSince": "2024-01-10T09:00:00Z",
+      "status": "active",
+      "verified": true,
+      "restaurants": [1, 2],
+      "totalVisitsAllRestaurants": 2140,
+      "totalReviewsAllRestaurants": 276,
+      "averageRatingAllRestaurants": 4.4,
+      "subscription": {
+        "plan": "premium",
+        "status": "active",
+        "expiresAt": "2025-12-31T23:59:59Z"
+      },
+      "createdAt": "2024-01-10T09:00:00Z",
+      "updatedAt": "2025-01-15T10:20:00Z",
+      "lastLogin": "2025-01-15T08:30:00Z"
+    },
+    {
+      "id": 202,
+      "role": "owner",
+      "name": "Maria Sushi",
+      "email": "maria@sushihouse.com",
+      "password": "$2b$10$hashedpasswordowner2",
+      "phone": "+1 234 567 2002",
+      "avatar": "https://i.pravatar.cc/150?img=47",
+      "businessName": "Sushi House LLC",
+      "totalRestaurants": 1,
+      "memberSince": "2024-02-15T11:30:00Z",
+      "status": "active",
+      "verified": true,
+      "restaurants": [3],
+      "totalVisitsAllRestaurants": 750,
+      "totalReviewsAllRestaurants": 89,
+      "averageRatingAllRestaurants": 4.8,
+      "subscription": {
+        "plan": "basic",
+        "status": "active",
+        "expiresAt": "2025-06-30T23:59:59Z"
+      },
+      "createdAt": "2024-02-15T11:30:00Z",
+      "updatedAt": "2025-01-14T16:45:00Z",
+      "lastLogin": "2025-01-14T09:00:00Z"
+    },
+    {
+      "id": 203,
+      "role": "owner",
+      "name": "Carlos Taco",
+      "email": "carlos@tacofiesta.com",
+      "password": "$2b$10$hashedpasswordowner3",
+      "phone": "+1 234 567 2003",
+      "avatar": "https://i.pravatar.cc/150?img=70",
+      "businessName": "Taco Fiesta Corp",
+      "totalRestaurants": 1,
+      "memberSince": "2024-03-20T14:00:00Z",
+      "status": "active",
+      "verified": true,
+      "restaurants": [6],
+      "totalVisitsAllRestaurants": 680,
+      "totalReviewsAllRestaurants": 134,
+      "averageRatingAllRestaurants": 4.4,
+      "subscription": {
+        "plan": "basic",
+        "status": "active",
+        "expiresAt": "2025-09-30T23:59:59Z"
+      },
+      "createdAt": "2024-03-20T14:00:00Z",
+      "updatedAt": "2025-01-13T11:20:00Z",
+      "lastLogin": "2025-01-13T10:00:00Z"
+    },
+    {
+      "id": 204,
+      "role": "owner",
+      "name": "Amanda Thai",
+      "email": "amanda@thaispice.com",
+      "password": "$2b$10$hashedpasswordowner4",
+      "phone": "+1 234 567 2004",
+      "avatar": "https://i.pravatar.cc/150?img=28",
+      "businessName": "Thai Spice Restaurant",
+      "totalRestaurants": 1,
+      "memberSince": "2024-04-10T10:00:00Z",
+      "status": "active",
+      "verified": true,
+      "restaurants": [4],
+      "totalVisitsAllRestaurants": 520,
+      "totalReviewsAllRestaurants": 92,
+      "averageRatingAllRestaurants": 4.6,
+      "subscription": {
+        "plan": "premium",
+        "status": "active",
+        "expiresAt": "2025-10-31T23:59:59Z"
+      },
+      "createdAt": "2024-04-10T10:00:00Z",
+      "updatedAt": "2025-01-12T15:30:00Z",
+      "lastLogin": "2025-01-12T08:45:00Z"
+    },
+    {
+      "id": 205,
+      "role": "owner",
+      "name": "David Mocha",
+      "email": "david@cafemocha.com",
+      "password": "$2b$10$hashedpasswordowner5",
+      "phone": "+1 234 567 2005",
+      "avatar": "https://i.pravatar.cc/150?img=59",
+      "businessName": "Cafe Mocha Co.",
+      "totalRestaurants": 1,
+      "memberSince": "2024-05-05T13:00:00Z",
+      "status": "active",
+      "verified": true,
+      "restaurants": [5],
+      "totalVisitsAllRestaurants": 1350,
+      "totalReviewsAllRestaurants": 203,
+      "averageRatingAllRestaurants": 4.7,
+      "subscription": {
+        "plan": "premium",
+        "status": "active",
+        "expiresAt": "2025-11-30T23:59:59Z"
+      },
+      "createdAt": "2024-05-05T13:00:00Z",
+      "updatedAt": "2025-01-11T12:00:00Z",
+      "lastLogin": "2025-01-11T07:30:00Z"
+    },
+    {
+      "id": 301,
+      "role": "admin",
+      "name": "Admin User",
+      "email": "admin@restaurantreward.com",
+      "password": "$2b$10$hashedpasswordadmin1",
+      "phone": "+1 234 567 3001",
+      "avatar": "https://i.pravatar.cc/150?img=65",
+      "permissions": ["all"],
+      "memberSince": "2024-01-01T00:00:00Z",
+      "status": "active",
+      "verified": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2025-01-15T14:00:00Z",
+      "lastLogin": "2025-01-15T08:00:00Z"
+    },
+    {
+      "id": 302,
+      "role": "admin",
+      "name": "Super Admin",
+      "email": "superadmin@restaurantreward.com",
+      "password": "$2b$10$hashedpasswordadmin2",
+      "phone": "+1 234 567 3002",
+      "avatar": "https://i.pravatar.cc/150?img=71",
+      "permissions": ["all"],
+      "memberSince": "2024-01-01T00:00:00Z",
+      "status": "active",
+      "verified": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2025-01-14T16:30:00Z",
+      "lastLogin": "2025-01-14T09:15:00Z"
+    }
+  ],
+  "stats": {
+    "totalUsers": 17,
+    "totalClients": 10,
+    "totalOwners": 5,
+    "totalAdmins": 2,
+    "activeUsers": 17,
+    "verifiedUsers": 17,
+    "newUsersThisMonth": 3,
+    "totalPointsInCirculation": 1360
+  }
+}
 export default ReviewsData;
