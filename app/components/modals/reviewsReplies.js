@@ -61,9 +61,23 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                         <p className="text-sm">{review.review.comment}</p>
                     </div>
                 </div>
-                <div className="mt-3">
-                    <textarea className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 h-50 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300" placeholder="Add a reply..." value={reply} onChange={(e) => setReply(e.target.value)} />
-                        <div className="flex justify-around w-full py-2 px-2 text-center items-center gap-3">
+                <div className="">
+                    <textarea className="mt-3 w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 h-50 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300" placeholder="Add a reply..." value={reply} onChange={(e) => setReply(e.target.value)} />
+
+                    <p className="bg-blue-100 py-2 px-3 rounded-lg mt-2">
+                        💡 Tips for great replies:
+                        <ul>
+                            <li>• Thank the customer for their feedback</li>
+                            <li>• Address specific points they mentioned</li>
+                            <li>• Keep it professional and friendly</li>
+                            <li>• Invite them to visit again</li>
+                        </ul>
+
+ 
+ 
+ 
+                    </p>
+                        <div className="flex justify-around w-full mt-3 px-2 text-center items-center gap-3">
                            
                             <button className="rounded-full bg-blue-300 py-2 px-3 w-full text-white font-semibold cursor-pointer"
                             type="sumbit"
