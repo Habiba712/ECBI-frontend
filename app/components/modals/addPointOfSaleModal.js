@@ -10,35 +10,35 @@ import PrintIcon from "../../../public/svg/print";
 import DownloadIcon from "../../../public/svg/download";
 import { on } from "events";
 
-export default function EditPointOfSaleModal({ data, setIsModalOpen, onSend }) {
-    console.log('data to edit', data);
+export default function AddtPointOfSaleModal({ setIsModalOpen, onSend, data }) {
 
+console.log('data to add', data);
    
-    const [pointOfSaleToEdit, setPointOfSaleToEdit] = useState({
-        id:data?._id,
-        name:data?.name,
+    const [pointOfSaleToAdd, setPointOfSaleToAdd] = useState({
+       ownerId:data,
+        name:'',
         address:{
-            city:data?.address?.city,
-            country:data?.address?.country,
-            state:data?.address?.state,
-            street:data?.address?.street,
-            zipCode:data?.address?.zipCode
+            city:'',
+            country:'',
+            state:'',
+            street:'',
+            zipCode:''
         },
-        phone:data?.phone,
-        cuisine:data?.cuisine,
-        coverImage:data?.coverImage,
-        description:data?.description,
-        status:data?.status,
-        website:data?.website
+        phone:'',
+        cuisine:'',
+        coverImage:'',
+        description:'',
+        status:'',
+        website:''
     });
-        console.log('point of sale to edit', pointOfSaleToEdit);
+        console.log('point of sale to edit', pointOfSaleToAdd);
 
     const handleSubmit = async (e)=>{
       e.preventDefault();
-        console.log('before sendinf', pointOfSaleToEdit);
+        console.log('before sendinf', pointOfSaleToAdd);
 setIsModalOpen(false);
 
-        onSend(pointOfSaleToEdit)
+        onSend(pointOfSaleToAdd)
        
 
     }
@@ -46,10 +46,10 @@ setIsModalOpen(false);
         <div className="z-0 w-full mh-100vh bg-black/50 fixed inset-0
         flex items-center justify-center py-8">
             <div className="bg-white w-1/2  h-full rounded-lg p-4 overflow-y-auto scroll-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 ">
-                <div className="w-full flex justify-between">
+                <div className="w-full flex justify-between border-b border-gray-200">
                     <h3 className="text-md font-semibold" style={{
                         'color': 'black'
-                    }}>Edit Point Of Sale</h3>
+                    }}>Add a new Point Of Sale</h3>
                     <button
                         onClick={() => setIsModalOpen(false)}
                     >
@@ -58,7 +58,7 @@ setIsModalOpen(false);
                     </button>
                 </div>
                 <div className="mt-4 h-fit w-full flex flex-col justify-center items-center">
-                    <h4 className="text-sm font-semibold text-black ">{pointOfSaleToEdit?.name}</h4>
+                    
                     <form className="w-full flex flex-col gap-4"
                         onSubmit={handleSubmit}
                     >
@@ -70,8 +70,8 @@ setIsModalOpen(false);
                             </div>
                             <div className="w-full mt-1 ">
                                 <input type="text" placeholder="Enter your point of sale name" className="block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300"
-                                value={pointOfSaleToEdit?.name || ""}
-                                    onChange={(e) => setPointOfSaleToEdit({...pointOfSaleToEdit, name: e.target.value })}
+                                value={pointOfSaleToAdd?.name || ""}
+                                    onChange={(e) => setPointOfSaleToAdd({...pointOfSaleToAdd, name: e.target.value })}
 
                                 />
                             </div>
@@ -87,11 +87,11 @@ setIsModalOpen(false);
                             <div className="w-full">
                                 <input type="text" placeholder="Enter your city" className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300"
 
-                                    value={pointOfSaleToEdit?.address?.city || ""}
-                                    onChange={(e) => setPointOfSaleToEdit({
-                                        ...pointOfSaleToEdit,
+                                    value={pointOfSaleToAdd?.address?.city || ""}
+                                    onChange={(e) => setPointOfSaleToAdd({
+                                        ...pointOfSaleToAdd,
                                          address: {
-                                            ...pointOfSaleToEdit?.address,
+                                            ...pointOfSaleToAdd?.address,
                                             city: e.target.value } })}
 
                                 />
@@ -108,9 +108,9 @@ setIsModalOpen(false);
                             <div className="w-full">
                                 <input type="text" placeholder="Enter your country" className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300"
                                    
-                                    value={pointOfSaleToEdit?.address?.country || ""}
- onChange={(e) => setPointOfSaleToEdit({...pointOfSaleToEdit, address: { 
-    ...pointOfSaleToEdit.address,
+                                    value={pointOfSaleToAdd?.address?.country || ""}
+ onChange={(e) => setPointOfSaleToAdd({...pointOfSaleToAdd, address: { 
+    ...pointOfSaleToAdd.address,
     country: e.target.value } })}
                                 />
                             </div>
@@ -125,9 +125,9 @@ setIsModalOpen(false);
                             <div className="w-full">
                                 <input type="text" placeholder="Enter your state (if any)" className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300"
                                
-                                    value={pointOfSaleToEdit?.address?.state || ""}
-     onChange={(e) => setPointOfSaleToEdit({...pointOfSaleToEdit, address: { 
-        ...pointOfSaleToEdit.address,
+                                    value={pointOfSaleToAdd?.address?.state || ""}
+     onChange={(e) => setPointOfSaleToAdd({...pointOfSaleToAdd, address: { 
+        ...pointOfSaleToAdd.address,
         state: e.target.value } })}
                                 />
                             </div>
@@ -142,9 +142,9 @@ setIsModalOpen(false);
                             <div className="w-full">
                                 <input type="text" placeholder="Enter your street" className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300"
                                
-                                    value={pointOfSaleToEdit?.address?.street || ""}
-     onChange={(e) => setPointOfSaleToEdit({...pointOfSaleToEdit, address: { 
-        ...pointOfSaleToEdit.address,
+                                    value={pointOfSaleToAdd?.address?.street || ""}
+     onChange={(e) => setPointOfSaleToAdd({...pointOfSaleToAdd, address: { 
+        ...pointOfSaleToAdd.address,
         street: e.target.value } })}
                                 />
                             </div>
@@ -159,9 +159,9 @@ setIsModalOpen(false);
                             <div className="w-full">
                                 <input type="text" placeholder="Enter your zip code" className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300"
                                    
-                                    value={pointOfSaleToEdit?.address?.zipCode || ""}
- onChange={(e) => setPointOfSaleToEdit({...pointOfSaleToEdit, address: { 
-    ...pointOfSaleToEdit.address,
+                                    value={pointOfSaleToAdd?.address?.zipCode || ""}
+ onChange={(e) => setPointOfSaleToAdd({...pointOfSaleToAdd, address: { 
+    ...pointOfSaleToAdd.address,
     zipCode: e.target.value } })}
                                 />
                             </div>
@@ -178,8 +178,8 @@ setIsModalOpen(false);
                                 <input type="text" placeholder="Enter your point of sale phone" className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300"
                         
 
-                                    value={pointOfSaleToEdit?.phone || ""}
-            onChange={(e) => setPointOfSaleToEdit({...pointOfSaleToEdit, phone: e.target.value})}
+                                    value={pointOfSaleToAdd?.phone || ""}
+            onChange={(e) => setPointOfSaleToAdd({...pointOfSaleToAdd, phone: e.target.value})}
                                 />
                             </div>
 
@@ -193,8 +193,8 @@ setIsModalOpen(false);
                             <div className="w-full">
                                 <input type="text" placeholder="Enter your point of sale website" className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300"
                                                                 
-                                    value={pointOfSaleToEdit?.website || ""}
-onChange={(e)=>setPointOfSaleToEdit({...pointOfSaleToEdit,website:e.target.value})}
+                                    value={pointOfSaleToAdd?.website || ""}
+onChange={(e)=>setPointOfSaleToAdd({...pointOfSaleToAdd,website:e.target.value})}
 
                                 />
                             </div>
@@ -215,13 +215,15 @@ onChange={(e)=>setPointOfSaleToEdit({...pointOfSaleToEdit,website:e.target.value
                                 placeholder="Enter your address" className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300"
                                                               
 
-                                    value={pointOfSaleToEdit?.cuisine || "" }  onChange={(e)=>setPointOfSaleToEdit({...pointOfSaleToEdit, cuisine:e.target.value})}
+                                    value={pointOfSaleToAdd?.cuisine || "" }  onChange={(e)=>setPointOfSaleToAdd({...pointOfSaleToAdd, cuisine:e.target.value})}
 
                                 >
                                     <option value="All">All</option>
+                                    <option value="Moroccan">Moroccan</option>
                                     <option value="American">American</option>
                                     <option value="Mexican">Chinese</option>
                                     <option value="Indian">Indian</option>
+
                                     <option value="Japanese">Japanese</option>
                                     <option value="Korean">Korean</option>
                                     <option value="Mexican">Mexican</option>
@@ -247,12 +249,12 @@ onChange={(e)=>setPointOfSaleToEdit({...pointOfSaleToEdit,website:e.target.value
                                     id="file-upload"
                                     className="hidden mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300"
                                     placeholder="Upload an image"
-                                    onChange={(e)=>setPointOfSaleToEdit({...pointOfSaleToEdit,coverImage:e.target.value})}
+                                    onChange={(e)=>setPointOfSaleToAdd({...pointOfSaleToAdd,coverImage:e.target.value})}
 
                                 />
 
                                 <label>Or <input  id="file-upload" type="text" placeholder="Enter an image URL" className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300"
-                                  onChange={(e)=>setPointOfSaleToEdit({...pointOfSaleToEdit, coverImage:e.target.value})}
+                                  onChange={(e)=>setPointOfSaleToAdd({...pointOfSaleToAdd, coverImage:e.target.value})}
                                 /></label>
                             </div>
 
@@ -267,8 +269,8 @@ onChange={(e)=>setPointOfSaleToEdit({...pointOfSaleToEdit,website:e.target.value
                             <div className="w-full mt-1">
                                 <div className="block w-full" >
                                     <textarea className="w-full h-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300" placeholder="Enter your description" rows="5"
-                                    value={pointOfSaleToEdit?.description || ""}
-                                      onChange={(e)=>setPointOfSaleToEdit({...pointOfSaleToEdit, description:e.target.value})}
+                                    value={pointOfSaleToAdd?.description || ""}
+                                      onChange={(e)=>setPointOfSaleToAdd({...pointOfSaleToAdd, description:e.target.value})}
 
                                     ></textarea>
                                 </div>
@@ -290,8 +292,8 @@ onChange={(e)=>setPointOfSaleToEdit({...pointOfSaleToEdit,website:e.target.value
 
                                                     
                                                     value="active"
-                                                    checked={pointOfSaleToEdit?.status === "active"}
-                                                    onChange={(e) => setPointOfSaleToEdit({...pointOfSaleToEdit, status: e.target.value })}
+                                                    checked={pointOfSaleToAdd?.status === "active"}
+                                                    onChange={(e) => setPointOfSaleToAdd({...pointOfSaleToAdd, status: e.target.value })}
 
                                 />
                             </div> 
@@ -309,8 +311,8 @@ onChange={(e)=>setPointOfSaleToEdit({...pointOfSaleToEdit,website:e.target.value
                                                     name="status"
 
                                                          value="inactive"
-      checked={pointOfSaleToEdit?.status === "inactive"}
-                                                    onChange={(e) => setPointOfSaleToEdit({...pointOfSaleToEdit, 
+      checked={pointOfSaleToAdd?.status === "inactive"}
+                                                    onChange={(e) => setPointOfSaleToAdd({...pointOfSaleToAdd, 
                                                         'status': e.target.value
                                                      })}
 
@@ -326,8 +328,8 @@ onChange={(e)=>setPointOfSaleToEdit({...pointOfSaleToEdit,website:e.target.value
                             hover:scale-110 transition-all duration-500 ease-in-out
                             "
                                 type="submit"
-                            >Update</button>
-                             <button className="rounded-full bg-white text-blue-500 border border-blue-300 py-2 px-3 w-full text-blue-500 font-semibold cursor-pointer  hover:scale-110 transition-all duration-500 ease-in-out"
+                            >Create</button>
+                             <button className="rounded-full bg-white text-blue-500 border border-blue-500 py-2 px-3 w-full text-blue-300 font-semibold cursor-pointer  hover:scale-110 transition-all duration-500 ease-in-out"
                                 onClick={() => setIsModalOpen(false)}
                             >Cancel</button>
                         </div>

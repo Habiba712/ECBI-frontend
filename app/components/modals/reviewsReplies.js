@@ -4,6 +4,7 @@
 import Image from "next/image";
 import CloseIcon from "../../../public/svg/close";
 import { useState } from "react";
+import StarIcon from "../../../public/svg/star";
 
 export default function ReviewsReplies({review, setIsModalOpen, onSend}){
     console.log('review', review);
@@ -14,7 +15,7 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
         e.preventDefault();
         onSend({
             reply:{
-                reviewId: review.review.id,
+                reviewId: review.item.id,
                 replyText: reply
             }
         });
@@ -22,6 +23,16 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
         setIsModalOpen(false);
         // console.log('reply', reply);
     }
+        const calculateStars = (rating) =>{
+                console.log('rating', rating);
+                let stars = [];
+                for (let i=0; i < rating; i++){
+                     stars.push(<StarIcon className={'w-5 h-5 text-yellow-500 fill-current'}/>)
+                        
+                   
+                }
+                  return stars;
+            }
     console.log('review', review);
     return(
         <div className="z-0 w-full mh-100vh bg-black/50 fixed inset-0 
@@ -43,22 +54,21 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                 <div className="flex flex-col gap-3 mt-3 text-start p-4 bg-gray-100 rounded-lg border-b border-gray-100 ">
                     <div className="flex gap-2 items-center">
                          <div>
-                        <Image src={review.review.userAvatar} alt="user avatar" width={40} height={40} className="rounded-full" />
+                        <Image src={review.item.userAvatar} alt="user avatar" width={40} height={40} className="rounded-full" />
                         </div>
-                    <div className="text-center">
-                        <p className="text-sm font-semibold">{review.review.userName}</p>
+                    <div className="text-start">
+                        <p className="text-sm font-semibold">{review.item.userName}</p>
                         <p className="text-xs text-gray-400">
-                            {review.review.rating === 5 && <span className="text-green-500">⭐⭐⭐⭐⭐</span>}
-                            {(review.review.rating === 4 || review.review.rating === 4.4) && <span className="text-green-500">⭐⭐⭐⭐ </span>}
-                            {review.review.rating === 3 && <span className="text-green-500">⭐⭐⭐</span>}
-                            {review.review.rating === 2 && <span className="text-green-500">⭐⭐</span>}
-                            {review.review.rating === 1 && <span className="text-green-500">⭐</span>}
+                             {review.item.rating && <span className="text-green-500 flex">
+                                                {calculateStars(review.item.rating)}
+
+                                            </span>}
                         </p>
                     </div>
                     </div>
                    
                     <div>
-                        <p className="text-sm">{review.review.comment}</p>
+                        <p className="text-sm">{review.item.comment}</p>
                     </div>
                 </div>
                 <div className="">

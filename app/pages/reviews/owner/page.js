@@ -5,6 +5,7 @@ import Image from "next/image";
 import next from "next";
 import ReviewsReplies from "../../../components/modals/reviewsReplies";
 import ReplyIcon from "../../../../public/svg/reply";
+import StarIcon from "../../../../public/svg/star";
 
 export default function OwnerReviews() {
     const [reviews, setReviews] = useState();
@@ -93,6 +94,16 @@ export default function OwnerReviews() {
         }
     }
     console.log('is modal open', isModalOpen);
+    const calculateStars = (rating) =>{
+        console.log('rating', rating);
+        let stars = [];
+        for (let i=0; i < rating; i++){
+             stars.push(<StarIcon className={'w-5 h-5 text-yellow-500 fill-current'}/>)
+                
+           
+        }
+          return stars;
+    }
 
     useEffect(() => {
         handleGetAllReviews()
@@ -217,11 +228,11 @@ export default function OwnerReviews() {
                                                 'font-size': "12px"
                                             }}>
 
-                                                {review.rating === 5 && <span className="text-green-500">⭐⭐⭐⭐⭐</span>}
-                                                {(review.rating === 4 || review.rating === 4.4) && <span className="text-green-500">⭐⭐⭐⭐ </span>}
-                                                {review.rating === 3 && <span className="text-green-500">⭐⭐⭐</span>}
-                                                {review.rating === 2 && <span className="text-green-500">⭐⭐</span>}
-                                                {review.rating === 1 && <span className="text-green-500">⭐</span>}
+                                                {review.rating && <span className="text-green-500 flex">
+                                                    {calculateStars(review.rating)}
+                                                   
+                                                    </span>}
+                                               
                                             </span>
                                             <span style={{
                                                 'font-size': "12px"

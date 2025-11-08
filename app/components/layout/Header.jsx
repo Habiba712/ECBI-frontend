@@ -69,7 +69,7 @@ export default function Header() {
                            
                         </li>
                         {
-                            role === "RESTO_SUPER_ADMIN" && <li><a href="/pages/pointOfSale">
+                            role === "RESTO_SUPER_ADMIN" && <li><a href="/pages/pointOfSale/owner">
                                 <RestaurantIcon className="w-7 h-7 cursor-pointer text-gray-500" />
                                 </a></li>
                         }
