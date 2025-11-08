@@ -4,30 +4,59 @@ import Image from "next/image"
 import EditIcon from "../../../public/svg/edit"
 import QRCodeIcon from "../../../public/svg/qrCode"
 import ViewIcon from "../../../public/svg/view"
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import QRCodeModal from "../../components/modals/qrCode"
 import EditPointOfSaleModal from "../../components/modals/editPoinOfSale"
 
 export default function PointOfSale() {
-    const session = JSON.parse(localStorage?.getItem("sessionData"));
+    const session = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
 
     const [isModalOpen, setIsModalOpen] = useState(false);
      const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [modalData, setModalData] = useState();
 
     const [pointsOfSaleByOwner, setPointsOfSaleByOwner] = useState();
+   
+
      const handleShowMOdal = (data) => {
         setModalData(data);
         setIsModalOpen(true);
     }
     const handleShowEditModal = (data)=>{
         setIsEditModalOpen(true);
-        setModalData(data);
-
-        
+        setModalData(data);  
     }
-    const handleEditPointOfSale = async (e)=>{
-        e.preventDefault();
+
+    const handleEditPointOfSale = async (updatedData)=>{
+        
+       
+        
+        try{
+        console.log('updated data', updatedData.id);
+          
+   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/updatePointOfSale/${updatedData.id}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: "PUT",
+                body: JSON.stringify(updatedData)
+            }).then((res) => {
+                if (res.ok) {
+                    setIsEditModalOpen(false);
+                    console.log('updated data', updatedData);
+                    
+                    getPointsOfSaleByOwnerId()
+                    
+                    
+                }
+            }
+        )   
+        }catch(err){
+            console.error(err)
+        }
+     
+
     }
     const userOwnerId = session?.userId;
     const handleDownloadQRCode = async (e)=>{
@@ -108,7 +137,11 @@ export default function PointOfSale() {
                         </div>
                         </div>
                          <div className="w-full  flex justify-end">
-                             <span className=" text-white  px-2 flex items-start  w-fit h-fit text-sm font-semibold  rounded-full bg-green-500">{item.status}</span>
+                            {item?.status === "active" ?  <span className=" text-white py-2  px-2 flex items-center text-center w-fit h-fit text-sm font-semibold  rounded-full bg-green-500">{item?.status}</span>
+                        :  
+                        <span className=" text-white py-2  px-2 flex items-center text-center w-fit h-fit text-sm font-semibold  rounded-full bg-red-200">{item?.status}</span>   
+                        }
+                            
                         </div>
                        
                        
@@ -179,8 +212,9 @@ export default function PointOfSale() {
          isEditModalOpen &&
          <EditPointOfSaleModal
              data={modalData}
-             isModalOpen={isEditModalOpen}
-             setIsModalOpen={setIsEditModalOpen}
+          
+             setIsModalOpen={setIsModalOpen}
+        
              onSend={handleEditPointOfSale}     
          />
      }

@@ -11,7 +11,7 @@ import ReviewsIcon from "../../../public/svg/reviews";
 export default function Header() {
     const pathname = usePathname();
     console.log(pathname.includes("/register"));
-    const sessionData = JSON.parse(localStorage?.getItem("sessionData"));
+    const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
     const token = sessionData?.token;
     const role = sessionData?.role;
     const buisinessName = sessionData?.businessName;
