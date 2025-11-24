@@ -8,13 +8,13 @@ import StarIcon from "../../../public/svg/star"
 
 export default function PointOfSale() {
     return (
-        <section className="mt-4 mx-auto max-w-4xl p-4 text-gray-800  w-full  "
+        <section className="mt-1 p-4 text-gray-800 w-full transition-all duration-300 ease-in-out"
 
         >
-              <div className="p-4 flex flex-col">
-                <h1 className="font-bold  text-2xl
+              <div className="p-4 flex flex-col dashboard-page mb-5">
+                <h1 className="font-semibold text-4xl font-sans
                  text-black">Dashboard</h1>
-                <p className="text-sm">Welcome back, John Restaurant! Here's your business overview.</p>
+                <p className="text-gray-500">Welcome back, John Restaurant! Here's your business overview.</p>
             </div>
            
 
@@ -22,39 +22,39 @@ export default function PointOfSale() {
             <div className="flex flex-col gap-3 p-4 text-sm " >
                 <div className="grid grid-cols-2 gap-3 w-full ">
 
-                    <div className="p-4 shadow-lg rounded-lg bg-purple-100">
+                    <div className="p-4 shadow-lg rounded-lg bg-gradient-to-r from-purple-700 to-blue-700">
                         <div className="flex justify-between w-full">
-                            <h2 className=" font-semibold ">Total Visits</h2>
-                            <ClientsIcon className="w-7 h-7 text-gray-500" />
+                            <h2 className="text-gray-100 font-semibold ">Total Visits</h2>
+                            <ClientsIcon className="w-7 h-7 text-gray-100" />
 
                         </div>
 
                         <div className="flex flex-col mt-3">
-                            <span className="text-3xl font-semibold text-green-700 
+                            <span className="text-3xl font-semibold text-gray-100 
                             ">290</span>
                             <span  style={{
                                 'fontSize':'12px'
-                            }} className="text-gray-700 text-sm ">This Month</span>
+                            }} className="text-gray-100 text-sm ">This Month</span>
                         </div>
 
 
 
                     </div>
-                    <div className="p-4 shadow-lg rounded-lg bg-green-100">
+                    <div className="p-4 shadow-lg rounded-lg bg-gradient-to-r from-purple-700 to-blue-700">
                         <div className="flex justify-between w-full">
-                            <h2 className=" font-semibold ">Average Rating</h2>
-                            <StarIcon className="w-7 h-7 text-gray-500 " />
+                            <h2 className="text-gray-100 font-semibold ">Average Rating</h2>
+                            <StarIcon className="w-7 h-7 text-gray-100 " />
 
                         </div>
 
                         <div className="flex flex-col mt-3">
-                            <span className="font-semibold text-3xl text-green-700 
+                            <span className="font-semibold text-3xl text-gray-100 
                             ">4.6</span>
                             <span
                             style={{
                                 'fontSize':'12px'
                             }}
-                            className="text-gray-700 text-sm ">Out of 5.0</span>
+                            className="text-gray-100 text-sm ">Out of 5.0</span>
                         </div>
 
 
@@ -62,37 +62,37 @@ export default function PointOfSale() {
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3 w-full">
-                    <div className="p-4 shadow-lg rounded-lg bg-blue-100 ">
+                    <div className="p-4 shadow-lg rounded-lg bg-gradient-to-r from-purple-700 to-blue-700">
                         <div className="flex justify-between w-full">
-                            <h2 className=" font-semibold ">Total Reviews</h2>
-                            <MessageReviewIcon className="w-7 h-7 text-gray-500 " />
+                            <h2 className="text-gray-100 font-semibold ">Total Reviews</h2>
+                            <MessageReviewIcon className="w-7 h-7 text-gray-100 " />
 
                         </div>
 
                         <div className="flex flex-col mt-3">
-                            <span className="font-semibold text-green-700 
+                            <span className="font-semibold text-gray-100 
                             text-3xl">29</span>
                             <span  style={{
                                 'fontSize':'12px'
-                            }} className="text-gray-700 text-sm ">This Month</span>
+                            }} className="text-gray-100 text-sm ">This Month</span>
                         </div>
 
 
 
                     </div>
-                    <div className="p-4 shadow-lg rounded-lg bg-red-100">
+                    <div className="p-4 shadow-lg rounded-lg bg-gradient-to-r from-purple-700 to-blue-700">
                         <div className="flex justify-between w-full">
-                            <h2 className=" font-semibold ">Points Redeemed</h2>
-                            <AwardIcon className="w-7 h-7 text-gray-500 " />
+                            <h2 className="text-gray-100 font-semibold ">Points Redeemed</h2>
+                            <AwardIcon className="w-7 h-7 text-gray-100 " />
 
                         </div>
 
                         <div className="flex flex-col mt-3">
-                            <span className="font-semibold text-3xl text-green-700 
+                            <span className="font-semibold text-3xl text-gray-100 
                             ">680$</span>
                             <span  style={{
                                 'fontSize':'12px'
-                            }} className="text-gray-700 text-sm">Value</span>
+                            }} className="text-gray-100 text-sm">Value</span>
                         </div>
 
 

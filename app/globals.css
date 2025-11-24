@@ -23,16 +23,96 @@ body {
   background: var(--background);
  
   font-family: var(--font-sans);
+ /* width: 100%; */
+ /*   height: 100%; */
+  /* min-height: 100vh;
+  position: relative; */
 }
-
-header {
+ 
+.main-content{
+  /* min-height: 100vh; */
+  /* height: 100%; */
+  /* position: relative; */
+  /* display: flex;
+  width: 100%; */
+  /* border: 1px solid black; */
+  
+}
+/* header {
   @apply font-semibold cursor-pointer;
+  border: 1px solid black;
+  min-height: 100vh;
+  height: 100%;
+  position: absolute;
+
+
+} */
+
+.sidebar-top{
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+
+  /* margin-left: auto;
+  margin-right: auto; */
+}
+.sidebar-li a{
+display: flex;
+gap: 10px;
+width: fit-content;
+font-weight: 500;
+text-wrap: nowrap;
+cursor: pointer;
+ @apply  text-gray-900 hover:scale-110 transition-all duration-300 ease-in-out hover:text-gray-400;
 }
 
-nav li{
-    @apply hover:scale-110 transition-all duration-300 ease-in-out;
-
+.sidebar-li{
+  padding: 0rem 1rem 0rem 1rem;
+font-size: 1rem;
 }
+
+.menu-button-open {
+ cursor:pointer;
+ border-radius: 50%;
+ rotate:0deg;
+ width: 50px;
+ height: 50px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ background-color: #ffffff;
+ position:absolute;
+ top: 60;
+ right: -40;
+ z-index: 100;
+ transition: all 0.3s ease-in-out;
+ }
+
+ .menu-button-open:hover {
+ transform: scale(1.1);
+ }
+
+ .menu-button-close {
+ cursor:pointer;
+ border-radius: 50%;
+ rotate:180deg;
+ width: 50px;
+ height: 50px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ background-color: #ffffff;
+ position:absolute;
+ top: 66;
+ right: -40;
+ z-index: 100;
+ transition: all 0.3s ease-in-out;
+ }
+
+ .menu-button-close:hover {
+ transform: scale(1.1);
+ }
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -44,7 +124,7 @@ input[type="number"]
 }
 
 label{
-   @apply  px-2  text-sm   flex justify-start items-center gap-3;
+   @apply  px-3 text-sm text-gray-500 text-sm flex justify-start items-center gap-3 text-nowrap;
    
 }
 p{
@@ -52,7 +132,7 @@ p{
 }
 
 .formFields{
-    @apply bg-white rounded-full px-4 text-sm text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent mt-0 mb-3;
+    @apply  bg-white rounded-full px-4 text-sm text-gray-500 border border-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent mt-0 mb-3;
     @apply  py-2 px-4 border-2 border-gray-200 ;
 
 }
@@ -75,10 +155,41 @@ input[type="email"]:disabled,
 input[type="password"]:disabled,
 input[type="tel"]:disabled
 {
-    @apply bg-gray-100 rounded-full px-4 text-sm text-gray-400;
+    @apply bg-gray-100 rounded-full px-4 text-sm text-gray-400 ;
     @apply cursor-not-allowed
 }
 
+.settings-page p{
+  font-size: 14px;
+  color: #888
+}
+.dashboard-page p{
+   font-size: 14px;
+  color: #888;
+}
+.settings-form-container{
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 20px;
+  
+}
+.text-error{
+  color:red;
+  font-size:17px;
+  font-weight:400;
+
+}
+.switch-container .switch-text{
+  font-size:14px;
+
+     @apply text-sm text-gray-900 text-sm flex justify-start items-center gap-3 text-nowrap;
+
+}
+.switch-container .switch-subtext{
+  font-size:12px;
+     @apply text-sm text-gray-500 text-sm flex justify-start items-center gap-3 text-nowrap;
+
+}
 
 /* scroll bar  */
 /* Elegant scrollbar styling */

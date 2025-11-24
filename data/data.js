@@ -1,240 +1,240 @@
 
 
 const ReviewsData = [
-    {
-      "id": 1,
-      "restaurantId": 1,
-      "restaurantName": "Pizza Paradise",
-      "userId": 101,
-      "userName": "Sarah Johnson",
-      "userEmail": "sarah.j@example.com",
-      "userAvatar": "https://i.pravatar.cc/150?img=1",
-      "rating": 5,
-      "comment": "Absolutely amazing pizza! The margherita is to die for. The crust was perfectly crispy and the ingredients tasted incredibly fresh. Will definitely come back!",
-      "photos": [
-        "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400",
-        "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400"
-      ],
-      "visitDate": "2025-01-15T18:30:00Z",
-      "createdAt": "2025-01-15T19:45:00Z",
-      "pointsEarned": 15,
-      "checkInConfirmed": true,
-      "ownerReply": null,
-      "ownerReplyDate": null,
-      "status": "pending_reply",
-      "helpful": 12,
-      "reported": false
-    },
-    {
-      "id": 2,
-      "restaurantId": 1,
-      "restaurantName": "Pizza Paradise",
-      "userId": 102,
-      "userName": "Mike Chen",
-      "userEmail": "mike.chen@example.com",
-      "userAvatar": "https://i.pravatar.cc/150?img=12",
-      "rating": 4,
-      "comment": "Great atmosphere and friendly staff. The pasta was excellent, though I found the pizza slightly too salty for my taste. Still a solid experience overall!",
-      "photos": [
-        "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400"
-      ],
-      "visitDate": "2025-01-14T20:15:00Z",
-      "createdAt": "2025-01-14T21:30:00Z",
-      "pointsEarned": 15,
-      "checkInConfirmed": true,
-      "ownerReply": "Thank you for your kind words, Mike! We appreciate your feedback about the salt level. We'll definitely take that into consideration. We look forward to serving you again!",
-      "ownerReplyDate": "2025-01-15T10:20:00Z",
-      "status": "replied",
-      "helpful": 8,
-      "reported": false
-    },
-    {
-      "id": 3,
-      "restaurantId": 2,
-      "restaurantName": "Burger Hub",
-      "userId": 103,
-      "userName": "Emma Wilson",
-      "userEmail": "emma.w@example.com",
-      "userAvatar": "https://i.pravatar.cc/150?img=5",
-      "rating": 5,
-      "comment": "Best burgers in town! The bacon cheeseburger is incredible - perfectly cooked, juicy, and loaded with flavor. The fries are crispy and well-seasoned. Can't wait to come back!",
-      "photos": [
-        "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400",
-        "https://images.unsplash.com/photo-1550547660-d9450f859349?w=400"
-      ],
-      "visitDate": "2025-01-13T19:00:00Z",
-      "createdAt": "2025-01-13T20:15:00Z",
-      "pointsEarned": 15,
-      "checkInConfirmed": true,
-      "ownerReply": null,
-      "ownerReplyDate": null,
-      "status": "pending_reply",
-      "helpful": 15,
-      "reported": false
-    },
-    {
-      "id": 4,
-      "restaurantId": 1,
-      "restaurantName": "Pizza Paradise",
-      "userId": 104,
-      "userName": "David Brown",
-      "userEmail": "david.b@example.com",
-      "userAvatar": "https://i.pravatar.cc/150?img=33",
-      "rating": 5,
-      "comment": "Perfect place for a family dinner. Kids loved it! The portions are generous and the service was outstanding. The waiter even brought crayons for the kids. Highly recommend!",
-      "photos": [
-        "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400",
-        "https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400",
-        "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=400"
-      ],
-      "visitDate": "2025-01-12T17:45:00Z",
-      "createdAt": "2025-01-12T18:50:00Z",
-      "pointsEarned": 15,
-      "checkInConfirmed": true,
-      "ownerReply": null,
-      "ownerReplyDate": null,
-      "status": "pending_reply",
-      "helpful": 20,
-      "reported": false
-    },
-    {
-      "id": 5,
-      "restaurantId": 2,
-      "restaurantName": "Burger Hub",
-      "userId": 105,
-      "userName": "Lisa Anderson",
-      "userEmail": "lisa.a@example.com",
-      "userAvatar": "https://i.pravatar.cc/150?img=9",
-      "rating": 4,
-      "comment": "Good food, reasonable prices. The fries are crispy and delicious! The burger was tasty but could use a bit more seasoning. Service was quick and efficient.",
-      "photos": [
-        "https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=400"
-      ],
-      "visitDate": "2025-01-11T18:30:00Z",
-      "createdAt": "2025-01-11T19:45:00Z",
-      "pointsEarned": 15,
-      "checkInConfirmed": true,
-      "ownerReply": "Thanks Lisa! We pride ourselves on our crispy fries 🍟 We appreciate your feedback on the seasoning and will pass it along to our chef!",
-      "ownerReplyDate": "2025-01-12T09:15:00Z",
-      "status": "replied",
-      "helpful": 6,
-      "reported": false
-    },
-    {
-      "id": 6,
-      "restaurantId": 1,
-      "restaurantName": "Pizza Paradise",
-      "userId": 106,
-      "userName": "James Taylor",
-      "userEmail": "james.t@example.com",
-      "userAvatar": "https://i.pravatar.cc/150?img=15",
-      "rating": 3,
-      "comment": "The food was okay but the wait time was pretty long even though the restaurant wasn't that busy. Pizza was good when it finally arrived, but service could be improved.",
-      "photos": [],
-      "visitDate": "2025-01-10T19:30:00Z",
-      "createdAt": "2025-01-10T21:00:00Z",
-      "pointsEarned": 10,
-      "checkInConfirmed": true,
-      "ownerReply": "We sincerely apologize for the wait time, James. This is not the experience we want our customers to have. We're working on improving our service speed. Please give us another chance!",
-      "ownerReplyDate": "2025-01-11T08:30:00Z",
-      "status": "replied",
-      "helpful": 4,
-      "reported": false
-    },
-    {
-      "id": 7,
-      "restaurantId": 2,
-      "restaurantName": "Burger Hub",
-      "userId": 107,
-      "userName": "Sophia Martinez",
-      "userEmail": "sophia.m@example.com",
-      "userAvatar": "https://i.pravatar.cc/150?img=44",
-      "rating": 5,
-      "comment": "Exceptional! The mushroom Swiss burger was phenomenal. Love that they have vegetarian options too. Great music, cool vibe, and excellent craft beer selection.",
-      "photos": [
-        "https://images.unsplash.com/photo-1585238342024-78d387f4a707?w=400",
-        "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400"
-      ],
-      "visitDate": "2025-01-09T20:00:00Z",
-      "createdAt": "2025-01-09T21:30:00Z",
-      "pointsEarned": 15,
-      "checkInConfirmed": true,
-      "ownerReply": null,
-      "ownerReplyDate": null,
-      "status": "pending_reply",
-      "helpful": 18,
-      "reported": false
-    },
-    {
-      "id": 8,
-      "restaurantId": 1,
-      "restaurantName": "Pizza Paradise",
-      "userId": 108,
-      "userName": "Robert Kim",
-      "userEmail": "robert.k@example.com",
-      "userAvatar": "https://i.pravatar.cc/150?img=52",
-      "rating": 4,
-      "comment": "Solid pizza joint. The quattro formaggi was delicious and very cheesy (just how I like it). Would have given 5 stars but they were out of tiramisu when we visited.",
-      "photos": [
-        "https://images.unsplash.com/photo-1571407970349-bc81e7e96a47?w=400"
-      ],
-      "visitDate": "2025-01-08T18:00:00Z",
-      "createdAt": "2025-01-08T19:20:00Z",
-      "pointsEarned": 15,
-      "checkInConfirmed": true,
-      "ownerReply": "Thank you Robert! Sorry we were out of tiramisu - it's very popular! We'll make sure to stock up more. Come back soon!",
-      "ownerReplyDate": "2025-01-09T10:00:00Z",
-      "status": "replied",
-      "helpful": 9,
-      "reported": false
-    },
-    {
-      "id": 9,
-      "restaurantId": 2,
-      "restaurantName": "Burger Hub",
-      "userId": 109,
-      "userName": "Jessica Lee",
-      "userEmail": "jessica.l@example.com",
-      "userAvatar": "https://i.pravatar.cc/150?img=20",
-      "rating": 5,
-      "comment": "Amazing experience! The staff was super friendly and accommodating. My burger was cooked to perfection - medium rare just like I ordered. The sweet potato fries are a must-try!",
-      "photos": [
-        "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=400"
-      ],
-      "visitDate": "2025-01-07T19:45:00Z",
-      "createdAt": "2025-01-07T21:00:00Z",
-      "pointsEarned": 15,
-      "checkInConfirmed": true,
-      "ownerReply": "Jessica, thank you so much for the wonderful review! We're thrilled you loved the sweet potato fries - they're one of our specialties! See you again soon! 🍔",
-      "ownerReplyDate": "2025-01-08T09:45:00Z",
-      "status": "replied",
-      "helpful": 14,
-      "reported": false
-    },
-    {
-      "id": 10,
-      "restaurantId": 1,
-      "restaurantName": "Pizza Paradise",
-      "userId": 110,
-      "userName": "Michael Torres",
-      "userEmail": "michael.t@example.com",
-      "userAvatar": "https://i.pravatar.cc/150?img=68",
-      "rating": 2,
-      "comment": "Unfortunately disappointed this time. Pizza was cold when it arrived at our table, and the cheese seemed low quality. Service was also slow. Hope they improve because I've had better experiences here before.",
-      "photos": [],
-      "visitDate": "2025-01-06T20:00:00Z",
-      "createdAt": "2025-01-06T21:30:00Z",
-      "pointsEarned": 10,
-      "checkInConfirmed": true,
-      "ownerReply": "Michael, we're truly sorry to hear about your experience. This is absolutely not our standard, and we'd love to make it right. Please contact us directly at manager@pizzaparadise.com so we can address this properly. We hope to restore your faith in us.",
-      "ownerReplyDate": "2025-01-07T08:00:00Z",
-      "status": "replied",
-      "helpful": 3,
-      "reported": false
-    }
-  
+  {
+    "id": 1,
+    "restaurantId": 1,
+    "restaurantName": "Pizza Paradise",
+    "userId": 101,
+    "userName": "Sarah Johnson",
+    "userEmail": "sarah.j@example.com",
+    "userAvatar": "https://i.pravatar.cc/150?img=1",
+    "rating": 5,
+    "comment": "Absolutely amazing pizza! The margherita is to die for. The crust was perfectly crispy and the ingredients tasted incredibly fresh. Will definitely come back!",
+    "photos": [
+      "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400",
+      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400"
+    ],
+    "visitDate": "2025-01-15T18:30:00Z",
+    "createdAt": "2025-01-15T19:45:00Z",
+    "pointsEarned": 15,
+    "checkInConfirmed": true,
+    "ownerReply": null,
+    "ownerReplyDate": null,
+    "status": "pending_reply",
+    "helpful": 12,
+    "reported": false
+  },
+  {
+    "id": 2,
+    "restaurantId": 1,
+    "restaurantName": "Pizza Paradise",
+    "userId": 102,
+    "userName": "Mike Chen",
+    "userEmail": "mike.chen@example.com",
+    "userAvatar": "https://i.pravatar.cc/150?img=12",
+    "rating": 4,
+    "comment": "Great atmosphere and friendly staff. The pasta was excellent, though I found the pizza slightly too salty for my taste. Still a solid experience overall!",
+    "photos": [
+      "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400"
+    ],
+    "visitDate": "2025-01-14T20:15:00Z",
+    "createdAt": "2025-01-14T21:30:00Z",
+    "pointsEarned": 15,
+    "checkInConfirmed": true,
+    "ownerReply": "Thank you for your kind words, Mike! We appreciate your feedback about the salt level. We'll definitely take that into consideration. We look forward to serving you again!",
+    "ownerReplyDate": "2025-01-15T10:20:00Z",
+    "status": "replied",
+    "helpful": 8,
+    "reported": false
+  },
+  {
+    "id": 3,
+    "restaurantId": 2,
+    "restaurantName": "Burger Hub",
+    "userId": 103,
+    "userName": "Emma Wilson",
+    "userEmail": "emma.w@example.com",
+    "userAvatar": "https://i.pravatar.cc/150?img=5",
+    "rating": 5,
+    "comment": "Best burgers in town! The bacon cheeseburger is incredible - perfectly cooked, juicy, and loaded with flavor. The fries are crispy and well-seasoned. Can't wait to come back!",
+    "photos": [
+      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400",
+      "https://images.unsplash.com/photo-1550547660-d9450f859349?w=400"
+    ],
+    "visitDate": "2025-01-13T19:00:00Z",
+    "createdAt": "2025-01-13T20:15:00Z",
+    "pointsEarned": 15,
+    "checkInConfirmed": true,
+    "ownerReply": null,
+    "ownerReplyDate": null,
+    "status": "pending_reply",
+    "helpful": 15,
+    "reported": false
+  },
+  {
+    "id": 4,
+    "restaurantId": 1,
+    "restaurantName": "Pizza Paradise",
+    "userId": 104,
+    "userName": "David Brown",
+    "userEmail": "david.b@example.com",
+    "userAvatar": "https://i.pravatar.cc/150?img=33",
+    "rating": 5,
+    "comment": "Perfect place for a family dinner. Kids loved it! The portions are generous and the service was outstanding. The waiter even brought crayons for the kids. Highly recommend!",
+    "photos": [
+      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400",
+      "https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400",
+      "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=400"
+    ],
+    "visitDate": "2025-01-12T17:45:00Z",
+    "createdAt": "2025-01-12T18:50:00Z",
+    "pointsEarned": 15,
+    "checkInConfirmed": true,
+    "ownerReply": null,
+    "ownerReplyDate": null,
+    "status": "pending_reply",
+    "helpful": 20,
+    "reported": false
+  },
+  {
+    "id": 5,
+    "restaurantId": 2,
+    "restaurantName": "Burger Hub",
+    "userId": 105,
+    "userName": "Lisa Anderson",
+    "userEmail": "lisa.a@example.com",
+    "userAvatar": "https://i.pravatar.cc/150?img=9",
+    "rating": 4,
+    "comment": "Good food, reasonable prices. The fries are crispy and delicious! The burger was tasty but could use a bit more seasoning. Service was quick and efficient.",
+    "photos": [
+      "https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=400"
+    ],
+    "visitDate": "2025-01-11T18:30:00Z",
+    "createdAt": "2025-01-11T19:45:00Z",
+    "pointsEarned": 15,
+    "checkInConfirmed": true,
+    "ownerReply": "Thanks Lisa! We pride ourselves on our crispy fries 🍟 We appreciate your feedback on the seasoning and will pass it along to our chef!",
+    "ownerReplyDate": "2025-01-12T09:15:00Z",
+    "status": "replied",
+    "helpful": 6,
+    "reported": false
+  },
+  {
+    "id": 6,
+    "restaurantId": 1,
+    "restaurantName": "Pizza Paradise",
+    "userId": 106,
+    "userName": "James Taylor",
+    "userEmail": "james.t@example.com",
+    "userAvatar": "https://i.pravatar.cc/150?img=15",
+    "rating": 3,
+    "comment": "The food was okay but the wait time was pretty long even though the restaurant wasn't that busy. Pizza was good when it finally arrived, but service could be improved.",
+    "photos": [],
+    "visitDate": "2025-01-10T19:30:00Z",
+    "createdAt": "2025-01-10T21:00:00Z",
+    "pointsEarned": 10,
+    "checkInConfirmed": true,
+    "ownerReply": "We sincerely apologize for the wait time, James. This is not the experience we want our customers to have. We're working on improving our service speed. Please give us another chance!",
+    "ownerReplyDate": "2025-01-11T08:30:00Z",
+    "status": "replied",
+    "helpful": 4,
+    "reported": false
+  },
+  {
+    "id": 7,
+    "restaurantId": 2,
+    "restaurantName": "Burger Hub",
+    "userId": 107,
+    "userName": "Sophia Martinez",
+    "userEmail": "sophia.m@example.com",
+    "userAvatar": "https://i.pravatar.cc/150?img=44",
+    "rating": 5,
+    "comment": "Exceptional! The mushroom Swiss burger was phenomenal. Love that they have vegetarian options too. Great music, cool vibe, and excellent craft beer selection.",
+    "photos": [
+      "https://images.unsplash.com/photo-1585238342024-78d387f4a707?w=400",
+      "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400"
+    ],
+    "visitDate": "2025-01-09T20:00:00Z",
+    "createdAt": "2025-01-09T21:30:00Z",
+    "pointsEarned": 15,
+    "checkInConfirmed": true,
+    "ownerReply": null,
+    "ownerReplyDate": null,
+    "status": "pending_reply",
+    "helpful": 18,
+    "reported": false
+  },
+  {
+    "id": 8,
+    "restaurantId": 1,
+    "restaurantName": "Pizza Paradise",
+    "userId": 108,
+    "userName": "Robert Kim",
+    "userEmail": "robert.k@example.com",
+    "userAvatar": "https://i.pravatar.cc/150?img=52",
+    "rating": 4,
+    "comment": "Solid pizza joint. The quattro formaggi was delicious and very cheesy (just how I like it). Would have given 5 stars but they were out of tiramisu when we visited.",
+    "photos": [
+      "https://images.unsplash.com/photo-1571407970349-bc81e7e96a47?w=400"
+    ],
+    "visitDate": "2025-01-08T18:00:00Z",
+    "createdAt": "2025-01-08T19:20:00Z",
+    "pointsEarned": 15,
+    "checkInConfirmed": true,
+    "ownerReply": "Thank you Robert! Sorry we were out of tiramisu - it's very popular! We'll make sure to stock up more. Come back soon!",
+    "ownerReplyDate": "2025-01-09T10:00:00Z",
+    "status": "replied",
+    "helpful": 9,
+    "reported": false
+  },
+  {
+    "id": 9,
+    "restaurantId": 2,
+    "restaurantName": "Burger Hub",
+    "userId": 109,
+    "userName": "Jessica Lee",
+    "userEmail": "jessica.l@example.com",
+    "userAvatar": "https://i.pravatar.cc/150?img=20",
+    "rating": 5,
+    "comment": "Amazing experience! The staff was super friendly and accommodating. My burger was cooked to perfection - medium rare just like I ordered. The sweet potato fries are a must-try!",
+    "photos": [
+      "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=400"
+    ],
+    "visitDate": "2025-01-07T19:45:00Z",
+    "createdAt": "2025-01-07T21:00:00Z",
+    "pointsEarned": 15,
+    "checkInConfirmed": true,
+    "ownerReply": "Jessica, thank you so much for the wonderful review! We're thrilled you loved the sweet potato fries - they're one of our specialties! See you again soon! 🍔",
+    "ownerReplyDate": "2025-01-08T09:45:00Z",
+    "status": "replied",
+    "helpful": 14,
+    "reported": false
+  },
+  {
+    "id": 10,
+    "restaurantId": 1,
+    "restaurantName": "Pizza Paradise",
+    "userId": 110,
+    "userName": "Michael Torres",
+    "userEmail": "michael.t@example.com",
+    "userAvatar": "https://i.pravatar.cc/150?img=68",
+    "rating": 2,
+    "comment": "Unfortunately disappointed this time. Pizza was cold when it arrived at our table, and the cheese seemed low quality. Service was also slow. Hope they improve because I've had better experiences here before.",
+    "photos": [],
+    "visitDate": "2025-01-06T20:00:00Z",
+    "createdAt": "2025-01-06T21:30:00Z",
+    "pointsEarned": 10,
+    "checkInConfirmed": true,
+    "ownerReply": "Michael, we're truly sorry to hear about your experience. This is absolutely not our standard, and we'd love to make it right. Please contact us directly at manager@pizzaparadise.com so we can address this properly. We hope to restore your faith in us.",
+    "ownerReplyDate": "2025-01-07T08:00:00Z",
+    "status": "replied",
+    "helpful": 3,
+    "reported": false
+  }
+
 ]
-const users= {
+const users = {
   "users": [
     {
       "id": 101,
@@ -554,7 +554,7 @@ const users= {
       "lastLogin": "2025-01-06T19:45:00Z"
     },
 
-    
+
     {
       "id": 201,
       "role": "owner",
@@ -730,3 +730,25 @@ const users= {
   }
 }
 export default ReviewsData;
+
+
+const arr=
+ [
+  {
+    "origin": "string",
+    "code": "invalid_format",
+    "format": "regex", 
+    "pattern": "/^\\+?\\d{7,15}$/",
+    "path": ["telephone"],
+    "message": "Invalid phone number" 
+  },
+  { 
+  "origin": "string",
+  "code": "too_small",
+  "minimum": 6,
+  "inclusive": true,
+  "path": ["password"],
+  "message": "New password must be at least 6 chars" 
+}
+
+]

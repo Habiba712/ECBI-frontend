@@ -1,8 +1,7 @@
 // app/BackgroundWrapper.jsx
 'use client'
 import { usePathname } from 'next/navigation'
-import bg_image from '../public/fancy_resto_bg.webp';
-
+import bg_image from '../../public/fancy_resto_bg.webp'
 export default function BackgroundWrapper({ children }) {
   const pathname = usePathname();
   if(pathname.includes("/register") || pathname.includes("/login") || pathname.includes("/createOwner") || pathname.includes("/password")){

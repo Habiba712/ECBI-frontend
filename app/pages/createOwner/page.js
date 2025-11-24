@@ -72,7 +72,11 @@ return
                     ,'role': sessionData.role
                  },
                 method: "POST",
-                body: JSON.stringify({ email,userName, pointOfSaleName,telephone:phone, password })
+                body: JSON.stringify({ 
+                    email,
+                    userName,
+                    pointOfSaleName,telephone:phone,
+                    password })
             }).then((res) => {
                 if (res.ok) {
                            router.push("/");
