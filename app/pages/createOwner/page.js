@@ -15,12 +15,12 @@ export default function CreateOwner() {
     const [isLoading, setIsLoading] = useState(false);
     const [iseAuthorized, setIseAuthorized] = useState(false);
     const [sessionData, setSessionData] = useState({});
+    const[session, setSession] = useState("")
     const router = useRouter();
       
 
     useEffect(()=>{
         const session = localStorage.getItem("sessionData");
-        console.log(session);
         if(!session){
             router.push("/pages/login");
         }
@@ -28,6 +28,7 @@ export default function CreateOwner() {
 
        try{
           sessionInfo = JSON.parse(session);
+          setSession(sessionInfo);
        }catch{
             router.push("/pages/login");
 return
@@ -60,16 +61,16 @@ return
         // we need to ckech th token and role before redirecting to 
         
 
-        const sessionData = JSON.parse(localStorage.getItem("sessionData"));
-        if(sessionData.token && sessionData.role === "SUPER_ADMIN"){
-            console.log("admin", sessionData.role);
+        // const sessionData = JSON.parse(localStorage.getItem("sessionData"));
+        if(session && session.role === "SUPER_ADMIN"){
+            console.log("admin", session.role);
 
               try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/createOwner`, {
                 headers: { 'Content-Type': 'application/json'
 
-                    ,'Authorization': `Bearer ${sessionData.token}`
-                    ,'role': sessionData.role
+                    ,'Authorization': `Bearer ${session.token}`
+                    ,'role': session.role
                  },
                 method: "POST",
                 body: JSON.stringify({ 

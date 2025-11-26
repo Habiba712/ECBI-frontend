@@ -16,8 +16,8 @@ import StarIcon from "../../../../public/svg/star"
 import { redirect } from "next/navigation"
 
 export default function PointOfSale() {
-    const session = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
-    const userOwnerId = session?.userId;
+    // const session = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
+    // const userOwnerId = session?.userId;
 
     const [isModalOpen, setIsModalOpen] = useState(false);
      const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -25,7 +25,7 @@ export default function PointOfSale() {
     const [modalEditData, setModalEditData] = useState();
     const [modalData, setModalData] = useState([]);
     const [modalAddData, setModalAddData] = useState();
-
+    const [userOwnerId, setUserOwnerId] = useState();
     const [pointsOfSaleByOwner, setPointsOfSaleByOwner] = useState();
    
 
@@ -132,6 +132,9 @@ export default function PointOfSale() {
 
     useEffect(()=>{
         getPointsOfSaleByOwnerId();
+         const session = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
+setUserOwnerId(session?.userId);
+        
     },[])
     console.log('points of sale by owner', pointsOfSaleByOwner);
     return (

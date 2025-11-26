@@ -16,9 +16,11 @@ export default function OwnerReviews() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalReview, setModalReview] = useState();
     const [reply, setReply] = useState("");
-    const sessionData = JSON.parse(localStorage?.getItem("sessionData"));
-    const userOwnerId = sessionData?.userId;
-    const businessName = sessionData?.businessName;
+    // const sessionData = JSON.parse(localStorage?.getItem("sessionData"));
+    // const userOwnerId = sessionData?.userId;
+    // const businessName = sessionData?.businessName;
+    const [userOwnerId, setUserOwnerId] = useState();
+    const [businessName, setBusinessName] = useState();
     // console.log(ReviewsData);
 
     const handleGetPointsOfSale = async () => {
@@ -108,6 +110,9 @@ export default function OwnerReviews() {
     useEffect(() => {
         handleGetAllReviews()
         handleGetPointsOfSale()
+         const sessionData = JSON.parse(localStorage?.getItem("sessionData"));
+   setUserOwnerId(sessionData?.userId);
+    setBusinessName(sessionData?.businessName);
     }, [])
     console.log('reviewww fetched', reviews);
     console.log('poitns of sale', pointsOfSaleByOwner);

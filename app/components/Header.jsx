@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import SettingsIcon from "../../public/svg/settings";
 import DashboardIcon from "../../public/svg/dashboard";
@@ -15,10 +15,14 @@ export default function Header() {
     const pathname = usePathname();
     console.log(pathname.includes("/register"));
     const router = useRouter();
-    const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
-    const token = sessionData?.token;
-    const role = sessionData?.role;
-    const buisinessName = sessionData?.businessName;
+    // const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
+    // const token = sessionData?.token;
+    // const role = sessionData?.role;
+    // const buisinessName = sessionData?.businessName;
+
+    const [token, setToken] = useState("");
+    const [role, setRole] = useState("");
+    const [buisinessName, setBuisinessName] = useState("");
 
     const isLoginPage = pathname.includes("/register") || pathname.includes("/login") || pathname.includes("/createOwner") || pathname.includes("/password");
     const [menuOpen, setMenuOpen] = useState(false);
@@ -43,6 +47,12 @@ export default function Header() {
     const handleMenuButtonClick = () => {
         setMenuOpen(prev => !prev);
     }
+    useEffect(() => {
+        const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
+        setToken(sessionData?.token);
+        setRole(sessionData?.role);
+        setBuisinessName(sessionData?.businessName);
+    }, [])
 
     console.log('menu state', menuOpen);
     return (

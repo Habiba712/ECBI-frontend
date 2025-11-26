@@ -18,9 +18,11 @@ export default function AccountSettings() {
     const [newPhone, setNewPhone] = useState("");
     const [newName, setNewName] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const sessionData = JSON.parse(localStorage?.getItem("sessionData"));
-    const userOwnerId = sessionData?.userId;
-    const businessName = sessionData?.businessName;
+
+
+
+    const[businessName, setBusinessName]= useState("")
+    const [ownerId, setOwnerId]= useState("")
     const [ownerById, setOwnerById] = useState();
     const [incorrectOldPassword, setIncorrectOldPassword] = useState("");
     const [newPasswordError, setNewPasswordError] = useState("");
@@ -208,7 +210,8 @@ console.log('error message', incorrectOldPassword);
 console.log('error message', newPhoneError);
     useEffect(() => {
         getOwnerById();
-    }, [])
+        
+        }, [])
     console.log('owner by id', ownerById);
     return (
         <section className="mt-1 p-4 text-gray-800 w-full  transition-all duration-300 ease-in-out">
