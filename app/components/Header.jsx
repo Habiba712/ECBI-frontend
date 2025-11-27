@@ -135,7 +135,7 @@ export default function Header() {
 
                         </li>
                         {
-                            role === "RESTO_SUPER_ADMIN" &&
+                            role === "RESTO_SUPER_ADMIN" ?
                             <>
                               <li className='sidebar-li'>
 
@@ -159,14 +159,13 @@ export default function Header() {
                         </li>
                             </>
 
-                          
-                        }
-                        {
-                            role === "FINAL_USER" &&
+                          :
+                       
+                            role === "FINAL_USER" ?
                             <>
                               <li className='sidebar-li'>
 
-                            <Link href='/pages/reviews/owner'><QRCodeIcon className="w-6 h-6 cursor-pointer" />                      <span
+                            <Link href='/pages/qrScan'><QRCodeIcon className="w-6 h-6 cursor-pointer" />                      <span
                                 className={`transition-all duration-800 ease-in-out
               ${menuOpen ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}`}
                             >
@@ -174,6 +173,7 @@ export default function Header() {
                             </span></Link>
                         </li>
                             </>
+                            : ""
                         }
                       
 
