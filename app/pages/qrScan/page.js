@@ -43,7 +43,7 @@ export default function ScannerPage() {
     setPause(true);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointOfSaleQrCode/?codeData=${data}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointOfSaleQrCode/${data}`
       );
       const result = await response.json();
 
