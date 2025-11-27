@@ -49,7 +49,7 @@ export default function ScannerPage() {
       const result = await response.json();
 
       if (response.ok && result.success) {
-        router.push(`/pages/dashboard`);
+        router.push(`/pages/posts/creaePost`);
       } else {
         alert(result.message);
       }
