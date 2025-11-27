@@ -15,14 +15,12 @@ export default function Header() {
     const pathname = usePathname();
     console.log(pathname.includes("/register"));
     const router = useRouter();
-    // const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
-    // const token = sessionData?.token;
-    // const role = sessionData?.role;
-    // const buisinessName = sessionData?.businessName;
+
 
     const [token, setToken] = useState("");
     const [role, setRole] = useState("");
     const [buisinessName, setBuisinessName] = useState("");
+    const [fetchedUSer, setFetchedUser] = useState(null);
 
     const isLoginPage = pathname.includes("/register") || pathname.includes("/login") || pathname.includes("/createOwner") || pathname.includes("/password");
     const [menuOpen, setMenuOpen] = useState(false);
@@ -47,14 +45,37 @@ export default function Header() {
     const handleMenuButtonClick = () => {
         setMenuOpen(prev => !prev);
     }
+
+    const getUser = async () => {
+        try {
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/getUserById/${userOwnerId}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    method: "GET"
+                }
+            ).then((res) => {
+                if (res.ok) {
+                    setFetchedUser(res.json());
+                }
+            }
+            )
+        } catch (err) {
+            next(err)
+        }
+    }
     useEffect(() => {
         const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
         setToken(sessionData?.token);
         setRole(sessionData?.role);
         setBuisinessName(sessionData?.businessName);
+        getUser();
     }, [])
 
     console.log('menu state', menuOpen);
+    console.log('user', fetchedUSer);
     return (
 
         <header className={`
@@ -72,15 +93,15 @@ export default function Header() {
             }}
 
         >
-            
-                 <div className='pb-6 flex items-center w-fit border-b-3 border-gray-100 py-3 relative mx-4  '>
-                  
+
+            <div className='pb-6 flex items-center w-fit border-b-3 border-gray-100 py-3 relative mx-4  '>
+
                 <Image src={'/fancy_resto_bg.webp'} width={100} height={100} alt="logo" className='sidebar-top' />
-                 <div className={`px-3 transition-all duration-800 ease-in-out text-nowrap
+                <div className={`px-3 transition-all duration-800 ease-in-out text-nowrap
                   ${menuOpen ? 'hidden opacity-0 translate-x-4 ' : 'opacity-100 translate-x-0'}`}>
-   <h1>{buisinessName}</h1>
-   <span className='text-sm text-gray-400 word-nowrap words-break-all '> iiuy998u98u98uc</span>
-</div>
+                    <h1>{buisinessName}</h1>
+                    <span className='text-sm text-gray-400 word-nowrap words-break-all '> iiuy998u98u98uc</span>
+                </div>
 
                 <button
                     className={menuOpen ? 'transition-all duration-600 ease-in-out menu-button-open' : 'transition-all duration-600 ease-in-out menu-button-close'}
@@ -94,20 +115,20 @@ export default function Header() {
 
 
 
-                <nav 
-                className={`absolute top-0 left-0 px-3 transition-all duration-800 ease-in-out
+                <nav
+                    className={`absolute top-0 left-0 px-3 transition-all duration-800 ease-in-out
                   ${menuOpen ? '-translate-x-3' : 'opacity-100 translate-x-0'}`}
                 >
                     <ul className='px-3 py-3 flex flex-col  gap-7' >
                         <li className='sidebar-li'>
                             <Link href="/pages/dashboard">
                                 <DashboardIcon className="w-6 h-6 cursor-pointer " />
-                               <span
-  className={`transition-all duration-800 ease-in-out
+                                <span
+                                    className={`transition-all duration-800 ease-in-out
               ${menuOpen ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}`}
->
-   Home
-</span>
+                                >
+                                    Home
+                                </span>
 
                             </Link>
 
@@ -115,27 +136,46 @@ export default function Header() {
                         </li>
                         {
                             role === "RESTO_SUPER_ADMIN" &&
+                            <>
+                              <li className='sidebar-li'>
 
-                            <li className='sidebar-li'>
-
-                                <Link href="/pages/pointOfSale/owner"> 
-                                <RestaurantIcon className="w-6 h-6 cursor-pointer" />                      <span
-  className={`transition-all duration-800 ease-in-out
+                                <Link href="/pages/pointOfSale/owner">
+                                    <RestaurantIcon className="w-6 h-6 cursor-pointer" />                      <span
+                                        className={`transition-all duration-800 ease-in-out
               ${menuOpen ? 'opacity-0 translate-x-4 ' : 'opacity-100 translate-x-0'}`}
->
-   Point Of Sale
-</span></Link>
+                                    >
+                                        Point Of Sale
+                                    </span></Link>
                             </li>
-                        }
-                        <li className='sidebar-li'>
+
+                              <li className='sidebar-li'>
 
                             <Link href='/pages/reviews/owner'><ReviewsIcon className="w-6 h-6 cursor-pointer" />                      <span
-  className={`transition-all duration-800 ease-in-out
+                                className={`transition-all duration-800 ease-in-out
               ${menuOpen ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}`}
->
-   Reviews
-</span></Link>
+                            >
+                                Reviews
+                            </span></Link>
                         </li>
+                            </>
+
+                          
+                        }
+                        {
+                            role === "FINAL_USER" &&
+                            <>
+                              <li className='sidebar-li'>
+
+                            <Link href='/pages/reviews/owner'><QRCodeIcon className="w-6 h-6 cursor-pointer" />                      <span
+                                className={`transition-all duration-800 ease-in-out
+              ${menuOpen ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}`}
+                            >
+                                QR Scan
+                            </span></Link>
+                        </li>
+                            </>
+                        }
+                      
 
 
 
@@ -147,25 +187,25 @@ export default function Header() {
                 <ul className='flex flex-col gap-5'>
                     <li className='sidebar-li'>
                         <Link href="/pages/accountSettings">  <SettingsIcon className="w-6 h-6 cursor-pointer" />
-                                                 <span
-  className={`transition-all duration-800 ease-in-out
+                            <span
+                                className={`transition-all duration-800 ease-in-out
               ${menuOpen ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}`}
->
-   Settings
-</span></Link>
+                            >
+                                Settings
+                            </span></Link>
                     </li>
                     <li className='sidebar-li'>
 
-                        <button className="flex gap-2 cursor-pointer" onClick={()=>handleLogout()} >
+                        <button className="flex gap-2 cursor-pointer" onClick={() => handleLogout()} >
                             <LogoutIcon className="w-6 h-6 cursor-pointer text-red-500" />
-                                                <span className={`text-red-500 font-semibold transition-all duration-800 ease-in-out
+                            <span className={`text-red-500 font-semibold transition-all duration-800 ease-in-out
               ${menuOpen ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}`}
->
-   Logout
-</span></button>
+                            >
+                                Logout
+                            </span></button>
                     </li>
                 </ul>
-                
+
 
 
             </div>
@@ -186,7 +226,7 @@ export default function Header() {
                 <div
                 
                 >  */}
-                {/* {token ? <button className="cursor-pointer"onClick={handleLogout}>
+{/* {token ? <button className="cursor-pointer"onClick={handleLogout}>
                      Logout
                 </button> : <button>
                     <Link href="/pages/register"> Login</Link>
@@ -204,4 +244,4 @@ export default function Header() {
                     </button>
                 }
                  */}
-                {/* </div> */}
+{/* </div> */ }
