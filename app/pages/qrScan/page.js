@@ -43,8 +43,16 @@ export default function ScannerPage() {
   const handleScan = async (data) => {
     setPause(true);
     try {
+        console.log('data', data);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointOfSaleQrCode/${data}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointOfSaleQrCode/${data}`,
+        {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: "GET",
+            credentials: 'include',
+        }
       );
       const result = await response.json();
 
