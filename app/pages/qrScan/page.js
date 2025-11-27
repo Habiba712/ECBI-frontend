@@ -1,5 +1,5 @@
 "use client";
-
+import { useRouter } from "next/router";
 import { useState } from "react";
 import {
   Scanner,
@@ -23,6 +23,7 @@ export default function ScannerPage() {
   const [deviceId, setDeviceId] = useState("");
   const [tracker, setTracker] = useState("");
   const [pause, setPause] = useState(false);
+  const router = useRouter();
 
   const devices = useDevices();
 
@@ -48,7 +49,7 @@ export default function ScannerPage() {
       const result = await response.json();
 
       if (response.ok && result.success) {
-        alert("Success! Welcome to the conference.");
+        router.push(`/pages/dashboard`);
       } else {
         alert(result.message);
       }
