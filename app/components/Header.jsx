@@ -78,14 +78,70 @@ export default function Header() {
     console.log('menu state', menuOpen);
     console.log('user', fetchedUSer);
     return (
+        <>   
+      
+        {
+            role === "FINAL_USER" ?
+             <header className={`
+            gap-3 py-3 flex flex-col bg-white fixed bottom-0 left-1/2 transform -translate-x-1/2 max-w-md mx-auto w-full
 
-        <header className={`
-    gap-3 py-3 flex flex-col bg-white h-full min-h-screen sticky top-0
-    transition-all duration-500 ease-in-out
-    ${isLoginPage ? 'hidden' : ''}
-    ${menuOpen ? 'w-[80px]' : 'w-[260px]'}
-  `}
-            style={{
+            transition-all duration-500 ease-in-out
+            ${isLoginPage ? 'hidden' : ''}
+            
+        `}
+                    style={{
+                "background": "linear-gradient(135deg,rgba (255,255,255,0.1),rgba(175, 158, 158, 0.17))",
+                "WebkitBackdropFilter": "blur(20px)",
+                "backdropFilter": "blur(5px)",
+                "boxShadow": "0 8px 20px 0 rgba(0, 0, 0, 0.15)"
+
+            }}
+
+        >
+
+               <nav
+                    className={`w-full px-3 transition-all duration-800 ease-in-out `}
+                >
+                    <ul className='px-3 py-3 flex justify-center gap-2' >
+                        <li className='sidebar-li'>
+                            <Link href="/pages/dashboard">
+                                <DashboardIcon className="w-6 h-6 cursor-pointer " />
+                                <span
+                                    className={`transition-all duration-800 ease-in-out
+              `}
+                                >
+                                    Home
+                                </span>
+
+                            </Link>
+
+
+                        </li>
+                       <li className='sidebar-li'>
+
+                            <Link href='/pages/qrScan'><QRCodeIcon className="w-6 h-6 cursor-pointer" />                      <span
+                                className={`transition-all duration-800 ease-in-out
+        `}
+                            >
+                                QR Scan
+                            </span></Link>
+                        </li>
+                      
+
+
+
+                    </ul>
+                </nav>
+            </header>
+
+            : 
+              <header className={`
+            gap-3 py-3 flex flex-col bg-white h-full min-h-screen sticky top-0
+            transition-all duration-500 ease-in-out
+            ${isLoginPage ? 'hidden' : ''}
+            ${menuOpen ? 'w-[80px]' : 'w-[260px]'}
+        `}
+                    style={{
                 "background": "linear-gradient(135deg,rgba (255,255,255,0.1),rgba(175, 158, 158, 0.17))",
                 "WebkitBackdropFilter": "blur(20px)",
                 "backdropFilter": "blur(5px)",
@@ -217,32 +273,11 @@ export default function Header() {
 
         </header>
 
+        }
+        </>
+     
+
 
     )
 }
 
-{/* <div>
-                    <p>Welcome {role === "SUPER_ADMIN" ? "Admin" : role === "RESTO_SUPER_ADMIN" ? "Owner" : "User"}</p>
-                </div>
-                <div
-                
-                >  */}
-{/* {token ? <button className="cursor-pointer"onClick={handleLogout}>
-                     Logout
-                </button> : <button>
-                    <Link href="/pages/register"> Login</Link>
-                </button>}
-
-
-                {token && role === "SUPER_ADMIN" &&
-                    <button>
-                        <Link href="/pages/createOwner"> Create Owner</Link>
-                    </button>
-                }
-                {
-                    !token && <button >
-                        <Link href="/pages/login"> Login</Link>
-                    </button>
-                }
-                 */}
-{/* </div> */ }
