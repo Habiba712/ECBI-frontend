@@ -9,6 +9,7 @@ import DashboardIcon from "../../public/svg/dashboard";
 import RestaurantIcon from "../../public/svg/restaurant";
 import ReviewsIcon from "../../public/svg/reviews";
 import LogoutIcon from "../../public/svg/logout";
+import QRCodeIcon from "../../public/svg/qrCode";
 import MenuBehaviorIcon from "../../public/svg/menuBehavior";
 import { useRouter } from 'next/navigation';
 export default function Header() {
