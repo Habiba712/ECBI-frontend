@@ -63,7 +63,7 @@ export default function Header() {
             }
             )
         } catch (err) {
-            next(err)
+           console.log(err);
         }
     }
     useEffect(() => {
