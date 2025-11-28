@@ -44,41 +44,41 @@ export default function ScannerPage() {
   const handleScan = async (data) => {
     setPause(true);
      console.log('data', data);
-        const qrString = data.text ?? data.data ?? data; // whatever your scanner gives
+    //     const qrString = data.text ?? data.data ?? data; // whatever your scanner gives
 
-    let parsed;
-try {
-  parsed = JSON.parse(qrString); // { id: "...", name:"..." }
-} catch (err) {
-  console.error('QR content is not JSON', err);
-  // fallback — handle gracefully
-}if(parsed && parsed.id){
+    // let parsed;
+// try {
+//   parsed = JSON.parse(qrString); // { id: "...", name:"..." }
+// } catch (err) {
+//   console.error('QR content is not JSON', err);
+//   // fallback — handle gracefully
+// }if(parsed && parsed.id){
  try {
-       console.log(typeof parsed.id);
+      //  console.log(typeof parsed.id);
+router.push(`${data}`)
+      // const response = await fetch(
+      //   `${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointOfSaleQrCode/${parsed.id}`,
+      //   {
+      //       headers: {
+      //           'Content-Type': 'application/json'
+      //       },
+      //       method: "GET",
+      //       credentials: 'include',
+      //   }
+      // );
+      // const result = await response.json();
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointOfSaleQrCode/${parsed.id}`,
-        {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: "GET",
-            credentials: 'include',
-        }
-      );
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        router.push(`/pages/posts/createPost`);
-      } else {
-        alert(result.message);
-      }
+      // if (response.ok && result.success) {
+      //   router.push(`/pages/posts/createPost`);
+      // } else {
+      //   alert(result.message);
+      // }
     } catch (error) {
       console.log(error);
     } finally {
       setPause(false);
     }
-}
+
 
    
   };
