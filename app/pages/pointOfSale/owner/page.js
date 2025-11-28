@@ -131,13 +131,14 @@ export default function PointOfSale() {
         }
     }
 
-    useEffect(()=>{
-         const session = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
-setUserOwnerId(session?.userId);
-        getPointsOfSaleByOwnerId();
+  useEffect(() => {
+  const session = JSON.parse(localStorage.getItem("sessionData")) || null;
+  setUserOwnerId(session?.userId);
+}, []);
 
-        
-    },[])
+useEffect(() => {
+  if (userOwnerId) getPointsOfSaleByOwnerId();
+}, [userOwnerId]);
     console.log('points of sale by owner', pointsOfSaleByOwner);
     return (
         <section className="mt-4 mx-auto max-w-4xl p-4 text-gray-500  w-full "
