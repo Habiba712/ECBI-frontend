@@ -8,6 +8,7 @@ import {
   boundingBox,
   centerText,
 } from "@yudiel/react-qr-scanner";
+import { type } from "os";
 
 const styles = {
   container: {
@@ -53,7 +54,7 @@ try {
   // fallback — handle gracefully
 }if(parsed && parsed.id){
  try {
-       
+       console.log(typeof parsed.id);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointOfSaleQrCode/${parsed.id}`,
