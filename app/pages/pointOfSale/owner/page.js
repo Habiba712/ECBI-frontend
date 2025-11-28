@@ -28,7 +28,12 @@ export default function PointOfSale() {
     const [userOwnerId, setUserOwnerId] = useState();
     const [pointsOfSaleByOwner, setPointsOfSaleByOwner] = useState();
    
-
+  useEffect(()=>{
+        getPointsOfSaleByOwnerId();
+         const session = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
+setUserOwnerId(session?.userId);
+        
+    },[])
     const handleShowMOdal = (data) => {
         setModalData(data);
         setIsModalOpen(true);
@@ -105,6 +110,7 @@ export default function PointOfSale() {
         
     }
     const getPointsOfSaleByOwnerId = async (next,req,res)=>{
+        console.log('user owner id', userOwnerId);
        try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointsOfSaleByOwnerId/${userOwnerId}`,
                 {
@@ -130,12 +136,7 @@ export default function PointOfSale() {
         }
     }
 
-    useEffect(()=>{
-        getPointsOfSaleByOwnerId();
-         const session = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
-setUserOwnerId(session?.userId);
-        
-    },[])
+  
     console.log('points of sale by owner', pointsOfSaleByOwner);
     return (
         <section className="mt-4 mx-auto max-w-4xl p-4 text-gray-500  w-full "
