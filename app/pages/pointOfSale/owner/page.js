@@ -29,9 +29,10 @@ export default function PointOfSale() {
     const [pointsOfSaleByOwner, setPointsOfSaleByOwner] = useState();
    
   useEffect(()=>{
-        getPointsOfSaleByOwnerId();
          const session = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
 setUserOwnerId(session?.userId);
+        getPointsOfSaleByOwnerId();
+
         
     },[])
     const handleShowMOdal = (data) => {
