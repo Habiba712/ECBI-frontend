@@ -42,6 +42,9 @@ export default function ScannerPage() {
 
   const handleScan = async (data) => {
     setPause(true);
+     console.log('data', data);
+        const qrString = data.text ?? data.data ?? data; // whatever your scanner gives
+
     let parsed;
 try {
   parsed = JSON.parse(qrString); // { id: "...", name:"..." }
@@ -50,9 +53,7 @@ try {
   // fallback — handle gracefully
 }if(parsed && parsed.id){
  try {
-        console.log('data', data);
-        const qrString = data.text ?? data.data ?? data; // whatever your scanner gives
-
+       
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointOfSaleQrCode/${parsed.id}`,
