@@ -81,8 +81,8 @@ export default function Header() {
         console.log('id', userId);
     }, [])
    useEffect(() => {
-        if (userId) getUser();
-    }, [userId])
+        if (sessionData?.userId) getUser();
+    }, [sessionData?.userId])
 
     console.log('menu state', menuOpen);
     console.log('user', fetchedUSer, userId, role);
