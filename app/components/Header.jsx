@@ -89,8 +89,8 @@ export default function Header() {
     return (
         <>   
       
-        
-             <header className={`${role === "RESTO_SUPER_ADMIN" && 'hidden'}
+        {
+            role === "FINAL_USER" ? <header className={`
             gap-3 py-3 flex flex-col bg-white fixed bottom-0 left-1/2 transform -translate-x-1/2 max-w-md mx-auto w-full
 
             transition-all duration-500 ease-in-out
@@ -141,8 +141,8 @@ export default function Header() {
                     </ul>
                 </nav>
             </header>
-
-            
+: role === "RESTO_SUPER_ADMIN" ? 
+ 
               <header className={`${role === "FINAL_USER" && 'hidden'}
             gap-3 py-3 flex flex-col bg-white h-full min-h-screen sticky top-0
             transition-all duration-500 ease-in-out
@@ -280,7 +280,10 @@ export default function Header() {
 
 
         </header>
-
+: null
+        }
+            
+           
         
         </>
      
