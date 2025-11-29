@@ -164,6 +164,8 @@ useEffect(() => {
 {
     pointsOfSaleByOwner && pointsOfSaleByOwner?.length > 0 &&
     pointsOfSaleByOwner.map((item, index)=>{
+    console.log('points of sale by ownerrrr', pointsOfSaleByOwner);
+
         return(
              <div 
              key={index || item.id}
@@ -261,14 +263,14 @@ useEffect(() => {
                                 Edit
                             </button>
                         </div>
-                        <div className="flex justify-center bg-green-100 rounded-lg py-1 px-2 text-sm hover:scale-110 transition-all ease-in-out duration-500 ">
+                        {/* <div className="flex justify-center bg-green-100 rounded-lg py-1 px-2 text-sm hover:scale-110 transition-all ease-in-out duration-500 ">
                             <button className="flex gap-2 items-center cursor-pointer "
                             onClick={()=>handleShowMOdal(item)}
                             >
                                 <QRCodeIcon className="w-6 h-6 text-green-400" />
                                 QR</button>
 
-                        </div>
+                        </div> */}
                         <div className="flex justify-center bg-blue-100 rounded-lg py-1 px-2 text-sm hover:scale-110 transition-all ease-in-out duration-500 ">
                             <button className="flex gap-2 items-center cursor-pointer "
                             onClick={()=>redirect(`/pages/pointOfSale/owner/${item._id}`)}
