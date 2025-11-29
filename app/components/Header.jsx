@@ -63,6 +63,7 @@ export default function Header() {
                        console.log('data', data);
                        setFetchedUser(data?.data);
                        setUserOwnerId(data?.data?._id);
+                       setRole(data?.data?.base.role)
                    })
                 }
             }
@@ -77,13 +78,12 @@ export default function Header() {
         setRole(sessionData?.role);
         setBuisinessName(sessionData?.businessName);
         setUserOwnerId(sessionData?.userId);
+        getUser();
     }, [])
-    useEffect(() => {
-        if (userOwnerId) getUser();
-    }, [userOwnerId])
+   
 
     console.log('menu state', menuOpen);
-    console.log('user', fetchedUSer, userOwnerId);
+    console.log('user', fetchedUSer, userOwnerId, role);
     return (
         <>   
       
