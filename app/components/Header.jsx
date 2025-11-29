@@ -59,7 +59,11 @@ export default function Header() {
                 }
             ).then((res) => {
                 if (res.ok) {
-                    setFetchedUser(res.json());
+                   res.json().then((data)=>{
+                       console.log('data', data);
+                       setFetchedUser(data?.data);
+                       setUserOwnerId(data?.data?._id);
+                   })
                 }
             }
             )
@@ -79,7 +83,7 @@ export default function Header() {
     }, [userOwnerId])
 
     console.log('menu state', menuOpen);
-    console.log('user', fetchedUSer);
+    console.log('user', fetchedUSer, userOwnerId);
     return (
         <>   
       
