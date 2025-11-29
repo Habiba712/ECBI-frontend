@@ -22,7 +22,7 @@ export default function Header() {
     const [role, setRole] = useState("");
     const [buisinessName, setBuisinessName] = useState("");
     const [fetchedUSer, setFetchedUser] = useState(null);
-
+    const [userOwnerId, setUserOwnerId] = useState();
     const isLoginPage = pathname.includes("/register") || pathname.includes("/login") || pathname.includes("/createOwner") || pathname.includes("/password");
     const [menuOpen, setMenuOpen] = useState(false);
     const handleLogout = async () => {
@@ -72,8 +72,11 @@ export default function Header() {
         setToken(sessionData?.token);
         setRole(sessionData?.role);
         setBuisinessName(sessionData?.businessName);
-        getUser();
+        setUserOwnerId(sessionData?.userId);
     }, [])
+    useEffect(() => {
+        if (userOwnerId) getUser();
+    }, [userOwnerId])
 
     console.log('menu state', menuOpen);
     console.log('user', fetchedUSer);
