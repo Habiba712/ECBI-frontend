@@ -55,7 +55,16 @@ export default function ScannerPage() {
 // }if(parsed && parsed.id){
  try {
       //  console.log(typeof parsed.id);
-router.push(`${data}`)
+   if (!data) return;
+
+    // ensure we have the URL string
+    const scannedUrl = typeof data === 'string' ? data : data.text ?? data.data ?? '';
+
+    // Optional: strip accidental double https
+    const fixedUrl = scannedUrl.replace(/^https?:\/\/https?:\/\//, 'https://');
+
+    console.log('Navigating to:', fixedUrl);
+    window.location.href = fixedUrl;
       // const response = await fetch(
       //   `${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointOfSaleQrCode/${parsed.id}`,
       //   {
