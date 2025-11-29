@@ -43,7 +43,7 @@ export default function ScannerPage() {
 
   const handleScan = async (data) => {
     setPause(true);
-     console.log('data', data);
+     console.log('data scan', data);
     //     const qrString = data.text ?? data.data ?? data; // whatever your scanner gives
 
     // let parsed;
@@ -78,7 +78,6 @@ router.push(`${data}`)
     } finally {
       setPause(false);
     }
-
 
    
   };
