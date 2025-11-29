@@ -22,7 +22,7 @@ export default function Header() {
     const [role, setRole] = useState("");
     const [buisinessName, setBuisinessName] = useState("");
     const [fetchedUSer, setFetchedUser] = useState(null);
-    const [userOwnerId, setUserOwnerId] = useState();
+    const [userId, setUserId] = useState();
     const isLoginPage = pathname.includes("/register") || pathname.includes("/login") || pathname.includes("/createOwner") || pathname.includes("/password");
     const [menuOpen, setMenuOpen] = useState(false);
     const handleLogout = async () => {
@@ -49,7 +49,7 @@ export default function Header() {
 
     const getUser = async () => {
         try {
-            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/getUserById/${userOwnerId}`,
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/getUserById/${userId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ export default function Header() {
                    res.json().then((data)=>{
                        console.log('data', data);
                        setFetchedUser(data?.data);
-                       setUserOwnerId(data?.data?._id);
+                       setUserId(data?.data?._id);
                        setRole(data?.data?.base.role)
                    })
                 }
@@ -77,19 +77,20 @@ export default function Header() {
         setToken(sessionData?.token);
         setRole(sessionData?.role);
         setBuisinessName(sessionData?.businessName);
-        setUserOwnerId(sessionData?.userId);
-        getUser();
+        setUserId(sessionData?.userId);
+        console.log('id', userId);
     }, [])
-   
+   useEffect(() => {
+        if (userId) getUser();
+    }, [userId])
 
     console.log('menu state', menuOpen);
-    console.log('user', fetchedUSer, userOwnerId, role);
+    console.log('user', fetchedUSer, userId, role);
     return (
         <>   
       
-        {
-            role === "FINAL_USER" ?
-             <header className={`
+        
+             <header className={`${role === "RESTO_SUPER_ADMIN" && 'hidden'}
             gap-3 py-3 flex flex-col bg-white fixed bottom-0 left-1/2 transform -translate-x-1/2 max-w-md mx-auto w-full
 
             transition-all duration-500 ease-in-out
@@ -141,8 +142,8 @@ export default function Header() {
                 </nav>
             </header>
 
-            : 
-              <header className={`
+            
+              <header className={`${role === "FINAL_USER" && 'hidden'}
             gap-3 py-3 flex flex-col bg-white h-full min-h-screen sticky top-0
             transition-all duration-500 ease-in-out
             ${isLoginPage ? 'hidden' : ''}
@@ -280,7 +281,7 @@ export default function Header() {
 
         </header>
 
-        }
+        
         </>
      
 
