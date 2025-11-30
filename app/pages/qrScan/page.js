@@ -48,24 +48,24 @@ export default function ScannerPage() {
   const handleScan = async (data) => {
     setIsModalOpen(true);
 
-//     setPause(true);
-//      console.log('data scan', data);
+    setPause(true);
+     console.log('data scan', data);
 
-//  try {
-//     if (!data) return;
-//     const scannedUrl = typeof data === 'string' ? data : data.text ?? data.data ?? '';
+ try {
+    if (!data) return;
+    const scannedUrl = typeof data === 'string' ? data : data.text ?? data.data ?? '';
 
-//     // Optional: strip accidental double https
-//     const fixedUrl = scannedUrl.replace(/^https?:\/\/https?:\/\//, 'https://');
+    // Optional: strip accidental double https
+    const fixedUrl = scannedUrl.replace(/^https?:\/\/https?:\/\//, 'https://');
 
-//     console.log('Navigating to:', fixedUrl);
-//     window.location.href = fixedUrl;
+    console.log('Navigating to:', fixedUrl);
+    window.location.href = fixedUrl;
       
-//     } catch (error) {
-//       console.log(error);
-//     } finally {
-//       setPause(false);
-//     }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setPause(false);
+    }
 
    
   };
