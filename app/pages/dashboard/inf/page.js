@@ -9,7 +9,7 @@ export default function PointOfSale() {
         <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   overflow-scroll mb-10 max-w-md mx-auto w-full"
 
         >
-              <div className="inf-dash-top sticky top-0">
+              <div className="inf-dash-top fixed top-0 max-w-md mx-auto w-full ">
                 <div>
                      <h1 className="font-semibold text-2xl font-sans
                  ">ECBI Feed</h1>
