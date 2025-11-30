@@ -95,7 +95,7 @@ export default function ScannerPage() {
 
   return (
     <div className="min-h-screen h-full max-w-md mx-auto px-4 py-2 w-full  flex flex-col justify-center items-center overflow-scroll mb-10" style={styles.container}>
-      {/* <div style={styles.controls}>
+       <div style={styles.controls}>
         <select onChange={(e) => setDeviceId(e.target.value)}>
           <option value={undefined}>Select a device</option>
           {devices.map((device, index) => (
@@ -165,7 +165,7 @@ export default function ScannerPage() {
         allowMultiple={true}
         scanDelay={2000}
         paused={pause}
-      /> */}
+      /> 
       {!pause && <ScanModal 
          onScan={(detectedCodes) => {
           handleScan(detectedCodes[0].rawValue);
