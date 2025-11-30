@@ -56,23 +56,7 @@ export default function ScannerPage() {
 
     console.log('Navigating to:', fixedUrl);
     window.location.href = fixedUrl;
-      // const response = await fetch(
-      //   `${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointOfSaleQrCode/${parsed.id}`,
-      //   {
-      //       headers: {
-      //           'Content-Type': 'application/json'
-      //       },
-      //       method: "GET",
-      //       credentials: 'include',
-      //   }
-      // );
-      // const result = await response.json();
-
-      // if (response.ok && result.success) {
-      //   router.push(`/pages/posts/createPost`);
-      // } else {
-      //   alert(result.message);
-      // }
+      
     } catch (error) {
       console.log(error);
     } finally {
@@ -85,36 +69,8 @@ export default function ScannerPage() {
     <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">
       <div className="text-center">
         <div className="w-64 h-64 border-4 border-white rounded-xl mb-4 flex items-center justify-center mx-auto">
-          <CameraIcon size={64} className="text-white animate-pulse" />
-        </div>
-        <p className="text-white text-lg font-semibold">Scanning QR Code...</p>
-        <p className="text-gray-300 text-sm mt-2">Point camera at restaurant QR code</p>
-      </div>
-    </div>
-  );
-
-  return (
-    <div className="min-h-screen h-full max-w-md mx-auto px-4 py-2 w-full  flex flex-col justify-center items-center overflow-scroll mb-10" style={styles.container}>
-       <div style={styles.controls}>
-        <select onChange={(e) => setDeviceId(e.target.value)}>
-          <option value={undefined}>Select a device</option>
-          {devices.map((device, index) => (
-            <option key={index} value={device.deviceId}>
-              {device.label}
-            </option>
-          ))}
-        </select>
-        <select
-        //   style={{ marginLeft: 5 }}
-          onChange={(e) => setTracker(e.target.value)}
-        >
-          <option value="centerText">Center Text</option>
-          <option value="outline">Outline</option>
-          <option value="boundingBox">Bounding Box</option>
-          <option value={undefined}>No Tracker</option>
-        </select>
-      </div>
-      <Scanner
+       
+           <Scanner
         formats={[
           "qr_code",
           "micro_qr_code",
@@ -148,12 +104,6 @@ export default function ScannerPage() {
           console.log(`onError: ${error}'`);
         }}
         className="scanner rounded-lg shadow-lg mb-4 border border-red-500"  
-        styles={{ container: 
-          { height: "350px",
-            width: "350px",
-            borderRadius: "50px",
-            border:"2px solid lightgray"
-          } }}
         components={{
           audio: true,
           onOff: true,
@@ -166,13 +116,37 @@ export default function ScannerPage() {
         scanDelay={2000}
         paused={pause}
       /> 
+        </div>
+        <p className="text-white text-lg font-semibold">Scanning QR Code...</p>
+        <p className="text-gray-300 text-sm mt-2">Point camera at restaurant QR code</p>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen h-full max-w-md mx-auto px-4 py-2 w-full  flex flex-col justify-center items-center overflow-scroll mb-10" style={styles.container}>
+       <div style={styles.controls}>
+        <select onChange={(e) => setDeviceId(e.target.value)}>
+          <option value={undefined}>Select a device</option>
+          {devices.map((device, index) => (
+            <option key={index} value={device.deviceId}>
+              {device.label}
+            </option>
+          ))}
+        </select>
+        <select
+        //   style={{ marginLeft: 5 }}
+          onChange={(e) => setTracker(e.target.value)}
+        >
+          <option value="centerText">Center Text</option>
+          <option value="outline">Outline</option>
+          <option value="boundingBox">Bounding Box</option>
+          <option value={undefined}>No Tracker</option>
+        </select>
+      </div>
+     
       {!pause && <ScanModal 
-         onScan={(detectedCodes) => {
-          handleScan(detectedCodes[0].rawValue);
-        }}
-        onError={(error) => {
-          console.log(`onError: ${error}'`);
-        }}
+        
       />}
        </div>
   );
