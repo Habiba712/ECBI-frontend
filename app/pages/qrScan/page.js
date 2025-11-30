@@ -9,7 +9,9 @@ import {
   centerText,
 } from "@yudiel/react-qr-scanner";
 import { type } from "os";
+import CameraIcon from "../../../public/svg/camera";
 
+// import { Camera } from "lucide-react";
 const styles = {
   container: {
     // width: 400,
@@ -44,20 +46,9 @@ export default function ScannerPage() {
   const handleScan = async (data) => {
     setPause(true);
      console.log('data scan', data);
-    //     const qrString = data.text ?? data.data ?? data; // whatever your scanner gives
 
-    // let parsed;
-// try {
-//   parsed = JSON.parse(qrString); // { id: "...", name:"..." }
-// } catch (err) {
-//   console.error('QR content is not JSON', err);
-//   // fallback — handle gracefully
-// }if(parsed && parsed.id){
  try {
-      //  console.log(typeof parsed.id);
-   if (!data) return;
-
-    // ensure we have the URL string
+    if (!data) return;
     const scannedUrl = typeof data === 'string' ? data : data.text ?? data.data ?? '';
 
     // Optional: strip accidental double https
@@ -90,10 +81,21 @@ export default function ScannerPage() {
 
    
   };
+ const ScanModal = () => (
+    <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">
+      <div className="text-center">
+        <div className="w-64 h-64 border-4 border-white rounded-xl mb-4 flex items-center justify-center mx-auto">
+          <CameraIcon size={64} className="text-white animate-pulse" />
+        </div>
+        <p className="text-white text-lg font-semibold">Scanning QR Code...</p>
+        <p className="text-gray-300 text-sm mt-2">Point camera at restaurant QR code</p>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="min-h-screen h-full max-w-md mx-auto px-4 py-2 w-full border border-gray-500 flex flex-col justify-center items-center overflow-scroll mb-10" style={styles.container}>
-      <div style={styles.controls}>
+    <div className="min-h-screen h-full max-w-md mx-auto px-4 py-2 w-full  flex flex-col justify-center items-center overflow-scroll mb-10" style={styles.container}>
+      {/* <div style={styles.controls}>
         <select onChange={(e) => setDeviceId(e.target.value)}>
           <option value={undefined}>Select a device</option>
           {devices.map((device, index) => (
@@ -145,7 +147,13 @@ export default function ScannerPage() {
         onError={(error) => {
           console.log(`onError: ${error}'`);
         }}
-        styles={{ container: { height: "350px", width: "350px" } }}
+        className="scanner rounded-lg shadow-lg mb-4 border border-red-500"  
+        styles={{ container: 
+          { height: "350px",
+            width: "350px",
+            borderRadius: "50px",
+            border:"2px solid lightgray"
+          } }}
         components={{
           audio: true,
           onOff: true,
@@ -157,28 +165,15 @@ export default function ScannerPage() {
         allowMultiple={true}
         scanDelay={2000}
         paused={pause}
-      />
-      <div className="flex justify-center items-center w-full">
-        <button className="rounded-lg px-3 py-2 bg-blue-500 text-white font-semibold cursor-pointer hover:scale-110 transition-all ease-in-out duration-500"
-          onClick={() => handleDownloadQRCode()}
-        >
-          Download QR Code
-        </button>
-      </div>
-        <div className="flex justify-center items-center w-full">
-        <button className="rounded-lg px-3 py-2 bg-blue-500 text-white font-semibold cursor-pointer hover:scale-110 transition-all ease-in-out duration-500"
-          onClick={() => handleDownloadQRCode()}
-        >
-          Download QR Code
-        </button>
-      </div>
-
-  <div className="flex justify-center items-center w-full">
-        <button className="rounded-lg px-3 py-2 bg-blue-500 text-white font-semibold cursor-pointer hover:scale-110 transition-all ease-in-out duration-500"
-          onClick={() => handleDownloadQRCode()}
-        >
-          Download QR Code
-        </button>
-      </div>    </div>
+      /> */}
+      {!pause && <ScanModal 
+         onScan={(detectedCodes) => {
+          handleScan(detectedCodes[0].rawValue);
+        }}
+        onError={(error) => {
+          console.log(`onError: ${error}'`);
+        }}
+      />}
+       </div>
   );
 }

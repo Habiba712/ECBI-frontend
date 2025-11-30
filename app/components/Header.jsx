@@ -10,12 +10,15 @@ import RestaurantIcon from "../../public/svg/restaurant";
 import ReviewsIcon from "../../public/svg/reviews";
 import LogoutIcon from "../../public/svg/logout";
 import QRCodeIcon from "../../public/svg/qrCode";
+import WalletIcon from "../../public/svg/wallet";
+import PersonIcon from "../../public/svg/person";
 import MenuBehaviorIcon from "../../public/svg/menuBehavior";
 import { useRouter } from 'next/navigation';
 export default function Header() {
     const pathname = usePathname();
     console.log(pathname.includes("/register"));
     const router = useRouter();
+    console.log('pathname', pathname);
 
 
     const [token, setToken] = useState("");
@@ -91,7 +94,7 @@ export default function Header() {
       
         {
             role === "FINAL_USER" ? <header className={`
-            gap-3 py-3 flex flex-col bg-white fixed bottom-0 left-1/2 transform -translate-x-1/2 max-w-md mx-auto w-full
+            gap-3 flex flex-col bg-white fixed bottom-0 left-1/2 transform -translate-x-1/2 max-w-md mx-auto w-full
 
             transition-all duration-500 ease-in-out
             ${isLoginPage ? 'hidden' : ''}
@@ -108,31 +111,66 @@ export default function Header() {
         >
 
                <nav
-                    className={`w-full px-3 transition-all duration-800 ease-in-out `}
+                    className={`w-full transition-all duration-800 ease-in-out `}
                 >
-                    <ul className='px-3 py-3 flex justify-center gap-2' >
-                        <li className='sidebar-li'>
-                            <Link href="/pages/dashboard">
-                                <DashboardIcon className="w-6 h-6 cursor-pointer " />
-                                <span
+                    <ul className='py-3 flex justify-center items-center gap-2' >
+                        <li className='sidebar-li-mobile'>
+                            <Link href="/pages/dashboard/inf" 
+                            className={`nav-item
+                                ${pathname==='/pages/dashboard/inf'?'active':''}
+                                `
+                                
+
+                            }>
+                                <DashboardIcon className="icon-mobile w-5 h-5 cursor-pointer " />
+                              
+                            </Link>
+  <span
                                     className={`transition-all duration-800 ease-in-out
               `}
                                 >
                                     Home
                                 </span>
 
-                            </Link>
-
 
                         </li>
-                       <li className='sidebar-li'>
+                       <li className='sidebar-li-mobile'>
 
-                            <Link href='/pages/qrScan'><QRCodeIcon className="w-6 h-6 cursor-pointer" />                      <span
+                            <Link href='/pages/qrScan'  className={`nav-item
+                                ${pathname==='/pages/qrScan'?'active':''}
+                                `
+                                
+
+                            }><QRCodeIcon className="icon-mobile w-5 h-5 cursor-pointer" />                    </Link>  <span
                                 className={`transition-all duration-800 ease-in-out
         `}
                             >
-                                QR Scan
-                            </span></Link>
+                                QR
+                            </span>
+                        </li>
+                      
+                       <li className='sidebar-li-mobile'>
+
+                            <Link href='/pages/wallet' className={`nav-item
+                                ${pathname==='/pages/wallet'?'active':''}
+                                `
+                                
+
+                            }><WalletIcon className="icon-mobile w-5 h-5 cursor-pointer" />                     </Link> <span
+                                className={`transition-all duration-800 ease-in-out
+        `}
+                            >
+                                Wallet
+                            </span>
+                        </li>
+                      <li className='sidebar-li-mobile'>
+
+                            <Link href='/pages/profile/inf'      className={`nav-item  ${pathname==='/pages/profile/inf'?'active':''}
+        `}><PersonIcon className="icon-mobile w-5 h-5 cursor-pointer" />                      </Link><span
+                          
+                            >
+                                Profile
+                            </span>
                         </li>
                       
 
