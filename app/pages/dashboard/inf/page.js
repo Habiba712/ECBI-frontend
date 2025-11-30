@@ -1,12 +1,17 @@
 'use client'
 
 import SearchIcon from "../../../../public/svg/search"
-
-
-
+import { useState } from "react";
+import AddPost from "../../../components/modals/addPost";
 export default function PointOfSale() {
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+const handleClick = ()=>{
+setIsModalOpen(true);
+}
     return (
-        <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   overflow-scroll mb-10 max-w-md mx-auto w-full"
+        <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   overflow-scroll mb-10 w-full"
 
         >
               <div className="inf-dash-top fixed top-0 max-w-md mx-auto w-full ">
@@ -20,9 +25,19 @@ export default function PointOfSale() {
                 </div>
                
             </div>
+            <div className="mt-30">
+                <button 
+                onClick={()=>handleClick()}
+                className="rounded-full bg-gradient-to-r from-purple-700 to-blue-700 px-4 py-2 cursor-pointer text-white font-semibold hover:scale-110 transition-all duration-500 ease-in-out">
+                    Create New Post
+                </button>
+            </div>
            
-
+ {
+        isModalOpen ? <AddPost/> : null
+       }
           
         </section>
+       
     )
 }

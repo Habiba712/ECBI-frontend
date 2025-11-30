@@ -10,6 +10,7 @@ import {
 } from "@yudiel/react-qr-scanner";
 import { type } from "os";
 import CameraIcon from "../../../public/svg/camera";
+import AddPost from "../../components/modals/addPost";
 
 // import { Camera } from "lucide-react";
 const styles = {
@@ -27,6 +28,7 @@ export default function ScannerPage() {
   const [tracker, setTracker] = useState("");
   const [pause, setPause] = useState(false);
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const devices = useDevices();
 
@@ -44,24 +46,26 @@ export default function ScannerPage() {
   }
 
   const handleScan = async (data) => {
-    setPause(true);
-     console.log('data scan', data);
+    setIsModalOpen(true);
 
- try {
-    if (!data) return;
-    const scannedUrl = typeof data === 'string' ? data : data.text ?? data.data ?? '';
+//     setPause(true);
+//      console.log('data scan', data);
 
-    // Optional: strip accidental double https
-    const fixedUrl = scannedUrl.replace(/^https?:\/\/https?:\/\//, 'https://');
+//  try {
+//     if (!data) return;
+//     const scannedUrl = typeof data === 'string' ? data : data.text ?? data.data ?? '';
 
-    console.log('Navigating to:', fixedUrl);
-    window.location.href = fixedUrl;
+//     // Optional: strip accidental double https
+//     const fixedUrl = scannedUrl.replace(/^https?:\/\/https?:\/\//, 'https://');
+
+//     console.log('Navigating to:', fixedUrl);
+//     window.location.href = fixedUrl;
       
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setPause(false);
-    }
+//     } catch (error) {
+//       console.log(error);
+//     } finally {
+//       setPause(false);
+//     }
 
    
   };
@@ -148,6 +152,9 @@ export default function ScannerPage() {
       {!pause && <ScanModal 
         
       />}
+       
        </div>
+
+      
   );
 }
