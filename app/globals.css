@@ -74,7 +74,7 @@ font-size: 1rem;
 .sidebar-li-mobile{
   padding: 0rem 1rem 0rem 1rem;
 font-size: .7rem;
-color:rgba(72, 6, 143, 0.8);
+  color: rgba(111, 108, 113, 0.8);
 font-weight: 600;
 display: flex;
 flex-direction: column;
@@ -89,6 +89,13 @@ cursor: pointer;
   border-radius: 50%;
   top:-20px;
 }
+.link-text{
+  color: rgba(111, 108, 113, 0.8);
+}
+.link-text-on{
+  color:rgba(34, 8, 62, 0.8);
+
+}
 .nav-item {
   width: 50px;    /* fixed width */
   height: 50px;   /* fixed height → now a perfect circle */
@@ -97,7 +104,7 @@ cursor: pointer;
   justify-content: center;
   align-items: center;
   transition: all .2s ease;
-  color: rgba(72, 6, 143, 0.8);
+  color: rgba(111, 108, 113, 0.8);
 }
 .nav-item.active {
   background: linear-gradient(to right bottom, #591c96, #d90673);

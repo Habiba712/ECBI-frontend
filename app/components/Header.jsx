@@ -126,7 +126,8 @@ export default function Header() {
                               
                             </Link>
   <span
-                                    className={`transition-all duration-800 ease-in-out
+                                    className={`link-text transition-all duration-800 ease-in-out
+                                          ${pathname==='/pages/dashboard/inf'?'link-text-on':''}
               `}
                                 >
                                     Home
@@ -142,8 +143,9 @@ export default function Header() {
                                 
 
                             }><QRCodeIcon className="icon-mobile w-5 h-5 cursor-pointer" />                    </Link>  <span
-                                className={`transition-all duration-800 ease-in-out
-        `}
+                                className={` link-text transition-all duration-800 ease-in-out
+                                          ${pathname==='/pages/qrScan'?'link-text-on':''}
+              `}
                             >
                                 QR
                             </span>
@@ -157,8 +159,9 @@ export default function Header() {
                                 
 
                             }><WalletIcon className="icon-mobile w-5 h-5 cursor-pointer" />                     </Link> <span
-                                className={`transition-all duration-800 ease-in-out
-        `}
+                                className={` link-text transition-all duration-800 ease-in-out
+                                          ${pathname==='/pages/wallet'?'link-text-on':''}
+              `}
                             >
                                 Wallet
                             </span>
@@ -166,7 +169,9 @@ export default function Header() {
                       <li className='sidebar-li-mobile'>
 
                             <Link href='/pages/profile/inf'      className={`nav-item  ${pathname==='/pages/profile/inf'?'active':''}
-        `}><PersonIcon className="icon-mobile w-5 h-5 cursor-pointer" />                      </Link><span
+        `}><PersonIcon className="icon-mobile w-5 h-5 cursor-pointer" />                      </Link><span className={` link-text transition-all duration-800 ease-in-out
+                                          ${pathname==='/pages/profile/inf'?'link-text-on':''}
+              `}
                           
                             >
                                 Profile
