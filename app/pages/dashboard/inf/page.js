@@ -5,7 +5,6 @@ import { useState } from "react";
 import AddPost from "../../../components/modals/addPost";
 export default function PointOfSale() {
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
 const handleClick = ()=>{
 setIsModalOpen(true);
@@ -33,9 +32,7 @@ setIsModalOpen(true);
                 </button>
             </div>
            
- {
-        isModalOpen ? <AddPost/> : null
-       }
+
           
         </section>
        

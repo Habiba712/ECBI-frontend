@@ -44,7 +44,7 @@ export default function AddPost() {
     return (
         <div className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center py-8  h-full max-w-md mx-auto px-3 ">
-            <div className="w-full bg-white rounded-lg p-4 overflow-y-auto scroll-auto scrollbar-thin scrollbar-thumb-gray-200 overflow-scroll scrollbar-track-gray-100 ">
+            <div className="my-10 w-full bg-white rounded-lg p-4 overflow-y-auto scroll-auto scrollbar-thin scrollbar-thumb-gray-200 overflow-scrollscrollbar-track-gray-100 ">
                 <div className="w-full flex justify-between border-b border-gray-200 py-3">
                     <h3 className="text-md font-semibold" style={{
                         'color': 'black'
