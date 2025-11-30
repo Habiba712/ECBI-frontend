@@ -79,10 +79,10 @@ export default function Header() {
         setBuisinessName(sessionData?.businessName);
         setUserId(sessionData?.userId);
         console.log('id', userId);
-    }, [])
+    }, [pathname])
    useEffect(() => {
-        if (sessionData?.userId) getUser();
-    }, [sessionData?.userId])
+        if (userId) getUser();
+    }, [userId])
 
     console.log('menu state', menuOpen);
     console.log('user', fetchedUSer, userId, role);
