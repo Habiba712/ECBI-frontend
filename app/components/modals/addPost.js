@@ -64,7 +64,7 @@ const handleSubmit = async(e) =>{
                         'color': 'black'
                     }}>Share Your Experience</h3>
                     <button
-                    onClick={handleModal}
+                    onClick={()=>handleModal()}
                     >
 
                         <CloseIcon className="w-5 h-5 cursor-pointer text-gray-400" />
@@ -149,7 +149,7 @@ Upload Photo
                                 type="submit"
                             >Create</button>
                             <button className="rounded-full bg-white text-blue-500 border border-blue-500 py-2 px-3 w-full text-blue-300 font-semibold cursor-pointer  hover:scale-110 transition-all duration-500 ease-in-out"
-                            onClick={handleModal}
+                    onClick={()=>handleModal()}
                             >Cancel</button>
                         </div>
 
