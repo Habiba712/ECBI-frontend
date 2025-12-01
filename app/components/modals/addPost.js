@@ -7,10 +7,12 @@ import PrintIcon from "../../../public/svg/print";
 import DownloadIcon from "../../../public/svg/download";
 import { on } from "events";
 import CameraIcon from "../../../public/svg/camera";
-
+import { useSearchParams } from "next/navigation";
 export default function AddPost() {
     const [postPicToAdd, setPostPicToAdd] = useState(null);
-
+const searchParams = useSearchParams();
+const id = searchParams.get('id');
+console.log('id', id);
     // console.log('data to add', data);
 
     //     const [pointOfSaleToAdd, setPointOfSaleToAdd] = useState({
@@ -96,7 +98,7 @@ Upload Photo
                                 }
 
               </label>
-              <p className="text-xs text-gray-500 mt-1">Required to earn points</p>
+              <p className="text-xs text-gray-500 mt-1">Required to earn points, ${id}</p>
             </div>
           </div>
            <div className="mb-4">
