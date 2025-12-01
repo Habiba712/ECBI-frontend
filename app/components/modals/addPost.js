@@ -21,11 +21,6 @@ const [isModalOpen, setIsModalOpen] = useState(true);
 const [photoURL, setPhotoURL] = useState("");
 const [postPicToAdd, setPostPicToAdd] = useState(null);
 const [caption, setCaption] = useState("");
-useEffect(()=>{
-const session = localStorage.getItem('session');
-const user = JSON.parse(session);
-setOwner(user.userId);
-},[id])
 
 
 const handleModal = ()=>{
@@ -54,7 +49,11 @@ const handleSubmit = async(e) =>{
     }
 }
 
-   
+  useEffect(()=>{
+ const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
+setOwner(sessionData?.userId);
+},[])
+ console.log('user id', owner);
     return (
         <div className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center py-8  h-full max-w-md mx-auto px-3 ">
