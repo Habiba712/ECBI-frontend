@@ -36,7 +36,7 @@ const handleSubmit = async(e) =>{
             body: JSON.stringify({
                  owner:owner, 
                  pos:id,
-                 photoUrl:postPicToAdd, 
+                 photoUrl:photoURL, 
                  caption:caption })
         }).then((res)=>{
             if(res.ok){
@@ -94,6 +94,7 @@ Upload Photo
                                     const file = e.target.files[0];
                                     if(file){
                                         setPostPicToAdd(URL.createObjectURL(file))
+                                        setPhotoURL(e.target.files);
                                     }
                                 }}
 
