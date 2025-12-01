@@ -94,7 +94,7 @@ Upload Photo
                                     const file = e.target.files[0];
                                     if(file){
                                         setPostPicToAdd(URL.createObjectURL(file))
-                                        setPhotoURL(file);
+                                        setPhotoURL(e.target.files);
                                     }
                                 }}
 
