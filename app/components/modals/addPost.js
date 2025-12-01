@@ -2,47 +2,59 @@
 
 import Image from "next/image";
 import CloseIcon from "../../../public/svg/close";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PrintIcon from "../../../public/svg/print";
 import DownloadIcon from "../../../public/svg/download";
 import { on } from "events";
 import CameraIcon from "../../../public/svg/camera";
 import { useSearchParams } from "next/navigation";
+import UploadIcon from "../../../public/svg/upload";
+
+import { useRouter } from "next/navigation";
 export default function AddPost() {
-    const [postPicToAdd, setPostPicToAdd] = useState(null);
 const searchParams = useSearchParams();
 const id = searchParams.get('id');
 console.log('id', id);
-    // console.log('data to add', data);
-
-    //     const [pointOfSaleToAdd, setPointOfSaleToAdd] = useState({
-    //        ownerId:data,
-    //         name:'',
-    //         address:{
-    //             city:'',
-    //             country:'',
-    //             state:'',
-    //             street:'',
-    //             zipCode:''
-    //         },
-    //         phone:'',
-    //         cuisine:'',
-    //         coverImage:'',
-    //         description:'',
-    //         status:'',
-    //         website:''
-    //     });
-    //         console.log('point of sale to edit', pointOfSaleToAdd);
-
-    //     const handleSubmit = async (e)=>{
-    //       e.preventDefault();
-    //         console.log('before sendinf', pointOfSaleToAdd);
-    // setIsModalOpen(false);
-
-    //         onSend(pointOfSaleToAdd)
+const router = useRouter();
+const [owner, setOwner] = useState("");
+const [isModalOpen, setIsModalOpen] = useState(true);
+const [photoURL, setPhotoURL] = useState("");
+const [postPicToAdd, setPostPicToAdd] = useState(null);
+const [caption, setCaption] = useState("");
+useEffect(()=>{
+const session = localStorage.getItem('session');
+const user = JSON.parse(session);
+setOwner(user.userId);
+},[id])
 
 
-    //     }
+const handleModal = ()=>{
+                    router.push(`/pages/dashboard/inf`);
+
+}
+const handleSubmit = async(e) =>{
+    e.preventDefault();
+    try{
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/createPost`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                 owner:owner, 
+                 pos:id,
+                 photoUrl:postPicToAdd, 
+                 caption:caption })
+        }).then((res)=>{
+            if(res.ok){
+                router.push(`/pages/dashboard/inf`);
+                // setIsModalOpen(false);
+            }
+        })
+    }catch(err){
+        console.log('error', err);
+    }
+}
+
+   
     return (
         <div className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center py-8  h-full max-w-md mx-auto px-3 ">
@@ -52,7 +64,7 @@ console.log('id', id);
                         'color': 'black'
                     }}>Share Your Experience</h3>
                     <button
-                    // onClick={() => setIsModalOpen(false)}
+                    onClick={handleModal}
                     >
 
                         <CloseIcon className="w-5 h-5 cursor-pointer text-gray-400" />
@@ -61,7 +73,7 @@ console.log('id', id);
                 <div className=" w-full flex flex-col justify-center items-center">
 
                     <form className="w-full flex flex-col gap-4"
-                    // onSubmit={handleSubmit}
+                    onSubmit={handleSubmit}
                     >
 
 
@@ -71,7 +83,7 @@ console.log('id', id);
  <div className="mb-4">
             <div className="bg-purple-50 border-2 border-dashed border-purple-300 rounded-xl p-8 text-center cursor-pointer hover:bg-purple-100 transition">
               <label className="upload-label" htmlFor="file-upload">
-              <CameraIcon className="w-10 h-10 mx-auto text-purple-600" />
+              <UploadIcon className="w-10 h-10 mx-auto text-purple-600" />
 
 Upload Photo
  <input
@@ -98,7 +110,7 @@ Upload Photo
                                 }
 
               </label>
-              <p className="text-xs text-gray-500 mt-1">Required to earn points, ${id}</p>
+              <p className="text-xs text-gray-500 mt-1">Required to earn points,{id}</p>
             </div>
           </div>
            <div className="mb-4">
@@ -120,8 +132,8 @@ Upload Photo
                             <div className="w-full mt-1">
                                 <div className="block w-full" >
                                     <textarea className="w-full h-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300" placeholder="Enter your caption" rows="5"
-                                    // value={pointOfSaleToAdd?.description || ""}
-                                    //   onChange={(e)=>setPointOfSaleToAdd({...pointOfSaleToAdd, description:e.target.value})}
+                                    value={caption}
+                                      onChange={(e)=>setCaption(e.target.value)}
 
                                     ></textarea>
                                 </div>
@@ -137,7 +149,7 @@ Upload Photo
                                 type="submit"
                             >Create</button>
                             <button className="rounded-full bg-white text-blue-500 border border-blue-500 py-2 px-3 w-full text-blue-300 font-semibold cursor-pointer  hover:scale-110 transition-all duration-500 ease-in-out"
-                            // onClick={() => setIsModalOpen(false)}
+                            onClick={handleModal}
                             >Cancel</button>
                         </div>
 
