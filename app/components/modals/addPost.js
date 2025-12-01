@@ -30,7 +30,7 @@ const handleModal = ()=>{
 const formData = new FormData();
 formData.append('owner', owner);
 formData.append('pos', id);
-formData.append('photoUrl', photoURL);
+formData.append('file', photoURL);
 formData.append('caption', caption);
 
 const handleSubmit = async(e) =>{
