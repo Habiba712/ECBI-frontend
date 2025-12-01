@@ -27,17 +27,19 @@ const handleModal = ()=>{
                     router.push(`/pages/dashboard/inf`);
 
 }
+const formData = new FormData();
+formData.append('owner', owner);
+formData.append('pos', id);
+formData.append('photoUrl', photoURL);
+formData.append('caption', caption);
+
 const handleSubmit = async(e) =>{
     e.preventDefault();
     try{
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/post/createPost`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                 owner:owner, 
-                 pos:id,
-                 photoUrl:photoURL, 
-                 caption:caption })
+            
+            body: formData,
         }).then((res)=>{
             if(res.ok){
                 router.push(`/pages/dashboard/inf`);
