@@ -1,7 +1,7 @@
 'use client'
     // console.log('data to add', data);
 import { Suspense } from "react";
-import AddPost from "../../../components/modals/addPost";
+import AddPost from "../../../../components/modals/addPost";
 
 export default function CreatePostPage() {
     return (

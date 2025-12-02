@@ -75,7 +75,7 @@ setIsModalOpen(true);
                         <div className="flex flex-col items-start justify-center">
                             <Image src={post?.owner?.base?.avatar} alt="pos cover image" width={40} height={40} className="rounded-full" />
                         </div>
-                        <div className="flex flex-col items-start justify-center px-2">
+                        <div className="flex flex-col items-start justify-center px-1">
                             <h5 className="">
                                 {post?.owner?.base?.name}
                             </h5>
