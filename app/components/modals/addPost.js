@@ -7,14 +7,12 @@ import PrintIcon from "../../../public/svg/print";
 import DownloadIcon from "../../../public/svg/download";
 import { on } from "events";
 import CameraIcon from "../../../public/svg/camera";
-import { useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import UploadIcon from "../../../public/svg/upload";
 
 import { useRouter } from "next/navigation";
 export default function AddPost() {
-const searchParams = useSearchParams();
-const id = searchParams.get('id');
-console.log('id', id);
+const {id} = useParams();
 const router = useRouter();
 const [owner, setOwner] = useState("");
 const [isModalOpen, setIsModalOpen] = useState(true);
