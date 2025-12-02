@@ -249,6 +249,13 @@ input[type="tel"]:disabled
 
 }
 
+.post-container{
+  @apply flex flex-col bg-white  p-4  w-full;
+}
+.post-container h5{
+  font-size:18px;
+  font-weight:600;
+}
 /* scroll bar  */
 /* Elegant scrollbar styling */
 
