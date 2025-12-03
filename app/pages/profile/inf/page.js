@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 export default function InfProfilePage() {
     const [loggedInUser, setLoggedInUser] = useState();
     const [userId, setUserId] = useState();
+    const [token, setToken] = useState("");
     const router = useRouter();
     const getUser = async () => {
         try {
@@ -44,6 +45,7 @@ export default function InfProfilePage() {
         const session = JSON.parse(localStorage.getItem("sessionData")) || null;
         console.log('session', session?.userId);
         setUserId(session?.userId);
+        setToken(session?.token);
     }, []);
     useEffect(() => {
         if (userId) {
