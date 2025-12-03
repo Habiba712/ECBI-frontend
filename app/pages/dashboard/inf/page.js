@@ -8,7 +8,8 @@ import LightIcon from "../../../../public/svg/light";
 import LikeIcon from "../../../../public/svg/like";
 import CommentIcon from "../../../../public/svg/comment";
 import ShareIcon from "../../../../public/svg/share";
-export default function PointOfSale() {
+import ZipCodeIcon from "../../../../public/svg/zipCode";
+ export default function PointOfSale() {
 
 const [postsList, setPostsList] = useState([])
 
@@ -46,7 +47,7 @@ const handleClick = ()=>{
 setIsModalOpen(true);
 }
     return (
-        <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   overflow-scroll w-full"
+        <section className="min-h-screen h-full max-w-md mx-auto flex flex-col  overflow-scroll w-full mb-20"
 
         >
               <div className="inf-dash-top fixed top-0 max-w-md mx-auto w-full ">
@@ -73,13 +74,13 @@ setIsModalOpen(true);
                     <div className="flex justify-between">
                             <div className="flex gap-2 ">
                         <div className="flex flex-col items-start justify-center">
-                            <Image src={post?.owner?.base?.avatar} alt="pos cover image" width={40} height={40} className="rounded-full" />
+                            <Image src={post?.owner?.base?.avatar} alt="pos cover image" width={50} height={50} className="rounded-full" />
                         </div>
                         <div className="flex flex-col items-start justify-center px-1">
-                            <h5 className="">
+                            <h5 className=" flex items-end">
                                 {post?.owner?.base?.name}
                             </h5>
-                            <p className="text-gray-400 font-sm px-1">
+                            <p className="text-gray-400 font-sm px-1 ">
                                 {post?.owner?.base?.username}
                             </p>
                         </div>
@@ -120,8 +121,11 @@ setIsModalOpen(true);
                            <span className="font-xl font-semibold">{post?.owner?.base?.name}</span> 
                             <span>{post?.caption}</span>
                         </p>
-                        <p>
-                            {post?.pos?.city}
+                        <p className="text-gray-400 flex gap-1 font-sans">
+                            <ZipCodeIcon className="w-5 h-5 text-gray-400 inline-block"/>
+                            <span className="font-2xl font-bold text-gray-500">{post?.pos?.name}  -</span>
+                            
+                            <span>{post?.pos?.address?.city}</span>
                         </p>
                     </div>
 
