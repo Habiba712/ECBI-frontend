@@ -6,10 +6,12 @@ import { useState, useEffect } from "react";
 import GiftIcon from "../../../../public/svg/gift";
 import PersonIcon from "../../../../public/svg/person";
 import RightArrowIcon from "../../../../public/svg/rightArrow";
+import { useRouter } from 'next/navigation';
 
 export default function InfProfilePage() {
     const [loggedInUser, setLoggedInUser] = useState();
     const [userId, setUserId] = useState();
+    const router = useRouter();
     const getUser = async () => {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/getUserById/${userId}`).then((res) => res.json().then((data) => {
@@ -23,22 +25,19 @@ export default function InfProfilePage() {
     }
     const handleLogout = async () => {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/logout`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    // 'Authorization': `Bearer ${token}`
-                },
-                method: "POST"
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`, {
+                headers: { 'Content-Type': 'application/json' },
+                method: "POST",
+                body: JSON.stringify({ token })
             }).then((res) => {
                 if (res.ok) {
-                    console.log('logout');
                     localStorage.removeItem("sessionData");
-                    window.location.href = "/pages/login";
+                    router.push("/pages/login");
                 }
             }
             )
         } catch (err) {
-            console.log('error', err);
+            console.log(err);
         }
     }
     useEffect(() => {
