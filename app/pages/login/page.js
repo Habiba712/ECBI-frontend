@@ -102,7 +102,7 @@ export default function Login() {
 
                         </div>
                         <div className="w-full flex justify-center items-center py-2 gap-3">
-                            <button type="submit">Login</button>
+                            <button className="auth-button" type="submit">Login</button>
                         </div>
                     </div>
 

@@ -135,7 +135,7 @@ export default function Login() {
 
 
                         <div className="w-full flex flex-col justify-center items-center py-2 gap-3">
-                            <button type="submit">Save</button>
+                            <button className="auth-button" type="submit">Save</button>
                             <button type="button">Cancel</button>
                         </div>
                     </div>
@@ -143,7 +143,7 @@ export default function Login() {
                     <div className="flex justify-center  mt-8">
                         <div className="flex justify-between w-fit py-2 px-2 text-center items-center gap-3">
 
-                            <p className="text-sm text-gray-500">Already have an account? </p><a className="text-md font-semibold hover:scale-90 transition-all ease-in-out" href="/pages/login">Login</a>
+                            <p className="text-sm text-gray-500">Already have an account? </p><a className="text-sm font-semibold py-1 underline" href="/pages/login">Login</a>
                         </div>
                       
                     </div>
