@@ -13,9 +13,9 @@ export default function withAuth(WrappedComponent) {
         return;
       }
 
-      const parsed = JSON.parse(session);
+    
 
-      if (parsed.role !== "FINAL_USER") {
+      if (session.role !== "FINAL_USER") {
         router.replace("/pages/login");
       }
 
