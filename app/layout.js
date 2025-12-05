@@ -28,6 +28,7 @@ export default function RootLayout({ children }) {
           
            
                 <BackgroundWrapper>
+                 
 
       {children} 
       </BackgroundWrapper>

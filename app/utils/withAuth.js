@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export default function withAuth(WrappedComponent) {
-  return function ProtectedPage(props) {
+export default function AuthWrapper({ children }) {
+  
     const router = useRouter();
 
     useEffect(() => {
@@ -21,6 +21,6 @@ export default function withAuth(WrappedComponent) {
 
     }, []);
 
-    return <WrappedComponent {...props} />;
-  };
+    return <>{children}</>;
+  
 }
