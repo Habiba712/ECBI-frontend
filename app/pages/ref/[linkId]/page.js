@@ -11,7 +11,7 @@ export default function ReferralPage({ params }) {
     if (!linkId) return;
 
     fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/referralLink/getReferralLinkByLink/${linkId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinkByLink/${linkId}`,
       { method: "GET" }
     ).finally(() => {
       router.replace("/");
