@@ -13,8 +13,10 @@ export default function ReferralPage({ params }) {
     fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinkByLink/${linkId}`,
       { method: "GET" }
-    ).finally(() => {
-      router.replace("/");
+    ).then((res) => {
+      if (res.ok) {
+        router.push(`/pages/profile/inf`);
+      }
     });
 
   }, [linkId, router]);
