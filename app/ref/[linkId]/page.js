@@ -4,10 +4,10 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function ReferralPage({ params }) {
-    console.log('params', params);
   const { linkId } = params;
   const router = useRouter();
-  console.log('linkIdkkkk', linkId);
+
+  console.log("linkId:", linkId);
 
   useEffect(() => {
     if (!linkId) return;
@@ -15,15 +15,11 @@ export default function ReferralPage({ params }) {
     fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinkByLink/${linkId}`,
       { method: "GET" }
-    ).then((res) => {
-      console.log('resss', res);
-      if (res.ok) {
-        console.log('ok');
-        router.push(`/pages/profile/inf`);
-      }
+    ).finally(() => {
+      router.replace("/profile/inf");
     });
 
-  }, []);
+  }, [linkId, router]);
 
   return <p>Redirecting…</p>;
 }
