@@ -14,7 +14,9 @@ export default function ReferralPage({ params }) {
       `${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinkByLink/${linkId}`,
       { method: "GET" }
     ).then((res) => {
+      console.log('resss', res);
       if (res.ok) {
+        console.log('ok');
         router.push(`/pages/profile/inf`);
       }
     });
