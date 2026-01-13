@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 export default function ReferralPage({ params }) {
   const { linkId } = params;
   const router = useRouter();
+  console.log('linkId', linkId);
 
   useEffect(() => {
     if (!linkId) return;
@@ -21,7 +22,7 @@ export default function ReferralPage({ params }) {
       }
     });
 
-  }, [linkId, router]);
+  }, []);
 
   return <p>Redirecting…</p>;
 }
