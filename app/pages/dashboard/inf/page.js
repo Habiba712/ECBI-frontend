@@ -109,7 +109,9 @@ setIsModalOpen(true);
                             <CommentIcon className="w-6 h-6 text-gray-800 cursor-pointer"/>
                               {post?.comments?.length > 0 ? <span className="text-sm px-1 text-gray-600">{post?.likes}</span>:null}
                         </button>
-                                             <button className="font-semibold flex items-center gap-1">
+                                             <button className="font-semibold flex items-center gap-1"
+                                             onClick={()=>handleShare()}
+                                             >
 
                             <ShareIcon className="w-6 h-6 text-gray-800 cursor-pointer"/>
                              {post?.shares?.length > 0 ? <span className="text-sm px-1 text-gray-600">{post?.likes}</span>:null}
