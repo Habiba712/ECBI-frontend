@@ -16,6 +16,7 @@ export default function InfProfilePage() {
     const [userId, setUserId] = useState();
     const [visitedPos, setVisitedPos] = useState([]);
     const [token, setToken] = useState("");
+    const [copied, setCopied] = useState(false);
     const router = useRouter();
     const [showReferralLinks, setShowReferralLinks] = useState(false);
     const [theReferralLink, setTheReferralLink] = useState([
@@ -54,6 +55,17 @@ export default function InfProfilePage() {
             )
         } catch (err) {
             console.log(err);
+        }
+    }
+    const handleCopy = ({link})=>{
+        console.log('link', link);
+        try{
+        navigator.clipboard.writeText(link);
+        setCopied(true);
+
+        setTimeout(()=> setCopied(false), 2000)
+        }catch(err){
+            console.log('error', err);
         }
     }
     const handleGenerateLink = async ({userId, posId}) =>{
@@ -193,7 +205,7 @@ console.log('link',userId, posId)
                 </h1>
                 {
                     visitedPos?.length > 0 && visitedPos.map((pos, index)=>(
-<div key = {index} className="w-full cursor-pointer shadow-lg p-3 flex items-center gap-3 rounded-lg justify-between">
+<div key = {index} className="w-full h-20 cursor-pointer shadow-lg p-3 flex items-center gap-3 rounded-lg justify-between">
 
     <div className="flex items-center justify-start  w-15 h-10  rounded-full">
         <Image src={pos?.coverImage} alt="pos cover image"  width={60} height={60}className=" w-10 h-10 rounded-full object-cover" />
@@ -206,15 +218,33 @@ console.log('link',userId, posId)
              </div>
              <div className="flex flex-col items-center justify-center">
                 {
-                    theReferralLink?.filter((item)=> item.posId === pos._id) ? (
+                    theReferralLink?.find((item)=> item.posId === pos._id)?.link !== undefined ? (
                         <> 
-                        <div className="cursor-pointer p-2 flex rounded-full  items-center justify-center transition-all duration-500 ease-in-out hover:scale-110 hover:bg-gray-100 "><LinkIcon className="w-6 h-6 text-gray-400"/>
+                        <div className="cursor-pointer p-2 flex rounded-full  items-center justify-center transition-all duration-500 ease-in-out hover:scale-110 hover:bg-gray-100 ">
+                            
+                            <button 
+                            className="cursor-pointer h-10 w-10 flex items-center justify-center transition-all duration-500 ease-in-out rounded-full"
+                            onClick={()=>
+                            handleCopy({link:theReferralLink?.find((item)=> item.posId === pos._id)?.link})
+                            }
+                            >
+                            
+  {
+                            copied === true ? (
+                                <span className="relative z-1000 text-gray-500 text-sm py-2 px-3 rounded ">
+          Copied!
+        </span>
+                            )
+                            : 
+                            <LinkIcon className="w-6 h-6 text-gray-400"/>
+                            }
+                            </button>
+                           
                             </div>
-                       <span  className=" text-gray-600 text-sm font-semibold ">
-{theReferralLink?.find((item)=> item.posId === pos._id) }
-
-                       </span>
+                           
+                      
                         </>
+                        
                       
                     ) : (
                         <> 
@@ -227,9 +257,7 @@ console.log('link',userId, posId)
              >
                <LightIcon className="w-4 h-4 stroke-2"/> Generate My Link 
              </button>
-             <span className="text-sm text-gray-400">
- iigiugiugiugigiu
-             </span>
+            
                         </>
                        
                     )

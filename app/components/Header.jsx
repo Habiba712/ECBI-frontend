@@ -64,9 +64,9 @@ export default function Header() {
                 if (res.ok) {
                     res.json().then((data) => {
                         console.log('data', data);
-                        setFetchedUser(data?.data);
-                        setUserId(data?.data?._id);
-                        setRole(data?.data?.base.role)
+                        setFetchedUser(data?.user);
+                        setUserId(data?.user?._id);
+                        setRole(data?.user?.base.role)
                     })
                 }
             }
@@ -93,7 +93,8 @@ export default function Header() {
         <>
 
             {
-                role === "FINAL_USER" ? <header className={`
+                role === "FINAL_USER" ? 
+                <header className={`
             gap-3 flex flex-col bg-white fixed bottom-0 left-1/2 transform -translate-x-1/2 max-w-md mx-auto w-full
 
             transition-all duration-500 ease-in-out
