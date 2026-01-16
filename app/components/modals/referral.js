@@ -43,7 +43,7 @@ export default function ReferralPage({ params }) {
 
     //next I need to fetch for the user "Friend"
     //fetch the POS for the image bg, the name
-
+console.log('loading', loading);
 
 
     if (loading) return <p>Loading…</p>;
@@ -99,7 +99,7 @@ export default function ReferralPage({ params }) {
                     >{referrerUser?.base?.name}'s Reward</h4>
                     <div className='h-5 flex items-center justify-between  bg-gray-100 mb-4 w-full  rounded-full overflow-hidden gap-2 px-1'>
                         <div
-                        className={`h-3 rounded-full bg-gradient-to-r from-purple-700 to-blue-700 transition-all duration-500 ease-in-out w-${loading? '0' : '50'}`}
+                        className={`h-3 rounded-full bg-gradient-to-r from-purple-700 to-blue-700 transition-all duration-500 ease-in-out w-${loading ? 0 : 70}`}
                         ></div>
                         <GiftIcon className="w-5 h-5 stroke-purple-500" />
                     </div>
