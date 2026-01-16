@@ -85,10 +85,10 @@ console.log('link',userId, posId)
                     console.log('referral link data', data);
                    setTheReferralLink(prev => {
                 // On vérifie si le lien existe déjà dans la liste précédente
-                const exists = prev.some(item => item.link === data.link);
+                const exists = prev.some(item => item?.link === data?.link);
                 
                 if (!exists) {
-                    return [...prev, {link: data.link, posId: data.posId}];
+                    return [...prev, {link: data?.link, posId: data?.posId}];
                 }
                 
                 return prev; // On retourne l'ancien état si déjà présent
