@@ -93,8 +93,7 @@ export default function Header() {
         <>
 
             {
-                role === "FINAL_USER" ? 
-                <header className={`
+                role === "FINAL_USER" ? <header className={`
             gap-3 flex flex-col bg-white fixed bottom-0 left-1/2 transform -translate-x-1/2 max-w-md mx-auto w-full
 
             transition-all duration-500 ease-in-out

@@ -51,7 +51,7 @@ export default function ReferralPage({ params }) {
     if (data) {
         // router.push('/profile/inf'); // uncomment when ready
         return (
-            <section className="min-h-screen h-full max-w-md mx-auto  overflow-scroll w-full  mb-15">
+            <section className="min-h-screen h-full max-w-md mx-auto flex flex-col  overflow-scroll w-full mb-20">
                 {/* first section */}
                 <div className="h-[300px] flex flex-col justify-center items-center w-full py-6 px-3 text-white bg-cover bg-center rounded-br-full rounded-bl-full relative overflow-hidden"
                     style={{
