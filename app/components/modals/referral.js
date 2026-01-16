@@ -25,6 +25,7 @@ export default function ReferralPage({ params }) {
                 ).then((res) => res.json().
                     then((data) => {
                         console.log('data', data);
+                        setLoading(false);
                         setData(data)
                         setPosData(data?.pos)
                         setReferrerUser(data?.referrerUser)
@@ -53,13 +54,14 @@ export default function ReferralPage({ params }) {
         return (
             <section className="min-h-screen h-full max-w-md mx-auto flex flex-col  overflow-scroll w-full mb-20">
                 {/* first section */}
-                <div className="h-[300px] flex flex-col justify-center items-center w-full py-6 px-3 text-white bg-cover bg-center rounded-br-full rounded-bl-full relative overflow-hidden"
+                <div className="h-[300px] flex flex-col justify-center items-center w-full py-6 text-white bg-cover bg-center rounded-br-full rounded-bl-full  overflow-hidden"
                     style={{
                         backgroundImage: `linear-gradient(to right, rgba(107, 33, 168, 0.5), rgba(37, 99, 235, 0.5)), url('${posData?.coverImage}')`
-                    }}>
+                    }}
+                    >
                     <div className="flex flex-col items-center justify-center gap-2 w-full py-6 px-2 h-full ">
                         <div className="flex flex-col items-start w-full justify-start h-full ">
-                            <h2 className='font-semibold text-xl w-100 text-center'>Hey! Your friend {referrerUser?.base?.name} sent you a gift.</h2>
+                            <h2 className='font-semibold text-xl text-center'>Hey! Your friend {referrerUser?.base?.name} sent you a gift.</h2>
                             <span className='px-6 text-xs font-thin'>Via {posData?.name}</span>
                             <div className='w-full  flex flex-col  items-center justify-center'>
                                 <div className='border-4 rounded-full'>
