@@ -22,7 +22,7 @@ export default function InfProfilePage() {
     const [theReferralLink, setTheReferralLink] = useState([
         {
             link: "",
-            posId:""
+            posId: ""
         }
     ]);
     const getUser = async () => {
@@ -57,50 +57,51 @@ export default function InfProfilePage() {
             console.log(err);
         }
     }
-    const handleCopy = ({link})=>{
+    const handleCopy = ({ link }) => {
         console.log('link', link);
-        try{
-        navigator.clipboard.writeText(link);
-        setCopied(true);
+        try {
+            navigator.clipboard.writeText(link);
+            setCopied(true);
 
-        setTimeout(()=> setCopied(false), 2000)
-        }catch(err){
+            setTimeout(() => setCopied(false), 2000)
+        } catch (err) {
             console.log('error', err);
         }
     }
-    const handleGenerateLink = async ({userId, posId}) =>{
-console.log('link',userId, posId)
-       
-        try{
+    const handleGenerateLink = async ({ userId, posId }) => {
+        console.log('link', userId, posId)
+
+        try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/createReferralLink`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    
+
                 },
                 method: "POST",
                 body: JSON.stringify({ userId, posId })
-            }).then((res)=>{
-                if(res.ok){
-                   res.json().then((data)=>{
-                    console.log('referral link data', data);
-                   setTheReferralLink(prev => {
-                // On vérifie si le lien existe déjà dans la liste précédente
-                const exists = prev.some(item => item?.link === data?.link);
-                
-                if (!exists) {
-                    return [...prev, {link: data?.link, posId: data?.posId}];
-                }
-                
-                return prev; // On retourne l'ancien état si déjà présent
-            });
-                   
-                })}
-                })
+            }).then((res) => {
+                if (res.ok) {
+                    res.json().then((data) => {
+                        console.log('referral link data', data);
+                        setTheReferralLink(prev => {
+                            // On vérifie si le lien existe déjà dans la liste précédente
+                            const exists = prev.some(item => item?.link === data?.link);
 
-        }catch(err){
+                            if (!exists) {
+                                return [...prev, { link: data?.link, posId: data?.posId }];
+                            }
+
+                            return prev; // On retourne l'ancien état si déjà présent
+                        });
+
+                    })
+                }
+            })
+
+        } catch (err) {
             console.log('error', err);
         }
-       
+
     }
     useEffect(() => {
         const session = JSON.parse(localStorage.getItem("sessionData")) || null;
@@ -108,7 +109,7 @@ console.log('link',userId, posId)
         setUserId(session?.userId);
         setToken(session?.token);
     }, []);
-   console.log('visited pos', visitedPos);
+    console.log('visited pos', visitedPos);
     useEffect(() => {
         // setShowReferralLinks(false);
         if (userId) {
@@ -119,7 +120,7 @@ console.log('link',userId, posId)
     console.log('referral links', theReferralLink);
     return (
         <section className="min-h-screen h-full max-w-md mx-auto  overflow-scroll w-full  mb-15">
-               {/* first section */}
+            {/* first section */}
             <div className="h-[200px] flex flex-col justify-center bg-gradient-to-r from-purple-800 to-blue-600 items-center w-full py-5 px-4 text-white">
                 <div className="flex gap-2 w-full px-5 py-5">
                     <div className="flex flex-col items-start justify-center">
@@ -152,131 +153,150 @@ console.log('link',userId, posId)
 
             </div>
             {
-            showReferralLinks === false ? (
-            <div>
-             
+                showReferralLinks === false ? (
+                    <div>
 
-            {/* second section */}
-            <div className="flex flex-col gap-2 w-full p-5">
-               <div className="cursor-pointer shadow-lg p-3 flex items-center gap-3 rounded-lg">
-             <GiftIcon className="w-6 h-6 text-purple-700"/>
-             <div
-             >
-                <h4 className="font-semibold">My Referral Links</h4>
-                <p className="text-sm text-gray-500">Invite friends and earn points</p>
-             </div>
-             <button
-             className="cursor-pointer"
-             onClick={()=>{setShowReferralLinks(true)}}
-             >
-                <RightArrowIcon className="w-5 h-5 ml-auto text-gray-400"/>
-             </button>
-             
-               </div>
 
-                <div className="cursor-pointer shadow-lg p-3 flex items-center gap-3 rounded-lg">
-             <PersonIcon className="w-6 h-6 text-pink-700"/>
-             <div>
-                <h4 className="font-semibold">Edit Profile</h4>
-                <p className="text-sm text-gray-500">Update your profile informations</p>
-             </div>
-             <RightArrowIcon className="w-5 h-5 ml-auto text-gray-400"/>
+                        {/* second section */}
+                        <div className="flex flex-col gap-2 w-full p-5">
+                            <div className="cursor-pointer shadow-lg p-3 flex justify-between items-center gap-3 rounded-lg">
+                                <div className=" flex items-center gap-3">
+                                    <GiftIcon className="w-6 h-6 text-purple-700" />
+                                    <div className=""
+                                    >
+                                        <h4 className="font-semibold">My Referral Links</h4>
+                                        <p className="text-sm text-gray-500">Invite friends and earn points</p>
+                                    </div>
+                                </div>
 
-               </div>
 
-                  <div className="cursor-pointer shadow-lg p-3 flex items-center justify-center gap-3 rounded-lg bg-red-100 flex items-center
+
+                                <div className="">
+                                    <button
+                                        className="cursor-pointer "
+                                        onClick={() => { setShowReferralLinks(true) }}
+                                    >
+                                        <RightArrowIcon className="w-5 h-5  text-gray-400" />
+                                    </button>
+                                </div>
+
+
+                            </div>
+
+                            <div className="cursor-pointer shadow-lg p-3 flex items-center justify-between gap-3 rounded-lg">
+                                <div className=" flex items-center gap-3">
+                                    <PersonIcon className="w-6 h-6 text-pink-700" />
+                                    <div>
+                                        <h4 className="font-semibold">Edit Profile</h4>
+                                        <p className="text-sm text-gray-500">Update your profile informations</p>
+                                    </div>
+                                </div>
+                                <div >
+                                    <button
+                                        className="cursor-pointer "
+                                        onClick={() => { setShowReferralLinks(true) }}
+                                    >
+                                        <RightArrowIcon className="w-5 h-5 ml-auto text-gray-400" />
+                                    </button>
+                                </div>
+
+
+
+                            </div>
+
+                            <div className="cursor-pointer shadow-lg p-3 flex items-center justify-center gap-3 rounded-lg bg-red-100 flex items-center
                   hover:shadow-red-200 hover:scale-105 duration-300 ease-in-out
                   ">
-                     <button className="cursor-pointer text-red-600 font-semibold font-sans"
-                     onClick={()=>handleLogout()}
-                     >Logout</button>            
-               </div>
-            </div>
-            </div>  
-
-
-                
-            )
-            : 
-            (
-            <div className="flex flex-col gap-2 w-full p-5">
-                <h1 className="text-md font-semibold text-start font-sans px-3">
-                    My Favorite Spots
-                </h1>
-                {
-                    visitedPos?.length > 0 && visitedPos.map((pos, index)=>(
-<div key = {index} className="w-full h-20 cursor-pointer shadow-lg p-3 flex items-center gap-3 rounded-lg justify-between">
-
-    <div className="flex items-center justify-start  w-15 h-10  rounded-full">
-        <Image src={pos?.coverImage} alt="pos cover image"  width={60} height={60}className=" w-10 h-10 rounded-full object-cover" />
-        </div>
-             
-             <div className="text-start w-full"
-             >
-                <h4 className="font-semibold">{pos?.name}</h4>
-                <p className="text-sm text-gray-500">+20 points per visit</p>
-             </div>
-             <div className="flex flex-col items-center justify-center">
-                {
-                    theReferralLink?.find((item)=> item.posId === pos._id)?.link !== undefined ? (
-                        <> 
-                        <div className="cursor-pointer p-2 flex rounded-full  items-center justify-center transition-all duration-500 ease-in-out hover:scale-110 hover:bg-gray-100 ">
-                            
-                            <button 
-                            className="cursor-pointer h-10 w-10 flex items-center justify-center transition-all duration-500 ease-in-out rounded-full"
-                            onClick={()=>
-                            handleCopy({link:theReferralLink?.find((item)=> item.posId === pos._id)?.link})
-                            }
-                            >
-                            
-  {
-                            copied === true ? (
-                                <span className="relative z-1000 text-gray-500 text-sm py-2 px-3 rounded ">
-          Copied!
-        </span>
-                            )
-                            : 
-                            <LinkIcon className="w-6 h-6 text-gray-400"/>
-                            }
-                            </button>
-                           
+                                <button className="cursor-pointer text-red-600 font-semibold font-sans"
+                                    onClick={() => handleLogout()}
+                                >Logout</button>
                             </div>
-                           
-                      
-                        </>
-                        
-                      
-                    ) : (
-                        <> 
-                        <button
-             style={{
-                "fontSize":"12px"
-             }}
-             className="cursor-pointer font-bold whitespace-nowrap text-white py-2 px-3 bg-gradient-to-r from-purple-800 to-blue-600 items-center rounded-full transition-all duration-500 ease-in-out hover:scale-110 flex gap-2"
-             onClick={()=>{handleGenerateLink({userId:userId,posId:pos?._id})}}
-             >
-               <LightIcon className="w-4 h-4 stroke-2"/> Generate My Link 
-             </button>
-            
-                        </>
-                       
-                    )
-                }
- 
-             
-             </div>
-            
-               </div>
+                        </div>
+                    </div>
 
-                    ))
-                }
-                   
-                 
-            </div>   
-            )
-          
+
+
+                )
+                    :
+                    (
+                        <div className="flex flex-col gap-2 w-full p-5">
+                            <h1 className="text-md font-semibold text-start font-sans px-3">
+                                My Favorite Spots
+                            </h1>
+                            {
+                                visitedPos?.length > 0 && visitedPos.map((pos, index) => (
+                                    <div key={index} className="w-full h-20 cursor-pointer shadow-lg p-3 flex items-center gap-3 rounded-lg justify-between">
+
+                                        <div className="flex items-center justify-start  w-15 h-10  rounded-full">
+                                            <Image src={pos?.coverImage} alt="pos cover image" width={60} height={60} className=" w-10 h-10 rounded-full object-cover" />
+                                        </div>
+
+                                        <div className="text-start w-full"
+                                        >
+                                            <h4 className="font-semibold">{pos?.name}</h4>
+                                            <p className="text-sm text-gray-500">+20 points per visit</p>
+                                        </div>
+                                        <div className="flex flex-col items-center justify-center">
+                                            {
+                                                theReferralLink?.find((item) => item.posId === pos._id)?.link !== undefined ? (
+                                                    <>
+                                                        <div className="cursor-pointer p-2 flex rounded-full  items-center justify-center transition-all duration-500 ease-in-out hover:scale-110 hover:bg-gray-100 ">
+
+                                                            <button
+                                                                className="cursor-pointer h-10 w-10 flex items-center justify-center transition-all duration-500 ease-in-out rounded-full"
+                                                                onClick={() =>
+                                                                    handleCopy({ link: theReferralLink?.find((item) => item.posId === pos._id)?.link })
+                                                                }
+                                                            >
+
+                                                                {
+                                                                    copied === true ? (
+                                                                        <span className="relative z-1000 text-gray-500 text-sm py-2 px-3 rounded ">
+                                                                            Copied!
+                                                                        </span>
+                                                                    )
+                                                                        :
+                                                                        <LinkIcon className="w-6 h-6 text-gray-400" />
+                                                                }
+                                                            </button>
+
+                                                        </div>
+
+
+                                                    </>
+
+
+                                                ) : (
+                                                    <>
+                                                        <button
+                                                            style={{
+                                                                "fontSize": "12px"
+                                                            }}
+                                                            className="cursor-pointer font-bold whitespace-nowrap text-white py-2 px-3 bg-gradient-to-r from-purple-800 to-blue-600 items-center rounded-full transition-all duration-500 ease-in-out hover:scale-110 flex gap-2"
+                                                            onClick={() => { handleGenerateLink({ userId: userId, posId: pos?._id }) }}
+                                                        >
+                                                            <LightIcon className="w-4 h-4 stroke-2" /> Generate My Link
+                                                        </button>
+
+                                                    </>
+
+                                                )
+                                            }
+
+
+                                        </div>
+
+                                    </div>
+
+                                ))
+                            }
+
+
+                        </div>
+                    )
+
             }
-         
+
         </section>
     )
 }
