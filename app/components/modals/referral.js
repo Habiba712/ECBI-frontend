@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 export default function ReferralPage({ params }) {
     const id = params; // directly use params.id in client component
-    console.log('id', id);
+
     const router = useRouter();
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -16,16 +16,16 @@ export default function ReferralPage({ params }) {
     const [referrerUser, setReferrerUser] = useState(null);
     const [owner, setOwner] = useState("");
 
-    // const [loadingPos, setLoadingPos] = useState(true);
-    useEffect(() => {
-        if (!id) return;
 
-        const fetchReferral = async () => {
+
+  const fetchReferral = async (owner) => {
             const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinkByLink/${id}`);
 
             if(owner){
                 url.searchParams.append('user', owner);
+                console.log('owner in url', url);
             }
+            console.log('fetching referral link from', url.toString());
             try {
                 const res = await fetch(
                  url.toString()
@@ -45,12 +45,17 @@ export default function ReferralPage({ params }) {
             }
         };
 
-        fetchReferral();
+
+    useEffect(() => {
+        if (!id) return;
+
+         const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
+const user= sessionData?.userId;
+if(user) setOwner(user);
+                console.log('owner', user);
+        fetchReferral(user);
     }, [id]);
-      useEffect(()=>{
- const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
-setOwner(sessionData?.userId);
-},[])
+  
 
     //next I need to fetch for the user "Friend"
     //fetch the POS for the image bg, the name
