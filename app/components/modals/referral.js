@@ -14,6 +14,8 @@ export default function ReferralPage({ params }) {
     const [loading, setLoading] = useState(true);
     const [posData, setPosData] = useState(null);
     const [referrerUser, setReferrerUser] = useState(null);
+    const [owner, setOwner] = useState("");
+
     // const [loadingPos, setLoadingPos] = useState(true);
     useEffect(() => {
         if (!id) return;
@@ -21,7 +23,10 @@ export default function ReferralPage({ params }) {
         const fetchReferral = async () => {
             try {
                 const res = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinkByLink/${id}`
+                    `${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinkByLink/${id}`,
+                    {
+                        body: JSON.stringify({ user: owner }),
+                    }
                 ).then((res) => res.json().
                     then((data) => {
                         console.log('data', data);
@@ -40,6 +45,10 @@ export default function ReferralPage({ params }) {
 
         fetchReferral();
     }, [id]);
+      useEffect(()=>{
+ const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
+setOwner(sessionData?.userId);
+},[])
 
     //next I need to fetch for the user "Friend"
     //fetch the POS for the image bg, the name
