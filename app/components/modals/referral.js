@@ -21,12 +21,14 @@ export default function ReferralPage({ params }) {
         if (!id) return;
 
         const fetchReferral = async () => {
+            const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinkByLink/${id}`);
+
+            if(owner){
+                url.searchParams.append('user', owner);
+            }
             try {
                 const res = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinkByLink/${id}`,
-                    {
-                        body: JSON.stringify({ user: owner }),
-                    }
+                 url.toString()
                 ).then((res) => res.json().
                     then((data) => {
                         console.log('data', data);
