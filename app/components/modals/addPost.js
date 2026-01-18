@@ -11,10 +11,12 @@ import { useParams } from "next/navigation";
 import UploadIcon from "../../../public/svg/upload";
 
 import { useRouter } from "next/navigation";
+import CheckReferralLink from "./checkReferralLink";
 export default function AddPost() {
 const {id} = useParams();
 const router = useRouter();
 const [owner, setOwner] = useState(null);
+const [showModal, setShowModal] = useState(false);
 const [isModalOpen, setIsModalOpen] = useState(true);
 const [photoURL, setPhotoURL] = useState("");
 const [postPicToAdd, setPostPicToAdd] = useState(null);
@@ -41,10 +43,19 @@ const handleSubmit = async(e) =>{
             body: formData,
         }).then((res)=>{
             if(res.ok){
+                //visited = true; visitedAt = now; 
                 router.push(`/pages/dashboard/inf`);
                 // setIsModalOpen(false);
             }
         })
+    }catch(err){
+        console.log('error', err);
+    }
+}
+
+const updateReferralLink = async ()=>{
+    try{
+
     }catch(err){
         console.log('error', err);
     }
@@ -59,7 +70,11 @@ const handleSubmit = async(e) =>{
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getAllReferralLinks?${params.toString()}`);
             const data = await res.json();
             console.log('dataaaa', data);
-            setMyReferralLinksForThisPos(data);
+            if(data && data.length > 0){
+                   setMyReferralLinksForThisPos(data);
+                   setShowModal(true)
+            }
+         
             // console.log('data', data.referralLinks);
             return data.referralLink;
 
@@ -82,7 +97,9 @@ const handleSubmit = async(e) =>{
     return (
         <div className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center py-8  h-full max-w-md mx-auto px-3 ">
-            <div className="my-10 w-full bg-white rounded-lg p-4 overflow-y-auto scroll-auto scrollbar-thin scrollbar-thumb-gray-200 overflow-scrollscrollbar-track-gray-100 ">
+            <div className={`my-10 w-full bg-white rounded-lg p-4 overflow-y-auto scroll-auto scrollbar-thin scrollbar-thumb-gray-200 overflow-scrollscrollbar-track-gray-100 ${showModal && "hidden"}`}
+            
+            >
                 <div className="w-full flex justify-between border-b border-gray-200 py-3">
                     <h3 className="text-md font-semibold" style={{
                         'color': 'black'
@@ -184,7 +201,18 @@ Upload Photo
                 </div>
 
             </div>
+             {
+           showModal && myReferralLinksForThisPos.length > 0 ? (
+                <CheckReferralLink  
+                props={{myReferralLinksForThisPos}} 
+                closeModal={setShowModal}
+                />
+            )
+            : null
+        }
 
         </div>
+
+       
     )
 }
