@@ -5,12 +5,12 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import GiftIcon from "../../../public/svg/gift";
 
-export default function CheckReferralLink({props, closeModal}) {
+export default function CheckReferralLink({props, closeModal, setExpiredLink, onClose}) {
     const [referralLinksList, setReferralLinksList] = useState(props?.myReferralLinksForThisPos);
     console.log('props', referralLinksList);
     const [loggedIn, setLoggedIn] = useState(null);
     const [referralUser, setReferralUser] = useState(null);
-    
+     const [visitorRewarded, setVisitorRewarded] = useState(false);
 
     useEffect(() => {
         const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
@@ -22,8 +22,16 @@ export default function CheckReferralLink({props, closeModal}) {
         console.log('referral links list', referralLinksList, loggedIn);
  setReferralUser(props?.myReferralLinksForThisPos?.find((item)=> item?.referrerUser._id !== loggedIn));
     }, [loggedIn]);
-    const closeModalFunc = () => {
+    const closeModalFunc = ({isHelping}) => {
+console.log('is helping', isHelping);
+  setExpiredLink(isHelping);
+        if(isHelping){
+
+setVisitorRewarded(true);
+        }
+      
         closeModal(false);
+        onClose(isHelping);
     }
 
     // useEffect(() => {
@@ -62,14 +70,15 @@ export default function CheckReferralLink({props, closeModal}) {
                         <button className="rounded-full bg-gradient-to-r from-purple-700 to-blue-700 py-2 px-3 w-50 text-white font-semibold cursor-pointer
                          transition-all duration-500 ease-in-out hover:animate-pulse shadow-lg
                         "
-                        onClick={()=>closeModalFunc()}>
+                        onClick={()=>closeModalFunc({isHelping: true})}
+                        >
                             Yes, I'll help!
                         </button>
                         <button className="rounded-full bg-gray-200 py-2 px-3 w-50 text-sm text-gray-600 font-semibold cursor-pointer
                           whitespace-nowrap
                         "
                         
-                        onClick={()=>closeModalFunc()}>
+                        onClick={()=>closeModalFunc({isHelping: false})}>
                             No, I'm here on my own!
                         </button>
                     </div>

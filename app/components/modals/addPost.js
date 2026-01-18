@@ -20,7 +20,9 @@ const [showModal, setShowModal] = useState(false);
 const [isModalOpen, setIsModalOpen] = useState(true);
 const [photoURL, setPhotoURL] = useState("");
 const [postPicToAdd, setPostPicToAdd] = useState(null);
+const [expiredLink, setExpiredLink] = useState(false);
 const [myReferralLinksForThisPos, setMyReferralLinksForThisPos] = useState([]);
+const [referredLoggedInUser, setReferredLoggedInUser] = useState(null);
 const [caption, setCaption] = useState("");
 
 
@@ -53,8 +55,26 @@ const handleSubmit = async(e) =>{
     }
 }
 
-const updateReferralLink = async ()=>{
+const updateReferralLink = async (expiredState)=>{
+    if(!owner || !id) return;
+    
+    console.log('er re here', expiredState)
+    const link_id = myReferralLinksForThisPos[0]?.linkId;
+    console.log('owner', myReferralLinksForThisPos);
+    console.log('link id', link_id);
     try{
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/updateReferralLink/${myReferralLinksForThisPos[0]?.linkId}`, {
+            method: "PUT",
+            body: JSON.stringify({
+                
+                
+                isExpired: expiredState,
+                visitorId: owner,
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
 
     }catch(err){
         console.log('error', err);
@@ -72,6 +92,7 @@ const updateReferralLink = async ()=>{
             console.log('dataaaa', data);
             if(data && data.length > 0){
                    setMyReferralLinksForThisPos(data);
+                   setReferredLoggedInUser(data[0]?.referredUsers?.find((item)=> item.user === owner));
                    setShowModal(true)
             }
          
@@ -92,8 +113,10 @@ const updateReferralLink = async ()=>{
         console.log('oue', owner, id)
         findReferralLink();
     }, [id, owner])
+
  console.log('user id', owner, id);
- console.log('referral links', myReferralLinksForThisPos);
+ console.log('referral links', myReferralLinksForThisPos[0]);
+ console.log('referred user', referredLoggedInUser);
     return (
         <div className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center py-8  h-full max-w-md mx-auto px-3 ">
@@ -202,10 +225,12 @@ Upload Photo
 
             </div>
              {
-           showModal && myReferralLinksForThisPos.length > 0 ? (
+           showModal && myReferralLinksForThisPos.length > 0 && referredLoggedInUser.blocked === false ? (
                 <CheckReferralLink  
                 props={{myReferralLinksForThisPos}} 
                 closeModal={setShowModal}
+                setExpiredLink={setExpiredLink}
+                onClose={(val)=>updateReferralLink(val)}
                 />
             )
             : null
