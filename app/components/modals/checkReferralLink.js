@@ -5,11 +5,10 @@ import { useEffect, useState } from "react";
 
 export default function CheckReferralLink() {
     const id = "692f6edd819f5cdcd659276c";
-    const [owner, setOwner] = useState("");
+    const [owner, setOwner] = useState(null);
     const [myReferralLinksForThisPos, setMyReferralLinksForThisPos] = useState([]);
 
     const findReferralLink = async () => {
-    if (!owner || !id) return;
             const params = new URLSearchParams({
     posId: id,
     visitorId: owner
