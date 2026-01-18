@@ -52,8 +52,9 @@ const handleSubmit = async(e) =>{
     const findReferralLink = async () => {
  
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getAllReferralLinks?visitorId=${owner}&posId=${id}`);
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getAllReferralLinks?posId=${id}&visitorId=${owner}`);
             const data = await res.json();
+            console.log('data', data);
             setMyReferralLinksForThisPos(data.referralLinks);
             // console.log('data', data.referralLinks);
             return data.referralLink;
