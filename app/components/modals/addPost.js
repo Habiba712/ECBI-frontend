@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 export default function AddPost() {
 const {id} = useParams();
 const router = useRouter();
-const [owner, setOwner] = useState("");
+const [owner, setOwner] = useState(null);
 const [isModalOpen, setIsModalOpen] = useState(true);
 const [photoURL, setPhotoURL] = useState("");
 const [postPicToAdd, setPostPicToAdd] = useState(null);
