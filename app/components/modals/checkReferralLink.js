@@ -9,11 +9,17 @@ export default function CheckReferralLink() {
     const [myReferralLinksForThisPos, setMyReferralLinksForThisPos] = useState([]);
 
     const findReferralLink = async () => {
+    if (!owner || !id) return;
+            const params = new URLSearchParams({
+    posId: id,
+    visitorId: owner
+});
  
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getAllReferralLinks?visitorId=${owner}&posId=${id}`);
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getAllReferralLinks?${params.toString()}`);
             const data = await res.json();
-            setMyReferralLinksForThisPos(data.referralLinks);
+            console.log('dataaaa', data);
+            setMyReferralLinksForThisPos(data);
             // console.log('data', data.referralLinks);
             return data.referralLink;
 
