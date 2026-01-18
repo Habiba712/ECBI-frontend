@@ -50,6 +50,7 @@ const handleSubmit = async(e) =>{
     }
 }
     const findReferralLink = async () => {
+        if(!owner || !id) return;
         try {
             const params = new URLSearchParams({
     posId: id,
