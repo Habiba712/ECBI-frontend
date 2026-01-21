@@ -5,13 +5,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import GiftIcon from "../../../public/svg/gift";
 
-export default function CheckReferralLink({props, closeModal, setExpiredLink, onClose}) {
+export default function CheckReferralLink({props, closeModal, setExpiredLink, setIsActive, onClose}) {
     const [referralLinksList, setReferralLinksList] = useState(props?.myReferralLinksForThisPos);
     console.log('props', referralLinksList);
     const [loggedIn, setLoggedIn] = useState(null);
     const [referralUser, setReferralUser] = useState(null);
      const [visitorRewarded, setVisitorRewarded] = useState(false);
-
+ 
     useEffect(() => {
         const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
         setLoggedIn(sessionData?.userId);
@@ -24,13 +24,14 @@ export default function CheckReferralLink({props, closeModal, setExpiredLink, on
     }, [loggedIn]);
     const closeModalFunc = ({isHelping}) => {
 console.log('is helping', isHelping);
+  closeModal(false);
   setExpiredLink(isHelping);
         if(isHelping){
-
+            setIsActive(true);
 setVisitorRewarded(true);
         }
       
-        closeModal(false);
+      
         onClose(isHelping);
     }
 

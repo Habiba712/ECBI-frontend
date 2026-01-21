@@ -21,6 +21,7 @@ const [isModalOpen, setIsModalOpen] = useState(true);
 const [photoURL, setPhotoURL] = useState("");
 const [postPicToAdd, setPostPicToAdd] = useState(null);
 const [expiredLink, setExpiredLink] = useState(false);
+const [isActive, setIsActive] = useState(false);
 const [myReferralLinksForThisPos, setMyReferralLinksForThisPos] = useState([]);
 const [referredLoggedInUser, setReferredLoggedInUser] = useState(null);
 const [caption, setCaption] = useState("");
@@ -35,6 +36,7 @@ formData.append('owner', owner);
 formData.append('pos', id);
 formData.append('image', photoURL);
 formData.append('caption', caption);
+console.log('modal', showModal);
 
 const handleSubmit = async(e) =>{
     e.preventDefault();
@@ -70,6 +72,7 @@ const updateReferralLink = async (expiredState)=>{
                 
                 isExpired: expiredState,
                 visitorId: owner,
+                isActive: isActive,
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -120,6 +123,7 @@ const updateReferralLink = async (expiredState)=>{
     return (
         <div className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center py-8  h-full max-w-md mx-auto px-3 ">
+            
             <div className={`my-10 w-full bg-white rounded-lg p-4 overflow-y-auto scroll-auto scrollbar-thin scrollbar-thumb-gray-200 overflow-scrollscrollbar-track-gray-100 ${showModal && "hidden"}`}
             
             >
@@ -223,18 +227,25 @@ Upload Photo
 
                 </div>
 
-            </div>
+           
              {
-           showModal && myReferralLinksForThisPos.length > 0 && referredLoggedInUser.blocked === false ? (
+           showModal && myReferralLinksForThisPos.length > 0 && referredLoggedInUser.blocked === false && referredLoggedInUser.isActive === false && (
                 <CheckReferralLink  
+                
                 props={{myReferralLinksForThisPos}} 
                 closeModal={setShowModal}
                 setExpiredLink={setExpiredLink}
+                setIsActive={setIsActive}
                 onClose={(val)=>updateReferralLink(val)}
                 />
             )
-            : null
+            
+           
         }
+           
+           
+            </div>
+           
 
         </div>
 
