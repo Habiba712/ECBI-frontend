@@ -16,9 +16,9 @@ import MenuBehaviorIcon from "../../public/svg/menuBehavior";
 import { useRouter } from 'next/navigation';
 export default function Header() {
     const pathname = usePathname();
-    console.log(pathname.includes("/register"));
+    // console.log(pathname.includes("/register"));
     const router = useRouter();
-    console.log('pathname', pathname);
+    // console.log('pathname', pathname);
 
 
     const [token, setToken] = useState("");
@@ -63,7 +63,7 @@ export default function Header() {
             ).then((res) => {
                 if (res.ok) {
                     res.json().then((data) => {
-                        console.log('data', data);
+                        // console.log('data', data);
                         setFetchedUser(data?.user);
                         setUserId(data?.user?._id);
                         setRole(data?.user?.base.role)
@@ -81,14 +81,14 @@ export default function Header() {
         setRole(sessionData?.role);
         setBuisinessName(sessionData?.businessName);
         setUserId(sessionData?.userId);
-        console.log('id', userId);
+        // console.log('id', userId);
     }, [pathname])
     useEffect(() => {
         if (userId) getUser();
     }, [userId])
 
-    console.log('menu state', menuOpen);
-    console.log('user', fetchedUSer, userId, role);
+    // console.log('menu state', menuOpen);
+    // console.log('user', fetchedUSer, userId, role);
     return (
         <>
 
