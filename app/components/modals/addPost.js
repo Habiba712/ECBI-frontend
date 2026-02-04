@@ -47,6 +47,11 @@ export default function AddPost() {
                 body: formData,
             }).then((res) => {
                 if (res.ok) {
+                    if(isActive){
+                        //we need to update the referral link, so the link owner can be rewarded ...
+                        updateReferralLink(true, 50);
+
+                    }
                     //visited = true; visitedAt = now; 
                     router.push(`/pages/dashboard/inf`);
                     // setIsModalOpen(false);
@@ -57,18 +62,20 @@ export default function AddPost() {
         }
     }
 
-    const updateReferralLink = async (expiredState) => {
+    const updateReferralLink = async (expiredState, rewarded = null) => {
+        console.log('we re ehre for the rewrd, ', rewarded)
         if (!owner || !id) return;
 
         console.log('er re here', expiredState)
         const link_id = myReferralLinksForThisPos[0]?.linkId;
         console.log('owner', myReferralLinksForThisPos);
         console.log('link id', link_id);
+        console.log('is active', isActive);
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/updateReferralLink/${myReferralLinksForThisPos[0]?.linkId}`, {
                 method: "PUT",
                 body: JSON.stringify({
-
+                    rewardedLinkOwner: rewarded,
 
                     isExpired: expiredState,
                     visitorId: owner,
@@ -237,7 +244,8 @@ export default function AddPost() {
 
 
                 {
-                    showModal && myReferralLinksForThisPos.length > 0 && referredLoggedInUser.blocked === false && referredLoggedInUser.isActive === false && (
+                    showModal && myReferralLinksForThisPos.length > 0 && referredLoggedInUser.blocked === false && referredLoggedInUser.isActive === false && rewarded === false
+                    (
                         <CheckReferralLink
 
                             props={{ myReferralLinksForThisPos }}

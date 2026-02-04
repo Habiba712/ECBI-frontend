@@ -13,6 +13,8 @@ import Link from "next/link";
 
 export default function InfProfilePage() {
     const [loggedInUser, setLoggedInUser] = useState();
+    const [myReferralLinks, setMyReferralLinks] = useState([]);
+    const [myPoints, setMyPoints] = useState(0);
     const [userId, setUserId] = useState();
     const [visitedPos, setVisitedPos] = useState([]);
     const [token, setToken] = useState("");
@@ -39,6 +41,36 @@ export default function InfProfilePage() {
         } catch (err) {
             console.log("Error fetching user data:", err);
         }
+    }
+    const getMyReferralLinks = async () => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinksByUserId/${userId}`, {
+                 
+           
+             }).then((res) => {
+                if (res.ok) {
+                    res.json().then((data) => {
+                        console.log('referral link data', data);
+                        setMyReferralLinks(prev => {
+                                return [...prev, ...data];
+                        });
+                    })
+                }
+            })
+
+        } catch (err) {
+            console.log('error', err);
+        }
+    }
+    
+    const pointsAwardedSum = (myReferralLinks) => {
+        console.log('my referral linkssss', myReferralLinks);
+        let sum = 0;
+        myReferralLinks.forEach((item) => {
+            console.log('item', item);
+            sum += item.pointsEarned;
+        });
+        return sum;
     }
     const handleLogout = async () => {
         try {
@@ -116,8 +148,13 @@ export default function InfProfilePage() {
             getUser();
         }
     }, [userId])
+    useEffect(() => {
+        if (userId) {
+            getMyReferralLinks();
+        }
+    }, [userId])
     //  console.log('visited pos', visitedPos);
-    console.log('referral links', theReferralLink);
+    console.log('my referral links', myReferralLinks);  
     return (
         <section className="min-h-screen h-full max-w-md mx-auto  overflow-scroll w-full  mb-15">
             {/* first section */}
@@ -138,7 +175,9 @@ export default function InfProfilePage() {
 
                 <div className="w-full flex justify-around">
                     <div className="rounded-lg bg-black-100  flex flex-col justify-center items-center px-5 py-2 max-w-24 w-full bg-white/30 backdrop-blur-lg">
-                        <h4 className="text-xl font-semibold">{loggedInUser?.finalUser?.points}</h4>
+                        <h4 className="text-xl font-semibold">
+                            {pointsAwardedSum(myReferralLinks)}
+                        </h4>
                         <p className="text-lg ">Points</p>
                     </div>
                     <div className="rounded-lg bg-black-100  flex flex-col justify-center items-center px-5 py-2 max-w-24 w-full bg-white/30 backdrop-blur-lg">
@@ -146,7 +185,9 @@ export default function InfProfilePage() {
                         <p className="text-lg ">Posts</p>
                     </div>
                     <div className="rounded-lg bg-black-100  flex flex-col justify-center items-center px-5 py-2 max-w-24 w-full bg-white/30 backdrop-blur-lg">
-                        <h4 className="text-xl font-semibold">0</h4>
+                        <h4 className="text-xl font-semibold">
+                            {myReferralLinks.length}
+                        </h4>
                         <p className="text-lg">Referrals</p>
                     </div>
                 </div>

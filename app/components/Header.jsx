@@ -13,6 +13,7 @@ import QRCodeIcon from "../../public/svg/qrCode";
 import WalletIcon from "../../public/svg/wallet";
 import PersonIcon from "../../public/svg/person";
 import MenuBehaviorIcon from "../../public/svg/menuBehavior";
+import NotificationsIcon from "../../public/svg/notifications";
 import { useRouter } from 'next/navigation';
 export default function Header() {
     const pathname = usePathname();
@@ -149,6 +150,24 @@ export default function Header() {
               `}
                                     >
                                         QR
+                                    </span>                 </Link>
+                            </li>
+
+                                   <li className='sidebar-li-mobile'>
+
+                                <Link href='/pages/notif' className={`nav-item
+                                ${pathname === '/pages/notif' ? 'active' : ''}
+                                `
+
+
+                                }>
+                                    <div className="icon-mobile"> <NotificationsIcon className=" w-5 h-5 cursor-pointer" /> </div>
+                                    <span
+                                        className={` link-text transition-all duration-800 ease-in-out
+                                          ${pathname === '/pages/notif' ? 'link-text-on' : ''}
+              `}
+                                    >
+                                        Notif
                                     </span>                 </Link>
                             </li>
 

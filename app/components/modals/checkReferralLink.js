@@ -22,6 +22,7 @@ export default function CheckReferralLink({ props, closeModal, setExpiredLink, s
     
     const closeModalFunc = ({ isHelping }) => {
         console.log('is helping', isHelping);
+        setIsActive(isHelping);
         closeModal(false);
         setExpiredLink(isHelping);
         if (isHelping) {
