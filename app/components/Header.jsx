@@ -163,14 +163,19 @@ export default function Header() {
 
 
                                 }>
-                                    <div className="icon-mobile"> <NotificationsIcon className=" w-5 h-5 cursor-pointer" /> </div>
-                                    {/* <span
-                                        className={` link-text transition-all duration-800 ease-in-out
-                                          ${pathname === '/pages/notif' ? 'link-text-on' : ''}
-              `}
+                                    <div className="icon-mobile relative"> 
+                                        <NotificationsIcon className=" w-5 h-5 cursor-pointer" /> 
+                                         <span
+                                    style={{
+                                        fontSize:"30px"
+                                    }}
+                                        className="absolute -top-9 left-4 text-red-500 font-bold "
+                                        
                                     >
-                                        Notif
-                                    </span>              */}
+                                        .
+                                    </span>   
+                                    </div>
+                                             
                                         </Link>
                             </li>
 
