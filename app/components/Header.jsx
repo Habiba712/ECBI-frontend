@@ -114,7 +114,7 @@ export default function Header() {
                     <nav
                         className={`w-full transition-all duration-800 ease-in-out `}
                     >
-                        <ul className='py-3 flex justify-center items-center gap-2' >
+                        <ul className='pb-2 flex justify-center items-center gap-2' >
                             <li className='sidebar-li-mobile'>
 
                                 <Link href="/pages/dashboard/inf"
@@ -124,11 +124,11 @@ export default function Header() {
                                         <DashboardIcon className=" w-5 h-5 cursor-pointer" />
                                     </div>
 
-                                    <span
+                                    {/* <span
                                         className={`link-text transition-all duration-800 ease-in-out
                                           ${pathname === '/pages/dashboard/inf' ? 'link-text-on' : ''}`}>
                                         Home
-                                    </span>
+                                    </span> */}
 
                                 </Link>
 
@@ -144,13 +144,15 @@ export default function Header() {
 
                                 }>
                                     <div className="icon-mobile"> <QRCodeIcon className=" w-5 h-5 cursor-pointer" /> </div>
-                                    <span
+                                    {/* <span
                                         className={` link-text transition-all duration-800 ease-in-out
                                           ${pathname === '/pages/qrScan' ? 'link-text-on' : ''}
               `}
                                     >
                                         QR
-                                    </span>                 </Link>
+                                    </span>   */}
+                                    
+                                                   </Link>
                             </li>
 
                                    <li className='sidebar-li-mobile'>
@@ -162,13 +164,14 @@ export default function Header() {
 
                                 }>
                                     <div className="icon-mobile"> <NotificationsIcon className=" w-5 h-5 cursor-pointer" /> </div>
-                                    <span
+                                    {/* <span
                                         className={` link-text transition-all duration-800 ease-in-out
                                           ${pathname === '/pages/notif' ? 'link-text-on' : ''}
               `}
                                     >
                                         Notif
-                                    </span>                 </Link>
+                                    </span>              */}
+                                        </Link>
                             </li>
 
                             <li className='sidebar-li-mobile'>
@@ -180,13 +183,15 @@ export default function Header() {
 
                                 }>
                                     <div className="icon-mobile"> <WalletIcon className=" w-5 h-5 cursor-pointer" /> </div>
-                                    <span
+                                    {/* <span
                                         className={` link-text transition-all duration-800 ease-in-out
                                           ${pathname === '/pages/wallet' ? 'link-text-on' : ''}
               `}
                                     >
                                         Wallet
-                                    </span>                  </Link>
+                                    </span>   */}
+                                    
+                                                    </Link>
                             </li>
                             <li className='sidebar-li-mobile'>
 
@@ -194,13 +199,14 @@ export default function Header() {
         `}>
                                     <div className="icon-mobile">  <PersonIcon className=" w-5 h-5 cursor-pointer" />
                                     </div>
-                                    <span className={` link-text transition-all duration-800 ease-in-out
+                                    {/* <span className={` link-text transition-all duration-800 ease-in-out
                                           ${pathname === '/pages/profile/inf' ? 'link-text-on' : ''}
               `}
 
                                     >
                                         Profile
-                                    </span>                   </Link>
+                                    </span>     */}
+                                                   </Link>
                             </li>
 
 
