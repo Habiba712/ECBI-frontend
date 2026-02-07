@@ -244,7 +244,7 @@ export default function AddPost() {
 
 
                 {
-                    showModal && myReferralLinksForThisPos.length > 0 && referredLoggedInUser.blocked === false && referredLoggedInUser.isActive === false && rewarded === false
+                    showModal && myReferralLinksForThisPos.length > 0 && referredLoggedInUser.blocked === false && referredLoggedInUser.isActive === false && referredLoggedInUser.rewarded === false &&                     
                     (
                         <CheckReferralLink
 
