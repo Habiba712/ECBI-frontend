@@ -25,6 +25,7 @@ export default function AddPost() {
     const [myReferralLinksForThisPos, setMyReferralLinksForThisPos] = useState([]);
     const [referredLoggedInUser, setReferredLoggedInUser] = useState(null);
     const [caption, setCaption] = useState("");
+    const [referralOwner, setReferralOwner] = useState(null);
 
 
     const handleModal = () => {
@@ -33,6 +34,7 @@ export default function AddPost() {
     }
     const formData = new FormData();
     formData.append('owner', owner);
+    formData.append('referralUser', referralOwner);
     formData.append('pos', id);
     formData.append('image', photoURL);
     formData.append('caption', caption);
@@ -102,6 +104,7 @@ export default function AddPost() {
             // console.log('dataaaa', data);
             if (data && data.length > 0) {
                 console.log('we re here fr fr')
+                setReferralOwner(data[0]?.referrerUser);
                 setMyReferralLinksForThisPos(data);
                 setReferredLoggedInUser(data[0]?.referredUsers?.find((item) => item.user === owner));
                 if(data[0]?.referredUsers?.find((item) => item.user === owner)
@@ -135,6 +138,7 @@ export default function AddPost() {
     console.log('show modal',showModal)
     console.log('my referral links for this pos', myReferralLinksForThisPos);
     console.log('referred logged in user', referredLoggedInUser);
+    console.log('referral owner', referralOwner);
     return (
         <div className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center py-8  h-full max-w-md mx-auto px-3 ">
