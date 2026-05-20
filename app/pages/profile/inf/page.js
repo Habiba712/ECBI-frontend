@@ -65,7 +65,7 @@ export default function InfProfilePage() {
     
     const pointsAwardedSum = (myReferralLinks) => {
         console.log('my referral linkssss', myReferralLinks);
-        let sum = 0;
+        let sum = 50;
         myReferralLinks.forEach((item) => {
             console.log('item', item);
             sum += item.pointsEarned;
