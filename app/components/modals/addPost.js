@@ -106,7 +106,7 @@ export default function AddPost() {
             console.log('dataaaa', data);
             if (data && data.length > 0) {
                 console.log('we re here fr fr')
-                setReferralOwner(data[0]?.referrerUser?.base?._id);
+                setReferralOwner(data[0]?.referrerUser?._id);
                 setMyReferralLinksForThisPos(data);
                 setReferredLoggedInUser(data[0]?.referredUsers?.find((item) => item.user === owner));
                 if (data[0]?.referredUsers?.find((item) => item.user === owner)
