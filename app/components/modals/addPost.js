@@ -32,24 +32,26 @@ export default function AddPost() {
         router.push(`/pages/dashboard/inf`);
 
     }
-    const formData = new FormData();
-    formData.append('owner', owner);
-    formData.append('referralUser', referralOwner);
-    formData.append('pos', id);
-    formData.append('image', photoURL);
-    formData.append('caption', caption);
-    console.log('modal', showModal);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const formData = new FormData();
+            formData.append('owner', owner);
+            formData.append('referralUser', referralOwner);
+            formData.append('pos', id);
+            formData.append('image', photoURL);
+            formData.append('caption', caption);
+            console.log('modal', showModal);
+
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/post/createPost`, {
                 method: "POST",
 
                 body: formData,
             }).then((res) => {
                 if (res.ok) {
-                    if(isActive){
+                    if (isActive) {
                         //we need to update the referral link, so the link owner can be rewarded ...
                         updateReferralLink(true, 50);
 
@@ -107,9 +109,9 @@ export default function AddPost() {
                 setReferralOwner(data[0]?.referrerUser);
                 setMyReferralLinksForThisPos(data);
                 setReferredLoggedInUser(data[0]?.referredUsers?.find((item) => item.user === owner));
-                if(data[0]?.referredUsers?.find((item) => item.user === owner)
-                    .blocked === false && data[0]?.referredUsers?.find((item) => item.user === owner).isActive === false){
-                setShowModal(true)
+                if (data[0]?.referredUsers?.find((item) => item.user === owner)
+                    .blocked === false && data[0]?.referredUsers?.find((item) => item.user === owner).isActive === false) {
+                    setShowModal(true)
 
                 }
             }
@@ -135,7 +137,7 @@ export default function AddPost() {
     //  console.log('user id', owner, id);
     //  console.log('referral links', myReferralLinksForThisPos[0]);
     //  console.log('referred user', referredLoggedInUser);
-    console.log('show modal',showModal)
+    console.log('show modal', showModal)
     console.log('my referral links for this pos', myReferralLinksForThisPos);
     console.log('referred logged in user', referredLoggedInUser);
     console.log('referral owner', referralOwner);
@@ -248,7 +250,7 @@ export default function AddPost() {
 
 
                 {
-                    showModal && myReferralLinksForThisPos.length > 0 && referredLoggedInUser.blocked === false && referredLoggedInUser.isActive === false && referredLoggedInUser.rewarded === false &&                     
+                    showModal && myReferralLinksForThisPos.length > 0 && referredLoggedInUser.blocked === false && referredLoggedInUser.isActive === false && referredLoggedInUser.rewarded === false &&
                     (
                         <CheckReferralLink
 
