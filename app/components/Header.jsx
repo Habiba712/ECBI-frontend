@@ -64,10 +64,10 @@ export default function Header() {
             ).then((res) => {
                 if (res.ok) {
                     res.json().then((data) => {
-                        // console.log('data', data);
-                        setFetchedUser(data?.user);
-                        setUserId(data?.user?._id);
-                        setRole(data?.user?.base.role)
+                        console.log('data', data);
+                        setFetchedUser(data?.user?.finalUser);
+                        setUserId(data?.user?.base?._id);
+                        setRole(data?.user?.base?.role)
                     })
                 }
             }
