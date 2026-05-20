@@ -156,7 +156,7 @@ export default function InfProfilePage() {
     //  console.log('visited pos', visitedPos);
     console.log('my referral links', myReferralLinks);  
     return (
-        <section className="min-h-screen h-full max-w-md mx-auto  overflow-scroll w-full  mb-15">
+        <section className="min-h-screen h-full max-w-md mx-auto  w-full  mb-15">
             {/* first section */}
             <div className="h-[200px] flex flex-col justify-center bg-gradient-to-r from-purple-800 to-blue-600 items-center w-full py-5 px-4 text-white">
                 <div className="flex gap-2 w-full px-5 py-5">

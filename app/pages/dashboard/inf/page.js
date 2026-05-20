@@ -47,7 +47,7 @@ const handleClick = ()=>{
 setIsModalOpen(true);
 }
     return (
-        <section className="min-h-screen h-full max-w-md mx-auto flex flex-col  overflow-scroll w-full mb-20"
+        <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   w-full mb-20"
 
         >
               <div className="inf-dash-top fixed top-0 max-w-md mx-auto w-full ">
@@ -61,7 +61,7 @@ setIsModalOpen(true);
                 </div>
                
             </div>
-            <div className="mt-20">
+            <div className="mt-20 ">
                 {/* <button 
                 onClick={()=>handleClick()}
                 className="rounded-full bg-gradient-to-r from-purple-700 to-blue-700 px-4 py-2 cursor-pointer text-white font-semibold hover:scale-110 transition-all duration-500 ease-in-out">
@@ -71,7 +71,7 @@ setIsModalOpen(true);
                     postsList?.length > 0 && postsList.map((post, index)=>(
                          <div key={index} className="post-container">
                     {/* first section */}
-                    <div className="flex justify-between">
+                    <div className="flex justify-between  ">
                             <div className="flex gap-2 ">
                         <div className="flex flex-col items-start justify-center">
                             <Image src={post?.owner?.base?.avatar} alt="pos cover image" width={50} height={50} className="rounded-full" />
