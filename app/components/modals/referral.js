@@ -18,48 +18,48 @@ export default function ReferralPage({ params }) {
 
 
 
-  const fetchReferral = async (owner) => {
-            const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinkByLink/${id}`);
+    const fetchReferral = async (owner) => {
+        const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinkByLink/${id}`);
 
-            if(owner){
-                url.searchParams.append('user', owner);
-                console.log('owner in url', url);
-            }
-            console.log('fetching referral link from', url.toString());
-            try {
-                const res = await fetch(
-                 url.toString()
-                ).then((res) => res.json().
-                    then((data) => {
-                        console.log('data', data);
-                        setLoading(false);
-                        setData(data)
-                        setPosData(data?.pos)
-                        setReferrerUser(data?.referrerUser)
-                    }));
-                ;
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        };
+        if (owner) {
+            url.searchParams.append('user', owner);
+            console.log('owner in url', url);
+        }
+        console.log('fetching referral link from', url.toString());
+        try {
+            const res = await fetch(
+                url.toString()
+            ).then((res) => res.json().
+                then((data) => {
+                    console.log('data', data);
+                    setLoading(false);
+                    setData(data)
+                    setPosData(data?.pos)
+                    setReferrerUser(data?.referrerUser)
+                }));
+            ;
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
 
     useEffect(() => {
         if (!id) return;
 
-         const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
-const user= sessionData?.userId;
-if(user) setOwner(user);
-                console.log('owner', user);
+        const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
+        const user = sessionData?.userId;
+        if (user) setOwner(user);
+        console.log('owner', user);
         fetchReferral(user);
     }, [id]);
-  
+
 
     //next I need to fetch for the user "Friend"
     //fetch the POS for the image bg, the name
-console.log('loading', loading);
+    console.log('loading', loading);
 
 
     if (loading) return <p>Loading…</p>;
@@ -68,13 +68,13 @@ console.log('loading', loading);
     if (data) {
         // router.push('/profile/inf'); // uncomment when ready
         return (
-            <section className="min-h-screen h-full max-w-md mx-auto flex flex-col  overflow-scroll w-full mb-20">
+            <section className="min-h-screen h-full max-w-md mx-auto flex flex-col w-full mb-20">
                 {/* first section */}
                 <div className="h-[300px] flex flex-col justify-center items-center w-full py-6 text-white bg-cover bg-center rounded-br-full rounded-bl-full  overflow-hidden"
                     style={{
                         backgroundImage: `linear-gradient(to right, rgba(107, 33, 168, 0.5), rgba(37, 99, 235, 0.5)), url('${posData?.coverImage}')`
                     }}
-                    >
+                >
                     <div className="flex flex-col items-center justify-center gap-2 w-full py-6 px-2 h-full ">
                         <div className="flex flex-col items-start w-full justify-start h-full ">
                             <h2 className='font-semibold text-xl text-center'>Hey! Your friend {referrerUser?.base?.name} sent you a gift.</h2>
@@ -111,11 +111,11 @@ console.log('loading', loading);
                         Discover <span className='text-purple-700'>{posData?.name}</span> , one of the best spots for delicious cofee & pastries. If check in today, you help {posData?.name} to ear <span className='text-purple-700'>50  points </span>, and we'll give YOU <span className='text-purple-700'>20  points </span>as a welcome gift!
                     </p>
                     <h4
-                    className=' text-sm font-semibold text-center w-full mb-2'
+                        className=' text-sm font-semibold text-center w-full mb-2'
                     >{referrerUser?.base?.name}'s Reward</h4>
                     <div className='h-5 flex items-center justify-between  bg-gray-100 mb-4 w-full  rounded-full overflow-hidden gap-2 px-1'>
                         <div
-                        className={`h-3 rounded-full bg-gradient-to-r from-purple-700 to-blue-700 transition-all duration-500 ease-in-out w-${loading ? 0 : 70}`}
+                            className={`h-3 rounded-full bg-gradient-to-r from-purple-700 to-blue-700 transition-all duration-500 ease-in-out w-${loading ? 0 : 70}`}
                         ></div>
                         <GiftIcon className="w-5 h-5 stroke-purple-500" />
                     </div>
@@ -124,9 +124,9 @@ console.log('loading', loading);
                     <h3 className='font-semibold'>
                         Action Zone</h3>
                     <div className='w-full my-3 flex justify-center transition-all duration-500 ease-in-out '>
-                        <button 
-                        
-                        className="w-full animation-bounce rounded-lg bg-gradient-to-r from-purple-700 to-blue-700 px-4 py-2 cursor-pointer text-white font-semibold hover:animate-pulse transition-all duration-500 ease-in-out">
+                        <button
+
+                            className="w-full animation-bounce rounded-lg bg-gradient-to-r from-purple-700 to-blue-700 px-4 py-2 cursor-pointer text-white font-semibold hover:animate-pulse transition-all duration-500 ease-in-out">
                             <Link href="/pages/qrScan">Let's Go !</Link>
                         </button>
                     </div>
@@ -135,7 +135,7 @@ console.log('loading', loading);
                     </span>
                     <span className='mt-3 text-xs text-blue-400 font-semibold border-b-1 border-blue-400 text-center w-fit mx-auto cursor-pointer hover:text-blue-500 transition-all duration-500 ease-in-out'>
                         <Link href="/pages/login">Already have an account? Log in</Link>
-                        
+
                     </span>
                 </div>
 
