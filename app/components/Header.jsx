@@ -66,7 +66,7 @@ export default function Header() {
                     res.json().then((data) => {
                         console.log('data', data);
                         setFetchedUser(data?.user?.finalUser);
-                        setUserId(data?.user?.base?._id);
+                        setUserId(data?.user?._id);
                         setRole(data?.user?.base?.role)
                     })
                 }
