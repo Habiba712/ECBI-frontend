@@ -4,6 +4,8 @@ import SearchIcon from "../../../public/svg/search"
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
+import MailIcon from "../../../public/svg/mail";
+import DeleteIcon from "../../../public/svg/delete";
 
 
 export default function Notifications() {
@@ -15,7 +17,7 @@ export default function Notifications() {
 
     const getNotifs = async () => {
         try {
-            
+
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/notif/getByReceipient/${userId}`, {
                 method: "GET",
                 headers: {
@@ -47,7 +49,7 @@ export default function Notifications() {
     console.log('userId', userId);
     console.log('my notifs', notifs);
     return (
-        <section className="min-h-screen h-full max-w-md mx-auto flex flex-col w-full mb-20">
+        <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   w-full mb-20">
             <div className="p-4 flex justify-between items-center dashboard-page mb-5 mt-5 border-b-3 border-gray-100">
 
                 <div >
@@ -56,56 +58,83 @@ export default function Notifications() {
                     </h2>
                 </div>
 
-                <div className="align-center rounded-full p-3 shadow-lg ">
+                {/* <div className="align-center rounded-full p-3 shadow-lg ">
                     <SearchIcon className="w-6 h-6 cursor-pointer" />
-                </div>
+                </div> */}
 
             </div>
 
             {/* notifs list */}
-             <div className="flex justify-between w-full">
-                            <h2 className="font-bold text-md px-4 font-gray-800"> Last 7 days</h2>
-             </div>
+            <div className="flex justify-between w-full">
+                <h2 className="font-bold text-md px-4 font-gray-800"> Last 7 days</h2>
+            </div>
             {
-               notifs?.length > 0 ? (
-                   <div className="flex flex-col gap-3 p-4 text-sm " >
-                        {
-                            notifs.map((notif) => (
-                                <div key={notif._id}  className="flex items-start px-2 py-4 rounded-lg shadow-lg w-full cursor-pointer hover:bg-gray-100">
-                                    <div className="flex justify-start justify-center cover-image  w-10">
-                                        <Image src={notif?.sender?.base?.avatar} alt="avatar" width={70} height={60} className="rounded-full" />
+                notifs?.length > 0 ? (
+                    <div className="flex flex-col gap-3 p-4 text-sm " >
+                        {notifs?.length > 0 ? (
+                            <div className="flex flex-col w-full">
+                                {notifs.map((notif) => (
+                                    <div
+                                        key={notif._id}
+                                        className={`flex items-center w-full rounded-lg  border-gray-50/80  gap-3 py-3  cursor-pointer hover:bg-gray-50/50 transition-colors duration-150 mb-3 ${notif?.read == false && 'border-green-300 border-l-4 '}`}
+                                    >
+                                        {/* Avatar Wrapper - Guarantees 1:1 Aspect Ratio Box */}
+                                        <div className="relative w-10 h-10 flex-shrink-0 ">
+                                            <img
+                                                src={notif?.sender?.base?.avatar || "/default-avatar.png"}
+                                                alt="avatar"
+                                                className="w-full h-full rounded-full object-cover"
+                                            />
                                         </div>
-                                    
-                                    <div className="flex flex-col items-start w-70">
-                                        <p className="px-2 font-bold  ">{notif?.message}</p>
-                                        <span style={{ fontSize: "12px" }} className="text-gray-600 text-sm px-2">
-                                            {notif?.sender?.base?.name}
-                                        </span>
-                                        </div>
-                                    
-                                    <div className="flex items-start justify-center w-30 ">
-                                        <span 
-                                        style={{ fontSize: "10px" }}
-                                        className="font-semibold flex justify-start items-center text-gray-600 text-sm">
-                                            {new Date(notif?.createdAt).toLocaleString('en-US', {
-                                                month: 'numeric',
-                                                day: 'numeric',
-                                                year: 'numeric',
-                                                hour: 'numeric',
-                                                minute: 'numeric',
-                                            
-                                            })}
-                                        </span>
-                                        </div>
-                                </div>
-                            ))
 
-                        }
+
+                                        <div className="flex flex-col flex-grow min-w-0 pr-2">
+                                            <p className="text-[13px] text-gray-800 leading-snug font-medium break-words">
+                                                {notif?.message}
+                                            </p>
+                                            <span className="text-[11px] text-gray-400 mt-0.5">
+                                                {notif?.sender?.base?.name || "Sarah James"}
+                                            </span>
+                                        </div>
+
+                                        {/* Action / Timestamp Container Right-Aligned */}
+                                        <div className="flex flex-col items-end flex-shrink-0 ms-auto">
+                                            <span className="text-[11px] font-medium text-gray-400 whitespace-nowrap">
+                                                12:00
+                                            </span>
+                                            {/* Optional 'View' badge if needed to fully match screen 2 */}
+                                            <span className="mt-1 text-[10px] font-semibold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">
+                                                View
+                                            </span>
+                                        </div>
+                                        {/* appears slidin to the left */}
+                                        <div className="flex ">
+                                            <div className="p-3 bg-blue-100">
+                                               <button
+                                               className="cursor-pointer hover:scale-[1.5] transtion ease-in-out duration-300"
+                                               > <MailIcon className="w-5 h-5 text-blue-600" /></button>
+                                                </div>
+                                                  <div className="p-3 bg-red-200">
+                                                    <button
+                                                     className="cursor-pointer hover:scale-[1.5] transtion ease-in-out duration-300"
+                                                    > <DeleteIcon
+                                                     className="w-5 h-5 text-red-600" />
+                                                        </button>
+                                                   
+                                                </div>
+                                            </div>
+
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-gray-400 text-sm text-center mt-10">No notifications available.</p>
+                        )}
 
                     </div>
-               )
-               : 
-               null
+                )
+                    :
+                    null
             }
 
 
