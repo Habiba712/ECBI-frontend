@@ -92,10 +92,11 @@ export default function Notifications() {
     return (
 
         <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   w-full mb-20">
+            
             <div className="p-4 flex justify-between items-center dashboard-page mb-5 mt-5 border-b-3 border-gray-100">
 
-                <div >
-                    <h2 className="font-semibold font-sans text-xl align-middle">
+                <div className="inf-dash-top fixed top-0 max-w-md mx-auto w-full ">
+                    <h2 className="font-semibold font-sans text-xl text-white align-middle">
                         Notifications
                     </h2>
                 </div>
@@ -108,7 +109,7 @@ export default function Notifications() {
 
             {/* notifs list */}
             <div className="flex justify-between w-full">
-                <h2 className="font-bold text-md px-4 font-gray-800"> Last 7 days</h2>
+                <h2 className="font-semibold text-md px-6 mt-4 text-gray-700"> Last 7 days</h2>
             </div>
             {
                 notifs?.length > 0 ? (
