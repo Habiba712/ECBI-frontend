@@ -29,6 +29,27 @@ export default function Header() {
     const [userId, setUserId] = useState();
     const isLoginPage = pathname.includes("/register") || pathname.includes("/login") || pathname.includes("/createOwner") || pathname.includes("/password");
     const [menuOpen, setMenuOpen] = useState(false);
+    const [notifCount, setNotifCount] = useState(0);
+
+     const getNotifs = async () => {
+        try {
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/notif/getByReceipient/${userId}`, {
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            }).then((res) => {
+                if (res.ok) {
+                    res.json().then((data) => {
+                        setNotifCount(data?.length);
+                    })
+                }
+            })
+        } catch (err) {
+            console.log('error fetching notifs', err);
+        }
+    }
     const handleLogout = async () => {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`, {
@@ -85,9 +106,12 @@ export default function Header() {
         // console.log('id', userId);
     }, [pathname])
     useEffect(() => {
-        if (userId) getUser();
+        if (userId){
+             getUser();
+        getNotifs();
+        }
     }, [userId])
-
+    console.log('notifCount', notifCount);
     // console.log('menu state', menuOpen);
     // console.log('user', fetchedUSer, userId, role);
     return (
@@ -166,13 +190,10 @@ export default function Header() {
                                     <div className="icon-mobile relative"> 
                                         <NotificationsIcon className=" w-5 h-5 cursor-pointer" /> 
                                          <span
-                                    style={{
-                                        fontSize:"30px"
-                                    }}
-                                        className="absolute -top-9 left-4 text-red-500 font-bold "
+                                    className="absolute -top-2 text-[10px] left-4 bg-red-500 rounded-full    text-white w-4 h-4 flex items-center justify-center"
                                         
                                     >
-                                        .
+                                        {notifCount > 0 ? notifCount : null}
                                     </span>   
                                     </div>
                                              

@@ -68,12 +68,13 @@ cursor: pointer;
 }
 
 .sidebar-li{
-  padding: 0rem 1rem 0rem 1rem;
+  /* padding: 0rem 1rem 0rem 1rem; */
 font-size: 1rem;
 }
 .sidebar-li-mobile{
-  padding: 0rem 1rem 0rem 1rem;
-font-size: .7rem;
+  padding: 0rem .3rem 0rem .3rem;
+
+/* font-size: .7rem; */
   color: rgba(111, 108, 113, 0.8);
 font-weight: 600;
 display: flex;
@@ -86,8 +87,7 @@ cursor: pointer;
 }
 .sidebar-li-mobile .active {
   color:white;
-  border-radius: 50%;
-  top:-20px;
+   top:-20px;
 }
 .link-text{
   color: rgba(111, 108, 113, 0.8);
@@ -101,7 +101,7 @@ cursor: pointer;
   height: 50px;   /* fixed height → now a perfect circle */
   border-radius: 50%;
   display: flex;
-  flex-direction: column;
+   flex-direction: column;
   justify-content: center;
    align-items: center;
   transition: all .2s ease;
@@ -110,31 +110,29 @@ cursor: pointer;
 
 }
 .icon-mobile{
-
-    display: flex ;
+     display: flex ;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   
 }
 .nav-item.active .icon-mobile{
-  border:4px solid white;
+  /* border:4px solid white; */
 
-  background: linear-gradient(to right bottom, #591c96, #d90673);
-   color: white;
-   width: 50px;    /* fixed width */
-  height: 50px;   /* fixed height → now a perfect circle */
-   border-radius: 50%;
+  /* background: linear-gradient(to right bottom, #591c96, #d90673); */
+   color: rgb(222, 153, 222);
+     /* fixed height → now a perfect circle */
+   /* border-radius: 50%; */
    
-  display: flex ;
-  /* padding:1rem; */
+  /* display: flex ;
+   padding:1rem; 
   flex-direction: column;
   justify-content: center;
   align-items: center;
    transition: all .2s ease;
    padding: .8rem;
-   z-index: 100;
-   transform: translateY(-12px); /* lifts it up a bit */
+   z-index: 100; */
+   transform: scale(1.5);
   }
 
 

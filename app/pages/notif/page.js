@@ -1,11 +1,13 @@
 'use client'
 
 import SearchIcon from "../../../public/svg/search"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import MailIcon from "../../../public/svg/mail";
 import DeleteIcon from "../../../public/svg/delete";
+import { setRef } from "@mui/material";
+
 
 
 export default function Notifications() {
@@ -14,6 +16,45 @@ export default function Notifications() {
     const [notifCount, setNotifCount] = useState(0);
     const [userId, setUserId] = useState();
     const [token, setToken] = useState("");
+    const [activeNotifId, setActiveNotifId] = useState(null);
+    const ref = useRef(null);
+
+    const handleSlide = (notifId) => {
+        // console.log('notif id', notifId);
+        ref.current = notifId;
+        setActiveNotifId(activeNotifId == null ? notifId : null)
+    }
+
+    const markAsRead = async (notifId) => {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/notif/markAsRead/${notifId}`, {
+            method: "PUT",
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        }).then((res) => {
+            if (res.ok) {
+                console.log('marked as read');
+                getNotifs();
+            }
+        })
+    }
+
+    const handleDelete = async (notifId) => {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/notif/deleteNotification/${notifId}`, {
+            method: "DELETE",
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        }).then((res) => {
+            if (res.ok) {
+                console.log('deleted');
+                getNotifs();
+            }
+        })
+    }
+
 
     const getNotifs = async () => {
         try {
@@ -49,6 +90,7 @@ export default function Notifications() {
     console.log('userId', userId);
     console.log('my notifs', notifs);
     return (
+
         <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   w-full mb-20">
             <div className="p-4 flex justify-between items-center dashboard-page mb-5 mt-5 border-b-3 border-gray-100">
 
@@ -75,8 +117,12 @@ export default function Notifications() {
                             <div className="flex flex-col w-full">
                                 {notifs.map((notif) => (
                                     <div
-                                        key={notif._id}
-                                        className={`flex items-center w-full rounded-lg  border-gray-50/80  gap-3 py-3  cursor-pointer hover:bg-gray-50/50 transition-colors duration-150 mb-3 ${notif?.read == false && 'border-green-300 border-l-4 '}`}
+                                        key={notif?._id}
+
+                                        onClick={() => handleSlide(notif?._id)}
+                                        className={`flex items-start w-full rounded-lg  border-gray-50/80  gap-3 py-3 px-1 cursor-pointer hover:bg-gray-50/50 transition-colors duration-150 mb-3 ${notif?.read == false && 'bg-gray-100'}`
+
+                                        }
                                     >
                                         {/* Avatar Wrapper - Guarantees 1:1 Aspect Ratio Box */}
                                         <div className="relative w-10 h-10 flex-shrink-0 ">
@@ -99,30 +145,40 @@ export default function Notifications() {
 
                                         {/* Action / Timestamp Container Right-Aligned */}
                                         <div className="flex flex-col items-end flex-shrink-0 ms-auto">
-                                            <span className="text-[11px] font-medium text-gray-400 whitespace-nowrap">
-                                                12:00
+                                            <span className="text-[11px]  text-gray-400 whitespace-nowrap">
+                                                {new Date(notif?.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </span>
-                                            {/* Optional 'View' badge if needed to fully match screen 2 */}
+                                            {/* Optional 'View' badge if needed to fully match screen 2
                                             <span className="mt-1 text-[10px] font-semibold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">
-                                                View
-                                            </span>
+                                                .
+                                            </span> */}
                                         </div>
                                         {/* appears slidin to the left */}
-                                        <div className="flex ">
-                                            <div className="p-3 bg-blue-100">
-                                               <button
-                                               className="cursor-pointer hover:scale-[1.5] transtion ease-in-out duration-300"
-                                               > <MailIcon className="w-5 h-5 text-blue-600" /></button>
-                                                </div>
-                                                  <div className="p-3 bg-red-200">
-                                                    <button
-                                                     className="cursor-pointer hover:scale-[1.5] transtion ease-in-out duration-300"
-                                                    > <DeleteIcon
-                                                     className="w-5 h-5 text-red-600" />
+                                        {
+                                            activeNotifId && ref.current == notif?._id && (
+                                                <div className="flex "
+                                                    key={notif?._id}
+                                                >
+                                                    <div className="p-3 bg-blue-100">
+                                                        <button
+                                                            onClick={() => markAsRead(notif?._id)}
+                                                            className="cursor-pointer hover:scale-[1.5] transtion ease-in-out duration-300"
+                                                        > <MailIcon className="w-5 h-5 text-blue-600" /></button>
+                                                    </div>
+                                                    <div className="p-3 bg-red-200">
+                                                        <button
+                                                            onClick={() => handleDelete(notif?._id)}
+                                                            className="cursor-pointer hover:scale-[1.5] transtion ease-in-out duration-300"
+                                                        > <DeleteIcon
+                                                                className="w-5 h-5 text-red-600" />
                                                         </button>
-                                                   
+
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            )
+
+                                        }
+
 
                                     </div>
                                 ))}
@@ -131,10 +187,19 @@ export default function Notifications() {
                             <p className="text-gray-400 text-sm text-center mt-10">No notifications available.</p>
                         )}
 
+                        <div className="flex justify-center items-center">
+                            <span className="text-gray-300 text-center text-4xl">...</span>
+                        </div>
+
                     </div>
                 )
                     :
-                    null
+                    <div className="flex justify-center items-center mt-3">
+                        <h3 className="text-gray-400">
+                            You have no notifications yet.
+                        </h3>
+                    </div>
+
             }
 
 
