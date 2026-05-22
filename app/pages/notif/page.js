@@ -195,7 +195,7 @@ export default function Notifications() {
                 )
                     :
                     <div className="flex justify-center items-center mt-3">
-                        <h3 className="text-gray-400">
+                        <h3 className="text-gray-400 text-sm">
                             You have no notifications yet.
                         </h3>
                     </div>
