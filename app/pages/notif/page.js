@@ -92,15 +92,15 @@ export default function Notifications() {
     return (
 
         <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   w-full mb-20">
-            
-            <div className="p-4 flex justify-between items-center dashboard-page mb-5 mt-5 border-b-3 border-gray-100">
-
-                <div className="inf-dash-top fixed top-0 max-w-md mx-auto w-full ">
+            <div className="inf-dash-top fixed top-0 max-w-md mx-auto w-full ">
                     <h2 className="font-semibold font-sans text-xl text-white align-middle">
                         Notifications
                     </h2>
                 </div>
 
+            <div className="p-4 flex justify-between items-center dashboard-page mb-5 mt-5 border-b-3 border-gray-100">
+
+                
                 {/* <div className="align-center rounded-full p-3 shadow-lg ">
                     <SearchIcon className="w-6 h-6 cursor-pointer" />
                 </div> */}
