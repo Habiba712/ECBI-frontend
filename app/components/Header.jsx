@@ -190,7 +190,7 @@ export default function Header() {
                                     <div className="icon-mobile relative"> 
                                         <NotificationsIcon className=" w-5 h-5 cursor-pointer" /> 
                                          <span
-                                    className="absolute -top-2 text-[10px] left-4 bg-red-500 rounded-full    text-white w-4 h-4 flex items-center justify-center"
+                                    className={`${notifCount > 0 ? 'absolute -top-2 text-[10px] left-4 bg-red-500 rounded-full    text-white w-4 h-4 flex items-center justify-center' : 'hidden'}`}
                                         
                                     >
                                         {notifCount > 0 ? notifCount : null}
