@@ -140,7 +140,7 @@ export default function Notifications() {
                                                 {notif?.message}
                                             </p>
                                             <span className="text-[11px] text-gray-400 mt-0.5">
-                                                {notif?.sender?.base?.name || "Sarah James"}
+                                                {notif?.sender?.base?.username}
                                             </span>
                                         </div>
 
