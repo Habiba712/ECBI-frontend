@@ -118,7 +118,7 @@ export default function Header() {
         <>
 
             {
-                role === "FINAL_USER" ? <header className={`
+                role === "FINAL_USER" ? <header className={`z-100
             gap-3 flex flex-col bg-white fixed bottom-0 left-1/2 transform -translate-x-1/2 max-w-md mx-auto w-full
 
             transition-all duration-500 ease-in-out
@@ -136,7 +136,7 @@ export default function Header() {
                 >
 
                     <nav
-                        className={`w-full transition-all duration-800 ease-in-out `}
+                        className={`w-full transition-all duration-800 ease-in-out bg-white`}
                     >
                         <ul className='pb-2 flex justify-center items-center gap-2' >
                             <li className='sidebar-li-mobile'>

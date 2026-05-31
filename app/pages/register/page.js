@@ -3,7 +3,7 @@ import { useState } from "react";
 import SectionHeader from "../../components/sections/HeaderSection"
 // import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
-
+import default_user from "../../../../public/default_user.png";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -31,7 +31,7 @@ export default function Login() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/register`, {
                 headers: { 'Content-Type': 'application/json' },
                 method: "POST",
-                body: JSON.stringify({ email, username, phone, password })
+                body: JSON.stringify({ email, username, phone, password, default_avatar })
             }).then((res) => {
                 if (res.ok) {
                     // return res.json().then((data) => {
