@@ -3,7 +3,7 @@ import { useState } from "react";
 import SectionHeader from "../../components/sections/HeaderSection"
 // import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
-import default_user from "../../../../public/default_user.png";
+import default_user from "../../../public/default_user.png";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
