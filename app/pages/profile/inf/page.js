@@ -6,10 +6,12 @@ import { useState, useEffect } from "react";
 import GiftIcon from "../../../../public/svg/gift";
 import PersonIcon from "../../../../public/svg/person";
 import RightArrowIcon from "../../../../public/svg/rightArrow";
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import LinkIcon from "../../../../public/svg/link";
 import LightIcon from "../../../../public/svg/light";
 import Link from "next/link";
+import EditIcon from "../../../../public/svg/edit";
+import PenIcon from "../../../../public/svg/pen";
 
 export default function InfProfilePage() {
     const [loggedInUser, setLoggedInUser] = useState();
@@ -162,6 +164,7 @@ export default function InfProfilePage() {
                 <div className="flex gap-2 w-full px-5 py-5">
                     <div className="flex flex-col items-start justify-center">
                         <Image src={loggedInUser?.base?.avatar} alt="pos cover image" width={50} height={50} className="rounded-full" />
+                        
                     </div>
                     <div className="flex flex-col items-start justify-center px-1">
                         <h5 className=" flex items-end font-semibold text-lg ">
@@ -235,7 +238,9 @@ export default function InfProfilePage() {
                                 <div >
                                     <button
                                         className="cursor-pointer "
-                                        onClick={() => { setShowReferralLinks(true) }}
+                                        onClick={() => {
+                                            redirect("/pages/profile/edit");
+                                        }}
                                     >
                                         <RightArrowIcon className="w-5 h-5 ml-auto text-gray-400" />
                                     </button>
