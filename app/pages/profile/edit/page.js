@@ -49,9 +49,9 @@ export default function EditProfilePage() {
 
         <section className=" min-h-screen h-full max-w-md mx-auto  w-full">
             {/* first section */}
-            <div className="h-[200px] flex flex-col justify-center bg-gradient-to-r from-purple-800 to-blue-600 items-center w-full py-5 px-4 text-white h-full">
-                <div className="flex flex-col justify-center items-center gap-2 w-full ">
-                    <div className="flex justify-between items-center  w-full relative z-10">
+            <div className="h-[100px] h-full flex flex-col justify-center bg-gradient-to-r from-purple-800 to-blue-600 items-center w-full  px-4 text-white rounded-b-full ">
+                <div className="flex flex-col pt-10 justify-between items-center gap-2 w-full h-full">
+                    <div className="flex justify-between items-center  w-full relative z-10 -top-8">
 
                         <button className="absolute " onClick={() => router.back()}>
                             <RightArrowIcon className="w-8 h-8 text-white cursor-pointer rotate-180 stroke-2" />
@@ -63,7 +63,7 @@ export default function EditProfilePage() {
                     </div>
 
                     <div
-                     className="flex flex-col items-start justify-center mt-10 relative">
+                     className="flex flex-col items-start justify-end relative">
                         <Image alt="profile cover image" src={loggedInUser?.base?.avatar ? loggedInUser?.base?.avatar : default_user} width={100} height={100} className="rounded-full stroke-white " />
                         <div className="absolute -right-2 bottom-9">
                             <CameraIcon className="w-7 h-7 text-white bg-blue-500 rounded-full flex justify-center p-1 absolute -bottom-5 right-0 cursor-pointer stroke-2" />
@@ -72,15 +72,17 @@ export default function EditProfilePage() {
                     
                 </div>
             </div>
-            <div className="h-full overflow-scroll scrollbar-hidden">
+
+
+            <div className="h-full scrollbar-hidden">
                 <form className="flex justify-between gap-4 mt-6 px-4 flex-wrap relative">
-                    <div className="flex flex-col relative mb-4">
+                    <div className="flex flex-col relative">
                         <label htmlFor="name" className="font-medium text-sm text-gray-600 absolute bg-white px-2 -top-3 left-4">Name</label>
                         <div className="flex items-center gap-2">
                             <input type="text" id="name" name="name" defaultValue={loggedInUser?.base?.name} className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
                         </div>
                     </div>
-                    <div className="flex flex-col relative mb-4">
+                    <div className="flex flex-col relative">
                         <label htmlFor="email" className="font-medium text-sm text-gray-600 absolute bg-white px-2 -top-3 left-4">Email</label>
                         <div className="flex items-center gap-2">
                             <input type="email" id="email" name="email" defaultValue={loggedInUser?.base?.email} className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
@@ -170,7 +172,7 @@ export default function EditProfilePage() {
 
                     {/* Phone Number Field Component Block */}
                    
-                   <div className="absolute top-80 mt-5 mb-2">
+                   <div className="absolute top-80 mt-2">
                      <button type="submit" className="w-100 rounded-full bg-gradient-to-r from-purple-700 to-blue-700 py-2 px-2 text-white font-semibold cursor-pointer
                             transition-all duration-500 ease-in-out hover:animate-pulse shadow-lg 
                         ">
