@@ -47,13 +47,13 @@ export default function EditProfilePage() {
 
     return (
 
-        <section className=" min-h-screen h-full max-w-md mx-auto  w-full">
+        <section className="min-h-screen h-full max-w-md mx-auto">
             {/* first section */}
-            <div className="h-[100px] h-full flex flex-col justify-center bg-gradient-to-r from-purple-800 to-blue-600 items-center w-full  px-4 text-white rounded-b-full ">
-                <div className="flex flex-col pt-10 justify-between items-center gap-2 w-full h-full">
-                    <div className="flex justify-between items-center  w-full relative z-10 -top-8">
+            <div className="h-[100px] h-full flex flex-col justify-center bg-gradient-to-r from-purple-800 to-blue-600 items-center  px-4 text-white rounded-b-full w-full">
+                <div className="w-full flex flex-col pt-10 justify-between items-center gap-2 h-full ">
+                    <div className="w-full flex justify-between items-center  relative z-10 -top-8 ">
 
-                        <button className="absolute " onClick={() => router.back()}>
+                        <button className="absolute w-full" onClick={() => router.back()}>
                             <RightArrowIcon className="w-8 h-8 text-white cursor-pointer rotate-180 stroke-2" />
                         </button>
 
@@ -71,24 +71,25 @@ export default function EditProfilePage() {
                     </div>
                     
                 </div>
+
+
+                
             </div>
-
-
-            <div className="h-full scrollbar-hidden">
-                <form className="flex justify-between gap-4 mt-6 px-4 flex-wrap relative">
-                    <div className="flex flex-col relative">
+ <div className="h-full">
+                <form className="flex justify-between gap-4 mt-6 px-4 flex-wrap relative w-full"> 
+                    <div className="w-full flex flex-col relative" >
                         <label htmlFor="name" className="font-medium text-sm text-gray-600 absolute bg-white px-2 -top-3 left-4">Name</label>
                         <div className="flex items-center gap-2">
                             <input type="text" id="name" name="name" defaultValue={loggedInUser?.base?.name} className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
                         </div>
                     </div>
-                    <div className="flex flex-col relative">
+                    <div className="w-full flex flex-col relative">
                         <label htmlFor="email" className="font-medium text-sm text-gray-600 absolute bg-white px-2 -top-3 left-4">Email</label>
                         <div className="flex items-center gap-2">
                             <input type="email" id="email" name="email" defaultValue={loggedInUser?.base?.email} className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
                         </div>
                     </div>
-                     <div className="flex flex-col relative w-full mt-2">
+                     <div className="w-full flex flex-col relative mt-2">
                         <label htmlFor="phone" className="text-xs  text-gray-500 absolute bg-white px-2 -top-2.5 left-4 z-10 font-medium">
                             Phone
                         </label>
@@ -121,12 +122,12 @@ export default function EditProfilePage() {
                                 pattern="[0-9]*"
                                 placeholder="Phone"
                                 defaultValue={loggedInUser?.base?.telephone || ""}
-                                className="w-100 border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
                     </div>
                     {/* CURRENT PASSWORD (IDENTITY VERIFICATION) */}
-                    <div className="flex flex-col relative w-full mt-2">
+                    <div className="w-full flex flex-col relative mt-2">
                         <label htmlFor="currentPassword" className="text-xs font-medium text-gray-500 absolute bg-white px-2 -top-2.5 left-4 z-10">
                             Current Password
                         </label>
@@ -142,7 +143,7 @@ export default function EditProfilePage() {
 
 
                     {/* NEW PASSWORD */}
-                    <div className="flex flex-col relative w-full mt-2">
+                    <div className="w-full flex flex-col relative mt-2">
                         <label htmlFor="newPassword" className="text-xs font-medium text-gray-500 absolute bg-white px-2 -top-2.5 left-4 z-10">
                             New Password
                         </label>
@@ -157,7 +158,7 @@ export default function EditProfilePage() {
 
                     {/* CONFIRM NEW PASSWORD */}
                   
-                     <div className="flex flex-col  relative w-full mt-2">
+                     <div className="w-full flex flex-col  relative mt-2">
                         <label htmlFor="confirmPassword" className="text-xs font-medium text-gray-500 absolute bg-white px-2 -top-2.5 left-4 z-10">
                             Confirm New Password
                         </label>
@@ -172,8 +173,8 @@ export default function EditProfilePage() {
 
                     {/* Phone Number Field Component Block */}
                    
-                   <div className="absolute top-80 mt-2">
-                     <button type="submit" className="w-100 rounded-full bg-gradient-to-r from-purple-700 to-blue-700 py-2 px-2 text-white font-semibold cursor-pointer
+                   <div className="w-full">
+                     <button type="submit" className="w-full rounded-full bg-gradient-to-r from-purple-700 to-blue-700 py-2 px-2 text-white font-semibold cursor-pointer
                             transition-all duration-500 ease-in-out hover:animate-pulse shadow-lg 
                         ">
                         Save Changes
@@ -182,6 +183,8 @@ export default function EditProfilePage() {
 
                 </form>
             </div>
+
+           
         </section>
     )
 
