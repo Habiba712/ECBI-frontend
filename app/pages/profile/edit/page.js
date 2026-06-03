@@ -12,11 +12,17 @@ import EditIcon from "../../../../public/svg/edit";
 import PenIcon from "../../../../public/svg/pen";
 import CameraIcon from "../../../../public/svg/camera";
 import default_user from "../../../../public/default_user.png";
+import UploadImage from "../../../components/modals/uploadImage";
 export default function EditProfilePage() {
     const [userId, setUserId] = useState();
     const [loggedInUser, setLoggedInUser] = useState();
     const [token, setToken] = useState("");
+    const [uploadImageModal, setUploadImageModal] = useState(false);
     const router = useRouter();
+    const handleShowModal = () => {
+        console.log('closing modal')
+        setUploadImageModal(prev => !prev);
+    }
     const getUser = async () => {
         console.log('🔥 getUserById HIT', userId);
 
@@ -24,7 +30,7 @@ export default function EditProfilePage() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/getUserById/${userId}`).then((res) => res.json().then((data) => {
                 console.log('datadoioi', data);
                 setLoggedInUser(data.user);
-                setVisitedPos(data.user.finalUser.visits);
+                // setVisitedPos(data.user.finalUser.visits);
                 // console.log("Fetched user data:", data.data);
             }))
 
@@ -47,9 +53,9 @@ export default function EditProfilePage() {
 
     return (
 
-        <section className="min-h-screen h-full max-w-md mx-auto">
+        <section className={`min-h-screen h-full max-w-md mx-auto`}>
             {/* first section */}
-            <div className="h-[100px] h-full flex flex-col justify-center bg-gradient-to-r from-purple-800 to-blue-600 items-center  px-4 text-white rounded-b-full w-full">
+            <div className={`h-[100px] h-full flex flex-col justify-center bg-gradient-to-r from-purple-800 to-blue-600 items-center  px-4 text-white rounded-b-full w-full ${uploadImageModal ? "blur-sm  pointer-events-none z-0" : ""}`}>
                 <div className="w-full flex flex-col pt-10 justify-between items-center gap-2 h-full ">
                     <div className="w-full flex justify-between items-center  relative z-10 -top-8 ">
 
@@ -63,20 +69,24 @@ export default function EditProfilePage() {
                     </div>
 
                     <div
-                     className="flex flex-col items-start justify-end relative">
+                        className="flex flex-col items-start justify-end relative">
                         <Image alt="profile cover image" src={loggedInUser?.base?.avatar ? loggedInUser?.base?.avatar : default_user} width={100} height={100} className="rounded-full stroke-white " />
                         <div className="absolute -right-2 bottom-9">
-                            <CameraIcon className="w-7 h-7 text-white bg-blue-500 rounded-full flex justify-center p-1 absolute -bottom-5 right-0 cursor-pointer stroke-2" />
+                            <button
+                                onClick={() => handleShowModal()}
+                            >
+                                <CameraIcon className="w-7 h-7 text-white bg-blue-500 rounded-full flex justify-center p-1 absolute -bottom-5 right-0 cursor-pointer stroke-2" />  </button>
+
                         </div>
                     </div>
-                    
+
                 </div>
 
 
-                
+
             </div>
- <div className="h-full">
-                <form className="flex justify-between gap-4 mt-6 px-4 flex-wrap relative w-full"> 
+            <div className={`h-full ${uploadImageModal ? "blur-sm pointer-events-none z-0" : ""}`}>
+                <form className="flex justify-between gap-4 mt-6 px-4 flex-wrap relative w-full">
                     <div className="w-full flex flex-col relative" >
                         <label htmlFor="name" className="font-medium text-sm text-gray-600 absolute bg-white px-2 -top-3 left-4">Name</label>
                         <div className="flex items-center gap-2">
@@ -89,7 +99,7 @@ export default function EditProfilePage() {
                             <input type="email" id="email" name="email" defaultValue={loggedInUser?.base?.email} className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
                         </div>
                     </div>
-                     <div className="w-full flex flex-col relative mt-2">
+                    <div className="w-full flex flex-col relative mt-2">
                         <label htmlFor="phone" className="text-xs  text-gray-500 absolute bg-white px-2 -top-2.5 left-4 z-10 font-medium">
                             Phone
                         </label>
@@ -157,8 +167,8 @@ export default function EditProfilePage() {
                     </div>
 
                     {/* CONFIRM NEW PASSWORD */}
-                  
-                     <div className="w-full flex flex-col  relative mt-2">
+
+                    <div className="w-full flex flex-col  relative mt-2">
                         <label htmlFor="confirmPassword" className="text-xs font-medium text-gray-500 absolute bg-white px-2 -top-2.5 left-4 z-10">
                             Confirm New Password
                         </label>
@@ -172,19 +182,27 @@ export default function EditProfilePage() {
                     </div>
 
                     {/* Phone Number Field Component Block */}
-                   
-                   <div className="w-full">
-                     <button type="submit" className="w-full rounded-full bg-gradient-to-r from-purple-700 to-blue-700 py-2 px-2 text-white font-semibold cursor-pointer
+
+                    <div className="w-full">
+                        <button type="submit" className="w-full rounded-full bg-gradient-to-r from-purple-700 to-blue-700 py-2 px-2 text-white font-semibold cursor-pointer
                             transition-all duration-500 ease-in-out hover:animate-pulse shadow-lg 
                         ">
-                        Save Changes
-                    </button>
-                   </div>
+                            Save Changes
+                        </button>
+                    </div>
 
                 </form>
             </div>
+            {
+                uploadImageModal &&
+                <div className="">
+                    <UploadImage
+                        onClose={() => handleShowModal()}
+                    />
 
-           
+                </div>
+            }
+
         </section>
     )
 
