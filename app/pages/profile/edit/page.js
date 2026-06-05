@@ -112,7 +112,7 @@ export default function EditProfilePage() {
     console.log('uplaodedavatrt, ', uploadedAvatar)
     return (
 
-        <section className={`min-h-screen h-full max-w-md mx-auto flex flex-col`}>
+        <section className={`min-h-screen h-full max-w-md mx-auto flex flex-col `}>
 
 
             <div className={`h-[100px] h-full flex flex-col justify-center bg-gradient-to-r from-purple-800 to-blue-600 items-center  px-4 text-white rounded-b-full w-full `}>
@@ -147,10 +147,10 @@ export default function EditProfilePage() {
 
             </div>
 
-            <div className={``}>
+            <div className={`h-full `}>
                 <form 
                 onSubmit={handleSubmit}
-                className="h-[calc(100%-100px)]  flex justify-between gap-4 px-4 flex-wrap py-5 w-full overflow-scroll" >
+                className="flex justify-between gap-4 mt-6 px-4 flex-wrap relative w-full ">
                     <div className="w-full flex flex-col relative" >
                         <label htmlFor="name" className="font-medium text-sm text-gray-600 absolute bg-white px-2 -top-3 left-4">Name</label>
                         <div className="flex items-center gap-2">
