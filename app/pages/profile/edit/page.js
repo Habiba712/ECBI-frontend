@@ -79,21 +79,15 @@ export default function EditProfilePage() {
             }
         }
 
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-            return;
-        }
-
-        // Clear error flags on successful structural authorization
-        setErrors({});
+    
         
         console.log("Form payload passed verification! Sending down to endpoint:", {
             name, email, phone, currentPassword, newPassword
         });
         
         try{
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateProfile`, {
-                method: "POST",
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUser/${userId}`, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
@@ -101,7 +95,12 @@ export default function EditProfilePage() {
                 body: JSON.stringify({
                 section: "base",
                 updateData: {
-                    name, email, phone, password:currentPassword
+                    name: name == "" ? loggedInUser?.base?.name : name
+                    , avatar: uploadedAvatar || loggedInUser?.base?.avatar
+                    , telephone: phone == "" ? loggedInUser?.base?.telephone : phone
+                    , password: currentPassword == "" ? loggedInUser?.base?.password : currentPassword
+                    , email: email == "" ? loggedInUser?.base?.email : email
+                   
                 }
 
                 })
@@ -112,6 +111,13 @@ export default function EditProfilePage() {
         catch(err){
             console.log('err', err);
         }
+            if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+
+        // Clear error flags on successful structural authorization
+        setErrors({});
         // Execute fetch() API mutation logic here...
     };
     useEffect(() => {
@@ -126,7 +132,6 @@ export default function EditProfilePage() {
             getUser();
         }
     }, [userId])
-    console.log('uplaodedavatrt, ', uploadedAvatar)
     return (
 
         <section className={`min-h-screen h-full max-w-md mx-auto flex flex-col `}>
@@ -171,14 +176,14 @@ export default function EditProfilePage() {
                     <div className="w-full flex flex-col relative" >
                         <label htmlFor="name" className="font-medium text-sm text-gray-600 absolute bg-white px-2 -top-3 left-4">Name</label>
                         <div className="flex items-center gap-2">
-                            <input type="text" id="name" name="name" defaultValue={loggedInUser?.base?.name} onChange={(e) => setName(e.target.value)} className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                            <input type="text" id="name" name="name" defaultValue={loggedInUser?.base?.name} onChange={(e) => setName(e.target.value || loggedInUser?.base?.name)} className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
                         </div>
                     </div>
                     <div className="w-full flex flex-col relative">
                         <label htmlFor="email" className="font-medium text-sm text-gray-600 absolute bg-white px-2 -top-3 left-4">Email</label>
                         <div className="flex items-center gap-2">
                             <input type="email" id="email" name="email" defaultValue={loggedInUser?.base?.email} className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => setEmail(e?.target?.value || loggedInUser?.base?.email)}
                             />
                         </div>
                     </div>
@@ -215,7 +220,7 @@ export default function EditProfilePage() {
                                 pattern="[0-9]*"
                                 placeholder="Phone"
                                 defaultValue={loggedInUser?.base?.telephone || ""}
-                                onChange={(e) => setPhone(e.target.value)}
+                                onChange={(e) => setPhone(e.target.value || loggedInUser?.base?.telephone)}
                                 className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
