@@ -26,7 +26,7 @@ export default function UploadImage({ onClose, setImage }) {
     }
 
     return (
-     <div className={`absolute min-h-screen h-full max-w-md mx-auto flex flex items-end bg-black/25 backdrop-blur-sm z-100 w-full h-full`}>
+     <div className={`absolute min-h-screen h-full max-w-md mx-auto flex flex items-end bg-black/25 backdrop-blur-sm z-100 w-full`}>
              <div className="relative bottom-0 max-w-md mx-auto w-full  h-[200px] bg-white flex justify-center items-center shadow-full rounded-t-[25px] border-gray-100 border-2 ">
             <span className="absolute top-3 right-[1/2] border-b-4 border-gray-200 w-10 rounded-lg "></span>
             <button

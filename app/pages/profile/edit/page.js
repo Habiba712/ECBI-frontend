@@ -57,22 +57,19 @@ export default function EditProfilePage() {
             setUploadedAvatar(previewUrl);
         }
     };
-      const handleSubmit = (e) => {
+      const handleSubmit = async (e) => {
         e.preventDefault(); // Stop page reload
         const newErrors = {};
 
-        // 1. Core Rule: Current Password is standard required verification for ANY change
         if (!currentPassword) {
             newErrors.currentPassword = "Your current password is required to save modifications.";
         }
 
-        // 2. Base Metadata Validation (Only checked if they changed them or left them empty)
         if (!name.trim()) newErrors.name = "Name field cannot be left empty.";
         if (!email.trim()) newErrors.email = "Email field cannot be left empty.";
         if (!phone.trim()) newErrors.phone = "Phone number cannot be left empty.";
 
-        // 3. Conditional Password Matching Validation
-        // If the user enters anything into either New or Confirm Password, validate both.
+
         if (newPassword || confirmPassword) {
             if (!newPassword) {
                 newErrors.newPassword = "Please specify your new password.";
@@ -82,7 +79,6 @@ export default function EditProfilePage() {
             }
         }
 
-        // If validation fails, halt execution and map errors to UI
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
@@ -95,6 +91,27 @@ export default function EditProfilePage() {
             name, email, phone, currentPassword, newPassword
         });
         
+        try{
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateProfile`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                section: "base",
+                updateData: {
+                    name, email, phone, password:currentPassword
+                }
+
+                })
+            });
+            const data = await res.json();
+            console.log('data', data);
+        }
+        catch(err){
+            console.log('err', err);
+        }
         // Execute fetch() API mutation logic here...
     };
     useEffect(() => {
@@ -154,13 +171,15 @@ export default function EditProfilePage() {
                     <div className="w-full flex flex-col relative" >
                         <label htmlFor="name" className="font-medium text-sm text-gray-600 absolute bg-white px-2 -top-3 left-4">Name</label>
                         <div className="flex items-center gap-2">
-                            <input type="text" id="name" name="name" defaultValue={loggedInUser?.base?.name} className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                            <input type="text" id="name" name="name" defaultValue={loggedInUser?.base?.name} onChange={(e) => setName(e.target.value)} className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
                         </div>
                     </div>
                     <div className="w-full flex flex-col relative">
                         <label htmlFor="email" className="font-medium text-sm text-gray-600 absolute bg-white px-2 -top-3 left-4">Email</label>
                         <div className="flex items-center gap-2">
-                            <input type="email" id="email" name="email" defaultValue={loggedInUser?.base?.email} className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                            <input type="email" id="email" name="email" defaultValue={loggedInUser?.base?.email} className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            onChange={(e) => setEmail(e.target.value)}
+                            />
                         </div>
                     </div>
                     <div className="w-full flex flex-col relative mt-2">
@@ -196,6 +215,7 @@ export default function EditProfilePage() {
                                 pattern="[0-9]*"
                                 placeholder="Phone"
                                 defaultValue={loggedInUser?.base?.telephone || ""}
+                                onChange={(e) => setPhone(e.target.value)}
                                 className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
@@ -211,6 +231,7 @@ export default function EditProfilePage() {
                             id="currentPassword"
                             name="currentPassword"
                             placeholder="Enter current password"
+                            onChange={(e) => setCurrentPassword(e.target.value)}
                             className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />{errors.currentPassword && <span className="text-[11px] text-red-500 mt-1 pl-2 font-medium">{errors.currentPassword}</span>}
 
