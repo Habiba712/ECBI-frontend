@@ -147,7 +147,7 @@ export default function EditProfilePage() {
 
             </div>
 
-            <div className={`h-100 overflow-scroll`}>
+            <div className={`min-h-screen overflow-scroll`}>
                 <form 
                 onSubmit={handleSubmit}
                 className="flex justify-between gap-4 px-4 flex-wrap py-5 w-full" >
