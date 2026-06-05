@@ -303,4 +303,6 @@ input[type="tel"]:disabled
   background: linear-gradient(180deg, #a0a0a0, #666);
 }
 
-
+.upload-btn-label{
+  @apply text-sm font-semibold text-black cursor-pointer flex flex-col items-center justify-center;
+}
