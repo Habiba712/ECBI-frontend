@@ -74,15 +74,13 @@ setIsModalOpen(true);
                     <div className="flex justify-between  ">
                             <div className="flex gap-2 ">
                         <div className="flex flex-col items-start justify-center">
-                            <Image src={post?.owner?.base?.avatar} alt="pos cover image" width={50} height={50} className="rounded-full" />
+                            <Image src={post?.owner?.base?.avatar} alt="pos cover image" width={50} height={50} className="rounded-full object-cover aspect-square" />
                         </div>
-                        <div className="flex flex-col items-start justify-center px-1">
-                            <h5 className=" flex items-end">
+                        <div className="flex flex-col items-start justify-center">
+                            <span className="post-owner">
                                 {post?.owner?.base?.name}
-                            </h5>
-                            <p className="text-gray-400 font-sm px-1 ">
-                                {post?.owner?.base?.username}
-                            </p>
+                            </span>
+                            
                         </div>
                     </div>
                     <div className="flex items-center">

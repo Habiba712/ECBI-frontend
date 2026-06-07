@@ -306,3 +306,7 @@ input[type="tel"]:disabled
 .upload-btn-label{
   @apply text-sm font-semibold text-black cursor-pointer flex flex-col items-center justify-center;
 }
+
+.post-owner{
+   @apply flex items-end text-sm text-base font-semibold;
+}
