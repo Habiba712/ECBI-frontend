@@ -163,7 +163,7 @@ export default function InfProfilePage() {
             <div className="h-[200px] flex flex-col justify-center bg-gradient-to-r from-purple-800 to-blue-600 items-center w-full py-5 px-4 text-white">
                 <div className="flex gap-2 w-full px-5 py-5">
                     <div className="flex flex-col items-start justify-center">
-                        <Image src={loggedInUser?.base?.avatar} alt="pos cover image" width={50} height={50} className="rounded-full" />
+                        <Image src={loggedInUser?.base?.avatar} alt="pos cover image" width={50} height={50} className="rounded-full object-cover aspect-square" />
                         
                     </div>
                     <div className="flex flex-col items-start justify-center px-1">

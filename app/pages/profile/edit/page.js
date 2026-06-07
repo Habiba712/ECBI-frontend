@@ -27,6 +27,7 @@ export default function EditProfilePage() {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
      const [errors, setErrors] = useState({});
+     const [previewAvatar, setPreviewAvatar] = useState(null);
     const router = useRouter();
 
     const handleShowModal = () => {
@@ -52,9 +53,12 @@ export default function EditProfilePage() {
     // Inside your parent page file where you receive the image from the modal
     const handleImageSubmit = (incomingFile) => {
         if (incomingFile) {
-            // Create a local, temporary browser URL string from the raw file object
+           // 1. Save binary file handle for API submission
+            setUploadedAvatar(incomingFile);
+            
+            // 2. Save preview URL purely for local client display rendering
             const previewUrl = URL.createObjectURL(incomingFile);
-            setUploadedAvatar(previewUrl);
+            setPreviewAvatar(previewUrl);
         }
     };
       const handleSubmit = async (e) => {
@@ -63,6 +67,7 @@ export default function EditProfilePage() {
 
         if (!currentPassword) {
             newErrors.currentPassword = "Your current password is required to save modifications.";
+            
         }
 
         if (!name.trim()) newErrors.name = "Name field cannot be left empty.";
@@ -79,31 +84,25 @@ export default function EditProfilePage() {
             }
         }
 
-    
-        
-        console.log("Form payload passed verification! Sending down to endpoint:", {
-            name, email, phone, currentPassword, newPassword
-        });
-        
         try{
+               const formData = new FormData();
+               formData.append("section", "base")
+            formData.append("name", name == "" ? loggedInUser?.base?.name : name);
+            formData.append("email", email == "" ? loggedInUser?.base?.email : email);
+            formData.append("telephone", phone == "" ? loggedInUser?.base?.telephone : phone);
+            formData.append("password", currentPassword);
+            formData.append("avatar", uploadedAvatar);
+            console.log('form data', formData);
+            
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUser/${userId}`, {
                 method: "PUT",
                 headers: {
-                    "Content-Type": "application/json",
+                  
                     "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({
-                section: "base",
-                updateData: {
-                    name: name == "" ? loggedInUser?.base?.name : name
-                    , avatar: uploadedAvatar || loggedInUser?.base?.avatar
-                    , telephone: phone == "" ? loggedInUser?.base?.telephone : phone
-                    , password: currentPassword == "" ? loggedInUser?.base?.password : currentPassword
-                    , email: email == "" ? loggedInUser?.base?.email : email
-                   
-                }
+                body: formData
 
-                })
+            
             });
             const data = await res.json();
             console.log('data', data);
@@ -151,7 +150,7 @@ export default function EditProfilePage() {
                     </div>
 
                     <div
-                        className="flex flex-col items-start justify-end relative">  <Image alt="profile cover image" src={uploadedAvatar ? uploadedAvatar : loggedInUser?.base?.avatar ? loggedInUser?.base?.avatar : default_user} width={100} height={100} className="rounded-full aspect-square object-cover border-2 shadow-m" />
+                        className="flex flex-col items-start justify-end relative">  <Image alt="profile cover image" src={previewAvatar ? previewAvatar : loggedInUser?.base?.avatar ? loggedInUser?.base?.avatar : default_user} width={100} height={100} className="rounded-full aspect-square object-cover border-2 shadow-m" />
 
 
                         <div className="absolute -right-2 bottom-9">
