@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Oleo+Script:wght@400;700&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -18,7 +19,11 @@
     --foreground: #ededed;
   }
 } */
+/* Import Oleo Script directly from Google Fonts */
 
+.brand-header-script {
+  font-family: 'Oleo Script', cursive;
+}
 body {
   background: var(--background);
 
@@ -236,7 +241,7 @@ input[type="tel"]:disabled
 }
 
 .inf-dash-top{
-  padding: 1rem;
+  padding: .5rem;
   display:flex;
   justify-content: space-between;
   align-items: center;
@@ -273,7 +278,7 @@ input[type="tel"]:disabled
 }
 
 .post-container{
-  @apply flex flex-col bg-white  px-4 py-1  w-full ;
+  @apply w-full bg-white overflow-hidden;
 }
 .post-container h5{
   font-size:18px;
