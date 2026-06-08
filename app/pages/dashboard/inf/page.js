@@ -1,7 +1,7 @@
 'use client'
 
 import SearchIcon from "../../../../public/svg/search"
-import { useState, useEffect } from "react";
+import { useState, useEffect , useRef} from "react";
 import AddPost from "../../../components/modals/addPost";
 import Image from "next/image";
 import LightIcon from "../../../../public/svg/light";
@@ -9,16 +9,55 @@ import LikeIcon from "../../../../public/svg/like";
 import CommentIcon from "../../../../public/svg/comment";
 import ShareIcon from "../../../../public/svg/share";
 import ZipCodeIcon from "../../../../public/svg/zipCode";
+
 export default function PointOfSale() {
 
     const [likes, setLikes] = useState({
         likes: 0,
         postId: null
     });
+    const [activePostId, setActivePost] = useState(null);
+    const [comment, setComment] = useState("");
+    const ref = useRef(null);
+     const handleComment = (postId) => {
+        // console.log('notif id', notifId);
+        ref.current = postId;
+        setActivePost(activePostId == null ? postId : null)
+    }
+    const handleSendComment = async (postId) => {
+        if (!userId) return;
+        const targetedPost = postsList.find(post => post._id === postId);
+        if (!targetedPost) return;
+        console.log('targeted post', comment);
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/post/comments/${postId}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+
+                    userId: userId,
+                    comment: comment
+                })
+            });
+            const data = await res.json();
+            console.log('data', data);
+            setComment("");
+            getAllPosts();
+            setActivePost(null)
+        }
+        catch (err) {
+            console.log('error', err);
+            getAllPosts();
+        }
+    }
     // one user can have zero or one like
     const [postsList, setPostsList] = useState([])
+    const [showCommentSection, setShowCommentSection] = useState(false);
 
-  const [userId, setUserId] = useState();
+    const [userId, setUserId] = useState();
     const [loggedInUser, setLoggedInUser] = useState();
     const [token, setToken] = useState("");
     const getAllPosts = async () => {
@@ -44,7 +83,7 @@ export default function PointOfSale() {
             console.log('error', err);
         }
     }
-const getUser = async () => {
+    const getUser = async () => {
         console.log('🔥 getUserById HIT', userId);
 
         try {
@@ -60,45 +99,42 @@ const getUser = async () => {
         }
     }
 
-    const handleLike = async (id) =>{
-       if (!userId) return;
-       const targetPost = postsList.find(p => p._id === id);
-       const isAlreadyLiked = targetPost.likes?.includes(userId);
-    const evaluationValue = isAlreadyLiked ? -1 : 1;
-    setPostsList(prevList => 
-        prevList.map(post => {
-            if (post._id === id) {
-                const updatedLikesArray = isAlreadyLiked
-                    ? post.likes.filter(id => id !== userId) // Remove user ID
-                    : [...(post.likes || []), userId];       // Append user ID
-                return { ...post, likes: updatedLikesArray };
-            }
-            return post;
-        })
-    );
-    if (!targetPost) return;
+    const handleLike = async (id) => {
+        if (!userId) return;
+        const targetedPost = postsList.find(post => post._id === id);
+        if (!targetedPost) return;
+        const isAlreadyLiked = targetedPost.likes?.includes(userId);
+        const evaluationValue = isAlreadyLiked ? -1 : 1;
 
-        try{
-            
-           
-            const res = await fetch (`${process.env.NEXT_PUBLIC_API_URL}/api/post/likes/${id}`, {
+        setPostsList(prevList =>
+            prevList.map(post => {
+                if (post._id === id) {
+                    const updatedLikesArray = isAlreadyLiked ? post.likes.filter(user => user !== userId) :
+                        [...(post.likes || []), userId];
+                    return { ...post, likes: updatedLikesArray };
+                }
+                return post;
+            }));
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/post/likes/${id}`, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ 
-                    
+                body: JSON.stringify({
+
                     userId: userId,
                     newLikes: evaluationValue
                 })
-            }); 
-        }catch(err){
+            });
+        } catch (err) {
             console.log('error', err);
             getAllPosts();
         }
     }
-        useEffect(() => {
+    useEffect(() => {
         const session = JSON.parse(localStorage.getItem("sessionData")) || null;
         // console.log('session', session?.userId);
         setUserId(session?.userId);
@@ -125,9 +161,9 @@ const getUser = async () => {
         >
             <div className="inf-dash-top fixed top-0 max-w-md mx-auto w-full z-100 ">
                 <div>
-                    <h1 className="brand-header-script font-semibold text-2xl font-sans
+                    <h1 className="brand-header-script text-2xl font-sans
                  ">ECBI Feed</h1>
-                   
+
                 </div>
                 <div>
                     <SearchIcon className="w-6 h-6 text-white cursor-pointer" />
@@ -169,15 +205,18 @@ const getUser = async () => {
                             {/* third section */}
                             <div className="px-1 pt-3 pb-1 flex items-center gap-4 bg-white">
                                 <button className="font-semibold flex items-center gap-1"
-                                 onClick={() => handleLike(post?._id)}>
-                                   
+                                    onClick={() => handleLike(post?._id)}>
+
                                     <LikeIcon className={`w-6 h-6 text-gray-800 cursor-pointer ${post.likes.includes(userId) ? "fill-red-500 stroke-red-500" : ""}`} />
                                     {post?.likes?.length > 0 ? <span className="text-sm text-gray-600">{post?.likes?.length}</span> : null}
                                 </button>
-                                <button className="font-semibold flex items-center gap-1">
+                                <button className="font-semibold flex items-center gap-1"
+                                onClick={() => handleComment(post?._id)}
+                                >
                                     <CommentIcon className="w-6 h-6 text-gray-800 cursor-pointer" />
-                                    {post?.comments?.length > 0 ? <span className="text-sm px-1 text-gray-600">{post?.likes}</span> : null}
+                                    {post?.comments?.length > 0 ? <span className="text-sm text-gray-600">{post?.comments?.length}</span> : null}
                                 </button>
+                              
                                 <button className="font-semibold flex items-center gap-1"
                                     onClick={() => handleShare()}
                                 >
@@ -186,6 +225,7 @@ const getUser = async () => {
                                     {post?.shares?.length > 0 ? <span className="text-sm px-1 text-gray-600">{post?.likes}</span> : null}
                                 </button>
                             </div>
+                            
                             {/* forth section */}
                             <div className="px-1 flex flex-col gap-1.5 bg-white">
                                 {/* Caption Layout */}
@@ -205,6 +245,46 @@ const getUser = async () => {
                                         </>
                                     )}
                                 </div>
+
+                                <div className="flex items-center justify-start  gap-1.5 bg-white" >
+                                    <span className="text-xs font-semibold text-gray-900" >Comments</span>
+                                    {
+                                        post?.comments?.[0]  && post?.comments?.[0]?.comment && (
+                                            <div className="flex items-center justify-center gap-1.5 ">
+                                                <p className="text-sm text-gray-800 leading-relaxed line-clamp-1">
+                                                    {post?.comments?.[0]?.comment} ...
+                                                    
+                                                </p>
+                                                <a className="text-xs text-gray-500 font-medium"> See more</a>
+                                              
+                                            </div>
+                                        )
+                                    }
+                                    </div>
+                                      {
+                                activePostId && ref.current == post?._id && (
+                                    <div 
+                              key={post?._id}
+
+                                        
+                              className="px-2 flex flex-col gap-1.5 bg-white items-end">
+                                <textarea 
+                                value={comment}
+                                onChange = {(e) => setComment(e.target.value)}
+                                className="w-full h-full p-2 text-sm text-gray-800 leading-relaxed border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-300">
+                                  
+
+                                </textarea>
+                                 <button 
+                                 onClick={() => handleSendComment(post?._id)}
+                                 className="w-fit px-4 py-2 rounded-full text-white bg-blue-500 flex items-start justify-center font-semibold text-md">
+                                        <span>Send</span>
+                                    </button>
+                                     
+                                     
+                                    </div>
+                                )
+                              }
                             </div>
 
 
