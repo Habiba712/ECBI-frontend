@@ -9,6 +9,7 @@ import LikeIcon from "../../../../public/svg/like";
 import CommentIcon from "../../../../public/svg/comment";
 import ShareIcon from "../../../../public/svg/share";
 import ZipCodeIcon from "../../../../public/svg/zipCode";
+import CommentsModal from "../../../components/modals/commentsModal";
 
 export default function PointOfSale() {
 
@@ -17,8 +18,24 @@ export default function PointOfSale() {
         postId: null
     });
     const [activePostId, setActivePost] = useState(null);
+    const [activePostComments, setActivePostComments] = useState([]);
     const [comment, setComment] = useState("");
+    const [showCommentSection, setShowCommentSection] = useState(false);
     const ref = useRef(null);
+
+    const handleShowComment = (postId) => {
+       setShowCommentSection(prev => !prev);
+        setActivePostComments((prev) =>{
+           const postsComments = postsList.find(post => post._id === postId)?.comments;
+           if(postsComments){
+               return postsComments;
+               
+           }
+           return prev;
+        })
+        
+        
+    }
      const handleComment = (postId) => {
         // console.log('notif id', notifId);
         ref.current = postId;
@@ -55,8 +72,6 @@ export default function PointOfSale() {
     }
     // one user can have zero or one like
     const [postsList, setPostsList] = useState([])
-    const [showCommentSection, setShowCommentSection] = useState(false);
-
     const [userId, setUserId] = useState();
     const [loggedInUser, setLoggedInUser] = useState();
     const [token, setToken] = useState("");
@@ -247,15 +262,14 @@ export default function PointOfSale() {
                                 </div>
 
                                 <div className="flex items-center justify-start  gap-1.5 bg-white" >
-                                    <span className="text-xs font-semibold text-gray-900" >Comments</span>
+                                   
                                     {
                                         post?.comments?.[0]  && post?.comments?.[0]?.comment && (
                                             <div className="flex items-center justify-center gap-1.5 ">
-                                                <p className="text-sm text-gray-800 leading-relaxed line-clamp-1">
-                                                    {post?.comments?.[0]?.comment} ...
-                                                    
-                                                </p>
-                                                <a className="text-xs text-gray-500 font-medium"> See more</a>
+                                               
+                                                <a
+                                                onClick={() => handleShowComment(post?._id)}
+                                                className="text-xs text-gray-500 ">View all {post?.comments?.length} comments</a>
                                               
                                             </div>
                                         )
@@ -294,6 +308,13 @@ export default function PointOfSale() {
                 }
 
             </div>
+            {
+                showCommentSection && (
+                        <CommentsModal onClose={() => handleShowComment()}
+                        postComments={activePostComments}
+                        />
+                )
+            }
 
 
 
