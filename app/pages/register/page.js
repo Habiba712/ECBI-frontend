@@ -31,7 +31,7 @@ export default function Login() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/register`, {
                 headers: { 'Content-Type': 'application/json' },
                 method: "POST",
-                body: JSON.stringify({ email, username, phone, password, default_avatar })
+                body: JSON.stringify({ email, username, phone, password, default_user })
             }).then((res) => {
                 if (res.ok) {
                     // return res.json().then((data) => {

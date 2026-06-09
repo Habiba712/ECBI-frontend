@@ -119,7 +119,7 @@ export default function PointOfSale() {
                 <div className="flex flex-col gap-3 p-4">
 
                     <div className="w-2/3 h-2/3">
-                        <Image src={pointsOfSaleById?.coverImage} alt="restaurant" width={500} height={500} className="rounded-lg h-fit w-full object-cover flex-grow" />
+                        <img src={pointsOfSaleById?.coverImage} alt="restaurant" width={500} height={500} className="rounded-lg h-fit w-full object-cover flex-grow" />
                     </div>
                     <h1 className="font-bold text-2xl text-black">{pointsOfSaleById?.name}</h1>
                     <p>
