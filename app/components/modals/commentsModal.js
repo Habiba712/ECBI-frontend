@@ -73,7 +73,7 @@ useEffect(() => {
                 <p className="text-[13px] text-gray-800 leading-snug font-semibold break-words">
                   {comment?.userId?.base?.name}
                 </p>
-                <span className="text-[13px] text-gray-600 mt-0.5 break-words font-normal leading-normal">
+                <span className="text-[13px] text-gray-600 mt-0.5 break-words font-normal leading-normal line-clamp-1">
                   {comment?.comment}
                 </span>
               </div>
