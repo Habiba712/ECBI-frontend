@@ -37,13 +37,13 @@ useEffect(() => {
   };
 }, []);
    return (
-   <div className="fixed max-w-md inset-0 bg-black/40 backdrop-blur-xs z-100 flex items-end justify-center overflow-hidden ">
+   <div className="fixed max-w-md inset-0 bg-black/40 backdrop-blur-xs z-100 flex  overflow-hidden ">
     
      <div className="absolute w-full max-w-md h-[100vh] bg-white shadow-2xl flex flex-col  border border-gray-100">
       
        <span className="absolute top-2 left-1/2 -translate-x-1/2 w-10 h-1 bg-gray-200 rounded-full z-20"></span>
 
-       <div className="fixed w-full flex justify-between items-center px-4 pt-6 pb-4 border-b border-gray-100 bg-white flex-shrink-0">
+      <div className="fixed w-full flex justify-between items-center px-4 pt-6 pb-4 border-b border-gray-100 bg-white flex-shrink-0">
         <button
           className="cursor-pointer bg-gray-100 rounded-full p-1.5 hover:bg-gray-200 transition-colors"
           onClick={onClose}
@@ -53,14 +53,14 @@ useEffect(() => {
         <h2 className="font-semibold font-sans text-gray-900 text-base mx-auto pr-6">Comments</h2>
       </div>
 
-       <div className="flex-grow overflow-y-auto px-4 mt-20 flex flex-col gap-4 bg-white min-h-0">
+        {/* <div className="flex-grow overflow-y-auto px-4 mt-20 flex flex-col gap-4 bg-white min-h-0">
         {postComments?.length > 0 ? (
           postComments.map((comment, index) => (
             <div 
               key={index} 
               className="flex items-start w-full gap-3 cursor-pointer hover:bg-gray-50/50 transition-colors duration-150"
             >
-              {/* User Avatar */}
+              
               <div className="relative w-9 h-9 overflow-hidden rounded-full border border-gray-100 flex-shrink-0">
                 <img
                   src={comment?.userId?.base?.avatar || "/default_user.png"}
@@ -93,7 +93,7 @@ useEffect(() => {
             No comments yet. Be the first to share your thoughts!
           </div>
         )}
-      </div>
+      </div> */}
       
     </div>
   </div>
