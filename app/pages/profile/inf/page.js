@@ -281,14 +281,14 @@ export default function InfProfilePage() {
                                 visitedPos?.length > 0 && visitedPos.map((pos, index) => (
                                     <div key={index} className="w-full h-20 cursor-pointer shadow-lg p-3 flex items-center gap-3 rounded-lg justify-between">
 
-                                        <div className="flex items-center justify-start  w-15 h-10  rounded-full">
-                                            <Image src={pos?.coverImage} alt="pos cover image" width={60} height={60} className=" rounded-full object-cover aspect-square" />
+                                        <div className="flex items-center justify-start  w-20 h-20  rounded-full">
+                                            <img src={pos?.coverImage} alt="pos cover image" className=" rounded-full w-[40px] h-[40px] object-cover aspect-square" />
                                         </div>
 
                                         <div className="text-start w-full"
                                         >
-                                            <h4 className="font-semibold">{pos?.name}</h4>
-                                            <p className="text-sm text-gray-500">+20 points per visit</p>
+                                            <h4 className="font-semibold text-xs">{pos?.name}</h4>
+                                            <p className="text-xs  text-gray-500">+20 points per visit</p>
                                         </div>
                                         <div className="flex flex-col items-center justify-center">
                                             {

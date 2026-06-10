@@ -139,7 +139,7 @@ see updates here.
                                         key={notif?._id}
 
                                         onClick={() => handleSlide(notif?._id)}
-                                        className={`flex items-start w-full rounded-lg  border-gray-50/80  gap-3 py-3 px-1 cursor-pointer hover:bg-gray-50/50 transition-colors duration-150 mb-3 ${notif?.read == false && 'bg-gray-100'}`
+                                        className={`flex items-center w-full rounded-lg  border-gray-50/80 bg-white shadow-lg   gap-3 py-3 px-1 cursor-pointer hover:bg-gray-50/50 transition-colors duration-150 mb-1 ${notif?.read == false && 'border-1 border-green-200 shadow-hidden'}`
 
                                         }
                                     >
@@ -153,12 +153,12 @@ see updates here.
                                         </div>
 
 
-                                        <div className="flex flex-col flex-grow min-w-0 pr-2">
-                                            <p className="text-[13px] text-gray-800 leading-snug font-medium break-words">
+                                        <div className="flex flex-col justify-center  flex-grow min-w-0 pr-2">
+                                            <p className=" text-[13px] text-gray-700 leading-snug font-medium break-words">
                                                 {notif?.message}
                                             </p>
                                             <span className="text-[11px] text-gray-400 mt-0.5">
-                                                {notif?.sender?.base?.username}
+                                                {notif?.recipient?.base?.name}
                                             </span>
                                         </div>
 
