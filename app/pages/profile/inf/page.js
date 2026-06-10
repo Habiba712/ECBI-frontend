@@ -282,7 +282,7 @@ export default function InfProfilePage() {
                                     <div key={index} className="w-full h-20 cursor-pointer shadow-lg p-3 flex items-center gap-3 rounded-lg justify-between">
 
                                         <div className="flex items-center justify-start  w-15 h-10  rounded-full">
-                                            <Image src={pos?.coverImage} alt="pos cover image" width={60} height={60} className=" w-10 h-10 rounded-full object-cover" />
+                                            <Image src={pos?.coverImage} alt="pos cover image" width={60} height={60} className=" rounded-full object-cover aspect-square" />
                                         </div>
 
                                         <div className="text-start w-full"
