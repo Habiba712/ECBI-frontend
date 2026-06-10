@@ -171,7 +171,7 @@ export default function PointOfSale() {
         setIsModalOpen(true);
     }
     return (
-        <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   w-full mb-20"
+        <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   w-full mb-10"
 
         >
             <div className="inf-dash-top fixed top-0 max-w-md mx-auto w-full z-100 ">
@@ -194,7 +194,7 @@ export default function PointOfSale() {
                 </div>
 
             </div>
-            <div className="mt-12 ">
+            <div className="mt-20 ">
                 {/* <button 
                 onClick={()=>handleClick()}
                 className="rounded-full bg-gradient-to-r from-purple-700 to-blue-700 px-4 py-2 cursor-pointer text-white font-semibold hover:scale-110 transition-all duration-500 ease-in-out">

@@ -114,14 +114,14 @@ export default function PointOfSale() {
                         Back to my points of sale</button>
                 </div>
             </div>
-            <div className="bg-white shadow-lg rounded-lg p-4">
+            <div className="bg-white shadow-lg rounded-lg ">
                 {/* first part */}
                 <div className="flex flex-col gap-3 p-4">
 
                     <div className="w-2/3 h-2/3">
-                        <img src={pointsOfSaleById?.coverImage} alt="restaurant" width={500} height={500} className="rounded-lg h-fit w-full object-cover flex-grow" />
+                        <img src={pointsOfSaleById?.coverImage} alt="restaurant" className="rounded-lg h-[300px] w-full object-cover aspect-square flex-grow" />
                     </div>
-                    <h1 className="font-bold text-2xl text-black">{pointsOfSaleById?.name}</h1>
+                    <h1 className="font-bold  text-gray-700">{pointsOfSaleById?.name}</h1>
                     <p>
                         {pointsOfSaleById?.description}
                     </p>
@@ -219,14 +219,14 @@ export default function PointOfSale() {
             </div>{/* recent reviews and visits */}
             <div className="shadow-lg rounded-lg p-4 mt-4">
                 <div className="p-4">
-                    <h3 className="font-bold text-black text-gray-700">Recents Visitors & Reviews</h3>
+                    <h3 className="font-bold text-gray-700">Recents Visitors & Reviews</h3>
                     
                 </div>
                 {
                     reviews && reviews?.length > 0 ?
                     reviews?.map((item, index) => {
                         return (
-                            <div key={index} className="flex flex-col items-center w-full mb-5 border border-gray-200 rounded-lg p-2 ">
+                            <div key={index} className="flex flex-col items-center w-full border border-gray-200 rounded-lg p-2 ">
                                 <div className="flex justify-between w-full items-center">
                                     <div className="flex justify-around gap-2 w-fit">
                                         <div className="w-fit  flex justify-center items-center">

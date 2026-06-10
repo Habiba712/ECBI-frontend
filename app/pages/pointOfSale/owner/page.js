@@ -73,28 +73,26 @@ export default function PointOfSale() {
     const handleAddPointOfSale = async (data) => {
         console.log('data to add', data);
         const formData = new FormData();
-        formData.append("owner", data.ownerId);
+        formData.append("ownerId", data.ownerId);
         formData.append("name", data.name);
         formData.append("address", JSON.stringify(data.address));
         formData.append("phone", data.phone);
         formData.append("cuisine", data.cuisine);
-        formData.append("coverImage", data.coverImage);
+        formData.append("image", data.coverImage);
         formData.append("description", data.description);
         formData.append("status", data.status);
         formData.append("website", data.website);
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/addPointOfSale`,
                 {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                   
                     method: "POST",
                     body: formData
                 }).then((res) => {
                     if (res.ok) {
                         console.log('data to add', data);
 
-                        // getPointsOfSaleByOwnerId()
+                        getPointsOfSaleByOwnerId()
 
 
                     }

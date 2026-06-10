@@ -275,7 +275,7 @@ export default function InfProfilePage() {
                     (
                         <div className="flex flex-col gap-2 w-full p-5">
                             <h1 className="text-md font-semibold text-start font-sans px-3">
-                                My Favorite Spots
+                                My Visited Spots
                             </h1>
                             {
                                 visitedPos?.length > 0 && visitedPos.map((pos, index) => (

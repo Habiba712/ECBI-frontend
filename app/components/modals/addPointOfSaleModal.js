@@ -249,7 +249,15 @@ onChange={(e)=>setPointOfSaleToAdd({...pointOfSaleToAdd,website:e.target.value})
                                     id="file-upload"
                                     className="hidden mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300"
                                     placeholder="Upload an image"
-                                    onChange={(e)=>setPointOfSaleToAdd({...pointOfSaleToAdd,coverImage:e.target.value})}
+                                    onChange={(e) => {
+                                                const file = e.target.files[0];
+                                                if (file) {
+                                                    setPointOfSaleToAdd({...pointOfSaleToAdd,coverImage:file})
+                                                    // setPostPicToAdd(URL.createObjectURL(file))
+                                                    // setPhotoURL(file);
+                                                }
+                                            }}
+                                  
 
                                 />
 
