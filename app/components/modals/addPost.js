@@ -94,7 +94,9 @@ export default function AddPost() {
             console.log('error', err);
         }
     }
+
     const findReferralLink = async () => {
+        console.log('er e here')
         if (!owner || !id) return;
         try {
             const params = new URLSearchParams({
