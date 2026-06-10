@@ -132,7 +132,7 @@ export default function AddPost() {
     useEffect(() => {
         // console.log('oue', owner, id)
         findReferralLink();
-    }, [id, owner, referralUser])
+    }, [id, owner, referralOwner])
 
     //  console.log('user id', owner, id);
     //  console.log('referral links', myReferralLinksForThisPos[0]);
@@ -250,7 +250,7 @@ export default function AddPost() {
 
 
                 {
-                    showModal && referralUser !== null && myReferralLinksForThisPos.length > 0 && referredLoggedInUser.blocked === false && referredLoggedInUser.isActive === false && referredLoggedInUser.rewarded === false &&
+                    showModal && referralOwner !== null && myReferralLinksForThisPos.length > 0 && referredLoggedInUser.blocked === false && referredLoggedInUser.isActive === false && referredLoggedInUser.rewarded === false &&
                     (
                         <CheckReferralLink
 
