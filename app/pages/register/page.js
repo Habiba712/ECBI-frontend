@@ -119,7 +119,7 @@ export default function Login() {
                                 type="text"
                                 placeholder="Enter your phone number"
                                 value={telephone}
-                                onChange={(e) => setPhone(e.target.value)}
+                                onChange={(e) => setTelephone(e.target.value)}
 
                             /></div>
 
