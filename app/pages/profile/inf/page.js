@@ -85,6 +85,7 @@ export default function InfProfilePage() {
             }).then((res) => {
                 if (res.ok) {
                     localStorage.removeItem("sessionData");
+                    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                     router.push("/pages/login");
                 }
             }
@@ -162,7 +163,12 @@ export default function InfProfilePage() {
     return (
         <section className="min-h-screen h-full max-w-md mx-auto  w-full  mb-15">
             {/* first section */}
-            <div className="h-[200px] flex flex-col justify-center bg-gradient-to-r from-purple-800 to-blue-600 items-center w-full py-5 px-4 text-white">
+            <div className="h-[200px] flex flex-col justify-center bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)] items-center w-full py-5 px-4 text-white">
+                     <button className="w-full" onClick={() => router.back()}>
+                                                <RightArrowIcon className="w-8 h-8 text-white cursor-pointer rotate-180 stroke-2" />
+                                            </button>
+                    
+                
                 <div className="flex gap-2 w-full px-5 py-5">
                     <div className="flex flex-col items-start justify-center">
                         <Image src={loggedInUser?.base?.avatar || default_user} alt="pos cover image" width={50} height={50} className="rounded-full object-cover aspect-square" />

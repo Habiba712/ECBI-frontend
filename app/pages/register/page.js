@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SectionHeader from "../../components/sections/HeaderSection"
 // import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -7,14 +7,20 @@ import default_user from "../../../public/default_user.png";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const  [username, setUsername] = useState("");
-    const [phone, setPhone] = useState("");
+    const  [name, setName] = useState("");
+    const [telephone, setTelephone] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [role, setRole] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [token, setToken] = useState("");
     const router = useRouter();
 
+    const handleCancel = () => {
+        setEmail("");
+        setPassword("");
+        setName("");
+        setTelephone("");
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(email, password);
@@ -22,7 +28,7 @@ export default function Login() {
         // formData.append("email", email);
         // formData.append("password", password);
       
-        if (!email || !password || !username || !phone) {
+        if (!email || !password || !name || !telephone) {
             setErrorMessage('Please fill in all fields.');
             return;
         }
@@ -31,7 +37,7 @@ export default function Login() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/register`, {
                 headers: { 'Content-Type': 'application/json' },
                 method: "POST",
-                body: JSON.stringify({ email, username, phone, password, default_user })
+                body: JSON.stringify({ email, name, telephone, password, default_user })
             }).then((res) => {
                 if (res.ok) {
                     // return res.json().then((data) => {
@@ -91,15 +97,15 @@ export default function Login() {
                         </div>
                          <div className="formFields flex justify-between w-full items-center py-2">
                             <div className=" flex justify-center items-center ">
-                                <label className="">username</label>
+                                <label className="">Name</label>
 
                             </div>
                             <div className=" flex items-center justify-center"> <input
                                 className=""
                                 type="text"
                                 placeholder="Enter your name"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
 
                             /></div>
 
@@ -112,7 +118,7 @@ export default function Login() {
                                 className=""
                                 type="text"
                                 placeholder="Enter your phone number"
-                                value={phone}
+                                value={telephone}
                                 onChange={(e) => setPhone(e.target.value)}
 
                             /></div>
@@ -137,14 +143,14 @@ export default function Login() {
 
                         <div className="w-full flex flex-col justify-center items-center py-2 gap-3">
                             <button className="auth-button" type="submit">Save</button>
-                            <button type="button">Cancel</button>
+                            <button onClick={()=> handleCancel()} type="button" className="bg-white text-blue-800 font-semibold text-md hover:scale-110 transition-all duration-300 w-full ease-in-out">Cancel</button>
                         </div>
                     </div>
 
                     <div className="flex justify-center  mt-8">
                         <div className="flex justify-between w-fit py-2 px-2 text-center items-center gap-3">
 
-                            <p className="text-sm text-gray-500">Already have an account? </p><a className="text-sm font-semibold py-1 underline" href="/pages/login">Login</a>
+                            <p className="text-sm text-white">Already have an account? </p><a className="text-sm font-semibold py-1 underline text-white" href="/pages/login">Login</a>
                         </div>
                       
                     </div>

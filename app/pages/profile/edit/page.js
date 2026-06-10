@@ -27,6 +27,7 @@ export default function EditProfilePage() {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
      const [errors, setErrors] = useState({});
+     const [successMessage, setSuccessMessage] = useState("");
      const [previewAvatar, setPreviewAvatar] = useState(null);
     const router = useRouter();
 
@@ -108,6 +109,7 @@ export default function EditProfilePage() {
             });
                       
             const data = await res.json();
+            setSuccessMessage("Profile updated successfully");
             console.log('data', data);
                  
 
@@ -142,17 +144,28 @@ export default function EditProfilePage() {
         <section className={`min-h-screen h-full max-w-md mx-auto flex flex-col `}>
 
 
-            <div className={`h-[100px] h-full flex flex-col justify-center bg-gradient-to-r from-purple-800 to-blue-600 items-center  px-4 text-white rounded-b-full w-full `}>
-                <div className="w-full flex flex-col pt-10 justify-between items-center gap-2 h-                full ">
-                    <div className="w-full flex justify-between items-center  relative z-10 -top-8 ">
+            <div className={`h-[100px] h-full flex flex-col justify-center  items-center  px-4 text-white rounded-b-full w-full bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]`} 
+              
+            >
+                <div className="w-full flex flex-col py-3  justify-between items-center gap-2 h-full ">
+                    <div className="w-full flex justify-between items-center  relative z-10  ">
 
                         <button className="absolute w-full" onClick={() => router.back()}>
-                            <RightArrowIcon className="w-8 h-8 text-white cursor-pointer rotate-180 stroke-2" />
+                            <RightArrowIcon className="w-6 h-6 text-white cursor-pointer rotate-180 stroke-2" />
                         </button>
 
 
 
-                        <h2 className="font-semibold font-sans text-xl text-white text-center w-full"> Edit Profile</h2>
+                        <h2 className="w-full text-center"
+    style={{
+      fontSize: "18px",
+      fontWeight: 500,
+      letterSpacing: ".5px",
+      color: "white",
+      opacity: 0.95,
+      fontFamily: "sans-serif",
+    }}
+                        > Edit Profile</h2>
                     </div>
 
                     <div
@@ -173,7 +186,9 @@ export default function EditProfilePage() {
 
 
             </div>
-
+<div>
+    {successMessage && <p className="mt-3 text-green-500 font-semibold  text-center">{successMessage}</p>}
+</div>
             <div className={`h-full `}>
                 <form 
                 onSubmit={handleSubmit}

@@ -8,9 +8,9 @@ export default function CreateOwner() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [phone, setPhone] = useState("");
-    const [pointOfSaleName, setPointOfSaleName] = useState("");
-    const [userName, setUsername] = useState("");
+    const [telephone, setTelephone] = useState("");
+    const [businessName, setBusinessName] = useState("");
+    const [name, setName] = useState("");
 
     const [isLoading, setIsLoading] = useState(false);
     const [iseAuthorized, setIseAuthorized] = useState(false);
@@ -19,37 +19,44 @@ export default function CreateOwner() {
     const router = useRouter();
       
 
-    useEffect(()=>{
-        const session = localStorage.getItem("sessionData");
-        if(!session){
-            router.push("/pages/login");
-        }
-       let sessionInfo;
+//     useEffect(()=>{
+//         const session = localStorage.getItem("sessionData");
+//         if(!session){
+//             router.push("/pages/login");
+//         }
+//        let sessionInfo;
 
-       try{
-          sessionInfo = JSON.parse(session);
-          setSession(sessionInfo);
-       }catch{
-            router.push("/pages/login");
-return
-       }
-       if(sessionInfo.token && sessionInfo.role === "SUPER_ADMIN"){
+//        try{
+//           sessionInfo = JSON.parse(session);
+//           setSession(sessionInfo);
+//        }catch{
+//             router.push("/pages/login");
+// return
+//        }
+//        if(sessionInfo.token && sessionInfo.role === "SUPER_ADMIN"){
        
-            setIseAuthorized(true);
-            console.log("admin", sessionData.role);
+//             setIseAuthorized(true);
+//             console.log("admin", sessionData.role);
 
-          }
-          else{
-              setIseAuthorized(false);
-              router.push("/pages/login");
-          }
+//           }
+//           else{
+//               setIseAuthorized(false);
+//               router.push("/pages/login");
+//           }
 
           
        
-    },[router])
+//     },[router])
+    const handleCancel = () => {
+        setEmail("");
+        setPassword("");
+        setBusinessName("");
+        setName("");
+        setTelephone("");
+    }
     const handleCreateOwner = async (e) => {
         e.preventDefault();
-        console.log(email, password, phone, userName, pointOfSaleName);
+        console.log(email, password, telephone, name, businessName);
         // const formData = new FormData();
         // formData.append("email", email);
         // formData.append("password", password);
@@ -62,25 +69,27 @@ return
         
 
         // const sessionData = JSON.parse(localStorage.getItem("sessionData"));
-        if(session && session.role === "SUPER_ADMIN"){
-            console.log("admin", session.role);
+        // if(session && session.role === "SUPER_ADMIN"){
+        //     console.log("admin", session.role);
 
               try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/createOwner`, {
                 headers: { 'Content-Type': 'application/json'
 
                     ,'Authorization': `Bearer ${session.token}`
-                    ,'role': session.role
+                   
+                    
                  },
                 method: "POST",
                 body: JSON.stringify({ 
                     email,
-                    userName,
-                    pointOfSaleName,telephone:phone,
+                    name,
+                    businessName,
+                    telephone,
                     password })
             }).then((res) => {
                 if (res.ok) {
-                           router.push("/");
+                           router.push("/pages/login");
                  
                 }
             }
@@ -89,23 +98,23 @@ return
             console.log(err);
             alert("Invalid Credentials");
         }
-        }
-        else{
-            alert("You are not authorized to create an owner");
-            router.push("/");
-        }
+        // }
+        // else{
+        //     alert("You are not authorized to create an owner");
+        //     router.push("/");
+        // }
 
       
 
 
     }
 
-    if(iseAuthorized === null){
-        return <div className="flex items-center justify-center h-screen text-white">Checking Permission...</div>
-    }
-    if(iseAuthorized === false){
-        return <div className="flex items-center justify-center h-screen text-white">You are not authorized here :( </div>
-    }
+    // if(iseAuthorized === null){
+    //     return <div className="flex items-center justify-center h-screen text-white">Checking Permission...</div>
+    // }
+    // if(iseAuthorized === false){
+    //     return <div className="flex items-center justify-center h-screen text-white">You are not authorized here :( </div>
+    // }
     return (
         <section className="flex flex-col items-center justify-center mx-auto max-w-md p-4 text-gray-300 border-gray-300 rounded-lg shadow-lg "
             style={{
@@ -126,30 +135,30 @@ return
                     <div className="">
                         <div className="formFields flex justify-between w-full items-center py-2">
                             <div className=" flex justify-center items-center ">
-                                <label className="">Username</label>
+                                <label className="">Name</label>
 
                             </div>
                             <div className=" flex items-center justify-center"> <input
                                 className=""
                                 type="text"
                                 placeholder="Enter your name"
-                                value={userName}
-                                onChange={(e) => setUsername(e.target.value)}
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
 
                             /></div>
 
                         </div>
                           <div className="formFields flex justify-between w-full items-center py-2">
                             <div className=" flex justify-center items-center ">
-                                <label className="">Point of Sale</label>
+                                <label className="">Business Name</label>
 
                             </div>
                             <div className=" flex items-center justify-center"> <input
                                 className=""
                                 type="text"
-                                placeholder="Enter your Point of Sale"
-                                value={pointOfSaleName}
-                                onChange={(e) => setPointOfSaleName(e.target.value)}
+                                placeholder="Enter your business name"
+                                value={businessName}
+                                onChange={(e) => setBusinessName(e.target.value)}
 
                             /></div>
 
@@ -163,8 +172,8 @@ return
                                 className=""
                                 type="text"
                                 placeholder="Enter your phone number"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
+                                value={telephone}
+                                onChange={(e) => setTelephone(e.target.value)}
 
                             /></div>
 
@@ -200,8 +209,8 @@ return
 
                         </div>
                         <div className="w-full flex flex-col justify-center items-center gap-3">
-                            <button type="submit">Save Owner</button>
-                            <button type="button">Cancel</button>
+                            <button className="auth-button"  type="submit">Save Owner</button>
+                            <button type="button" onClick={()=> handleCancel()}  className="bg-white text-blue-800 font-semibold text-md hover:scale-110 transition-all duration-300 w-full ease-in-out">Cancel</button>
                             <div
                             
                             className="flex justify-end items-center w-full py-3 gap-3">

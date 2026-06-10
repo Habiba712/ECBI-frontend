@@ -19,7 +19,7 @@ export default function Login() {
         // const formData = new FormData();
         // formData.append("email", email);
         // formData.append("password", password);
-      
+
         if (!email || !password) {
             setErrorMessage('Please fill in all fields.');
             return;
@@ -29,7 +29,7 @@ export default function Login() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
                 headers: { 'content-Type': 'application/json' },
                 method: "POST",
-                credentials: 'include', 
+                credentials: 'include',
                 body: JSON.stringify({ email, password })
             }).then((res) => {
                 if (res.ok) {
@@ -38,17 +38,19 @@ export default function Login() {
                         setRole(data.role);
                         console.log(data.token);
                         localStorage.setItem("sessionData", JSON.stringify(data));
-                       router.push("/");
+                        document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Strict; Secure`; router.push("/");
                     });
                 }
-                else{
+                else {
                     setErrorMessage("Invalid Credentials");
+                    setEmail("");
+                    setPassword("");
                 }
             }
             )
         } catch (err) {
             console.log(err);
-           
+
         }
 
 
@@ -56,7 +58,7 @@ export default function Login() {
     return (
         <section className="flex flex-col items-center justify-center mx-auto max-w-md p-4 text-gray-300 border-gray-300 rounded-lg shadow-lg "
             style={{
-                "background": "linear-gradient(135deg,rgba (255,255,255,0.1),rgba(175, 158, 158, 0.17))",
+                "background": "bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]",
                 "WebkitBackdropFilter": "blur(20px)",
                 "backdropFilter": "blur(5px)",
                 "boxShadow": "0 8px 20px 0 rgba(0,0,0,0.37)",
@@ -64,7 +66,7 @@ export default function Login() {
                 "borderRadius": "20px",
             }}
         >
-            <SectionHeader title="Login" description="" />
+            <SectionHeader title="Login" description="Everybody Can Be Influencer" />
 
             <div className="py-4  ">
                 {errorMessage ? <p className="text-red-500 text-center">{errorMessage}</p> : null}
@@ -109,12 +111,12 @@ export default function Login() {
                     <div className="mt-8">
                         <div className="flex justify-between w-full py-2 px-2 text-center items-center gap-3">
 
-                            <p className="text-sm text-gray-500">Don't have an account? </p><a className="text-md font-semibold hover:scale-90 transition-all ease-in-out" href="/pages/register">Register</a>
+                            <p className="text-sm text-white">Don't have an account? </p><a className="text-white text-md font-semibold hover:scale-90 transition-all ease-in-out" href="/pages/register">Register</a>
                         </div>
-                        <div className="flex justify-between items-center w-full py-2 px-2 gap-3"><p className="text-sm text-gray-500">
+                        <div className="flex justify-between items-center w-full py-2 px-2 gap-3"><p className="text-sm text-white">
 
                             forgot your password?
-                        </p><a className="text-md font-semibold hover:scale-90 transition-all ease-in-out" href="/pages/password/forgot">Forgot Password</a>
+                        </p><a className=" text-white text-md font-semibold hover:scale-90 transition-all ease-in-out" href="/pages/password/forgot">Forgot Password</a>
                         </div>
                     </div>
 

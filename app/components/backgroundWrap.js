@@ -9,16 +9,12 @@ return (
    <div
      style={{
    
-    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.36), rgba(0, 0, 0, 0.83)), url(${bg_image.src})`,
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    backgroundAttachment: 'fixed',
-    backgroundPosition: 'center center',
+    
     minHeight: '100vh',
 
 
   }}
-  className='flex justify-center items-center'
+  className='flex justify-center items-center bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]'
     >
       {children}
     </div>

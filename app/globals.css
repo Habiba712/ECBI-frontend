@@ -209,11 +209,11 @@ p{
 
 }
 .auth-button{
-    @apply rounded-full bg-gradient-to-r from-black to-yellow-800 px-4 py-2 cursor-pointer text-white font-semibold hover:scale-110 transition-all duration-300 w-full ease-in-out;
+    @apply rounded-full bg-blue-800 px-4 py-2 cursor-pointer text-white font-semibold hover:scale-110 transition-all duration-300 w-full ease-in-out;
 }
 
 button[type="button"]{
-    @apply rounded-full border border-yellow-600 px-4 py-2 cursor-pointer text-white font-semibold hover:scale-110 transition-all duration-300 w-full ease-in-out;
+    @apply rounded-full border text-blue-800 px-4 py-2 cursor-pointer  font-semibold hover:scale-110 transition-all duration-300 w-full ease-in-out;
 }
 select
 {
@@ -241,11 +241,14 @@ input[type="tel"]:disabled
 }
 
 .inf-dash-top{
-  padding: .5rem;
+  padding: 1rem 1rem;
   display:flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(to right bottom, #8217ed, #6c8cc8);
+  border-bottom-left-radius: 30px;
+border-bottom-right-radius: 30px;
+
+  background: linear-gradient(135deg, #6D5BFF 0%, #8A7CFF 35%, #A78BFA 70%, #60A5FA 100%),
 }
 .inf-dash-top div{
   color: rgb(251, 248, 255)

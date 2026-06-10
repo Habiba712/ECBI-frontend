@@ -176,8 +176,17 @@ export default function PointOfSale() {
         >
             <div className="inf-dash-top fixed top-0 max-w-md mx-auto w-full z-100 ">
                 <div>
-                    <h1 className="brand-header-script text-2xl font-sans
-                 ">ECBI Feed</h1>
+                    <h1 className="w-full "
+    style={{
+      fontSize: "18px",
+      fontWeight: 600,
+      letterSpacing: ".5px",
+      color: "white",
+      opacity: 0.95,
+      fontFamily: "sans-serif",
+    }}>ECBI Feed</h1>
+                 <p className="text-md "
+                 >Everybody can be influencer</p>
 
                 </div>
                 <div>

@@ -92,8 +92,26 @@ export default function Notifications() {
     return (
 
         <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   w-full mb-20">
-            <div className="inf-dash-top fixed top-0 max-w-md mx-auto w-full ">
-                    <h2 className="brand-header-script  font-sans text-xl text-white align-middle">
+            {
+                notifs?.length === 0 ? (
+                    <div className="flex flex-grow  px-4 text-md justify-center items-center mt-3 h-full">
+                        <h3 className="text-gray-400 text-center">
+                            When friends visit restaurants
+through your referrals you'll
+see updates here.
+                        </h3>
+                    </div>
+                ):<>
+                 <div className="inf-dash-top fixed top-0 max-w-md mx-auto w-full ">
+                    <h2 className="w-full text-center"
+    style={{
+      fontSize: "18px",
+      fontWeight: 500,
+      letterSpacing: ".5px",
+      color: "white",
+      opacity: 0.95,
+      fontFamily: "sans-serif",
+    }}>
                         Notifications
                     </h2>
                 </div>
@@ -109,12 +127,12 @@ export default function Notifications() {
 
             {/* notifs list */}
             <div className="flex justify-between w-full">
-                <h2 className="font-semibold text-md px-2 text-gray-700"> Last 7 days</h2>
+                <h2 className="font-semibold text-md px-2 text-gray-700 mt-3"> Last 7 days</h2>
             </div>
             {
-                notifs?.length > 0 ? (
+                notifs?.length > 0 && (
                     <div className="flex flex-col gap-3 p-4 text-sm " >
-                        {notifs?.length > 0 ? (
+                        {notifs?.length > 0 && (
                             <div className="flex flex-col w-full">
                                 {notifs.map((notif) => (
                                     <div
@@ -184,8 +202,6 @@ export default function Notifications() {
                                     </div>
                                 ))}
                             </div>
-                        ) : (
-                            <p className="text-gray-400 text-sm text-center mt-10">No notifications available.</p>
                         )}
 
                         <div className="flex justify-center items-center">
@@ -194,14 +210,11 @@ export default function Notifications() {
 
                     </div>
                 )
-                    :
-                    <div className="flex justify-center items-center mt-3">
-                        <h3 className="text-gray-400 text-sm">
-                            You have no notifications yet.
-                        </h3>
-                    </div>
-
+                    
             }
+                </>
+            }
+           
 
 
         </section>
