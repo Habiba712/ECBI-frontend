@@ -39,7 +39,7 @@ export default function AddPost() {
         try {
             const formData = new FormData();
             formData.append('owner', owner);
-            formData.append('referralUser', referralOwner || null);
+            formData.append('referralUser', referralOwner);
             formData.append('pos', id);
             formData.append('image', photoURL);
             formData.append('caption', caption);
