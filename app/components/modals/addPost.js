@@ -39,7 +39,7 @@ export default function AddPost() {
         try {
             const formData = new FormData();
             formData.append('owner', owner);
-            formData.append('referralUser', referralOwner);
+            formData.append('referralUser', referralOwner || null);
             formData.append('pos', id);
             formData.append('image', photoURL);
             formData.append('caption', caption);
@@ -51,7 +51,7 @@ export default function AddPost() {
                 body: formData,
             }).then((res) => {
                 if (res.ok) {
-                    if (isActive) {
+                    if (isActive && referralOwner !== null) {
                         //we need to update the referral link, so the link owner can be rewarded ...
                         updateReferralLink(true, 50);
 
@@ -193,14 +193,14 @@ export default function AddPost() {
                                             postPicToAdd && (
                                                 <div className="w-full flex justify-center bg-purple-50 border-2 border-dashed border-purple-300 rounded-xl text-center p-3 cursor-pointer hover:bg-purple-100 transition">
 
-                                                    <img src={postPicToAdd} alt="Preview Image" width={100} height={100} className="" />
+                                                    <img src={postPicToAdd} alt="Preview Image" className="w-[100px] h-[100px] object-cover aspect-square" />
                                                 </div>
                                             )
 
                                         }
 
                                     </label>
-                                    <p className="text-xs text-gray-500 mt-1">Required to earn points,{id}</p>
+                                    {/* <p className="text-xs text-gray-500 mt-1">Required to earn points,{id}</p> */}
                                 </div>
                             </div>
                             <div className="mb-4">
