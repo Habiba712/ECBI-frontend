@@ -171,7 +171,7 @@ export default function PointOfSale() {
         setIsModalOpen(true);
     }
     return (
-        <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   w-full mb-10"
+        <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   w-full mb-20"
 
         >
             <div className="inf-dash-top fixed top-0 max-w-md mx-auto w-full z-100 ">
