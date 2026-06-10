@@ -65,7 +65,7 @@ export default function AddPost() {
             console.log('error', err);
         }
     }
-
+    
     const updateReferralLink = async (expiredState, rewarded = null) => {
         console.log('we re ehre for the rewrd, ', rewarded)
         if (!owner || !id) return;
@@ -132,7 +132,7 @@ export default function AddPost() {
     useEffect(() => {
         // console.log('oue', owner, id)
         findReferralLink();
-    }, [id, owner])
+    }, [id, owner, referralUser])
 
     //  console.log('user id', owner, id);
     //  console.log('referral links', myReferralLinksForThisPos[0]);
@@ -250,7 +250,7 @@ export default function AddPost() {
 
 
                 {
-                    showModal && myReferralLinksForThisPos.length > 0 && referredLoggedInUser.blocked === false && referredLoggedInUser.isActive === false && referredLoggedInUser.rewarded === false &&
+                    showModal && referralUser !== null && myReferralLinksForThisPos.length > 0 && referredLoggedInUser.blocked === false && referredLoggedInUser.isActive === false && referredLoggedInUser.rewarded === false &&
                     (
                         <CheckReferralLink
 
@@ -258,6 +258,7 @@ export default function AddPost() {
                             closeModal={setShowModal}
                             setExpiredLink={setExpiredLink}
                             setIsActive={setIsActive}
+                            
                             onClose={(val) => updateReferralLink(val)}
                         />
                     )
