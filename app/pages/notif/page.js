@@ -178,13 +178,13 @@ see updates here.
                                                 <div className="flex "
                                                     key={notif?._id}
                                                 >
-                                                    <div className="p-3 bg-blue-100">
+                                                    <div className="p-3">
                                                         <button
                                                             onClick={() => markAsRead(notif?._id)}
                                                             className="cursor-pointer hover:scale-[1.5] transtion ease-in-out duration-300"
                                                         > <MailIcon className="w-5 h-5 text-blue-600" /></button>
                                                     </div>
-                                                    <div className="p-3 bg-red-200">
+                                                    <div className="p-3">
                                                         <button
                                                             onClick={() => handleDelete(notif?._id)}
                                                             className="cursor-pointer hover:scale-[1.5] transtion ease-in-out duration-300"
