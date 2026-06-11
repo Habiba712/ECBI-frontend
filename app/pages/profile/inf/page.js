@@ -67,36 +67,58 @@ export default function InfProfilePage() {
         }
     }
     
-    const pointsAwardedSum = async (myReferralLinks) => {
+    const pointsAwardedSum =  (myReferralLinks) => {
         console.log('my referral linkssss', myReferralLinks);
         let sum = 50;
         myReferralLinks.forEach((item) => {
             console.log('item', item);
             sum += item.pointsEarned;
         });
+        console.log('user id', userId);
         
-            try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUserPoints/${userId}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    method: "PUT",
-                    body: JSON.stringify({ points: sum })
-                }).then((res) => {
-                    if (res.ok) {
-                        res.json().then((data) => {
-                            console.log('referral link data', data);
+            // try {
+            //     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUserPoints/${userId}`, {
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //         },
+            //         method: "PUT",
+            //         body: JSON.stringify({ points: sum })
+            //     }).then((res) => {
+            //         if (res.ok) {
+            //             res.json().then((data) => {
+            //                 console.log('referral link data', data);
                             
-                        })
-                    }
-                })
-            }
-            catch (err) {
-                console.log('error', err);
-            }
+            //             })
+            //         }
+            //     })
+            // }
+            // catch (err) {
+            //     console.log('error', err);
+            // }
 
-        
+        updateUserPoints(userId, sum);
         return sum;
+    }
+    const updateUserPoints = async (userId, points) => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUserPoints/${userId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                method: "PUT",
+                body: JSON.stringify({ points: points })
+            }).then((res) => {
+                if (res.ok) {
+                    res.json().then((data) => {
+                        console.log('referral link data', data);
+                        
+                    })
+                }
+            })
+
+        } catch (err) {
+            console.log('error', err);
+        }
     }
     const handleLogout = async () => {
         try {
