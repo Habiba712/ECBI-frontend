@@ -9,6 +9,36 @@ import { QuestionMarkIcon } from '../../../public/svg/question-mark';
 export default function WalletPage() {
     const [wallet, setWallet] = useState([]);
     const [totalBalance, setTotalBalance] = useState(0);
+    const [userId, setUserId] = useState(0);
+    const [token, setToken]= useState(0);
+    const [loggedInUser, setLoggedInUser] = useState(0);
+      const getUser = async () => {
+        console.log('🔥 getUserById HIT', userId);
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/getUserById/${userId}`).then((res) => res.json().then((data) => {
+                console.log('datadoioi', data);
+                setLoggedInUser(data.user);
+                // setVisitedPos(data.user.finalUser.visits);
+                // console.log("Fetched user data:", data.data);
+            }))
+
+        } catch (err) {
+            console.log("Error fetching user data:", err);
+        }
+    }
+       useEffect(() => {
+        const session = JSON.parse(localStorage.getItem("sessionData")) || null;
+        // console.log('session', session?.userId);
+        setUserId(session?.userId);
+        setToken(session?.token);
+    }, []);
+     useEffect(() => {
+        // setShowReferralLinks(false);
+        if (userId) {
+            getUser();
+        }
+    }, [userId])
 
     return (
         <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   w-full mb-20">

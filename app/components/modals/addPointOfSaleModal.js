@@ -35,8 +35,7 @@ console.log('data to add', data);
 
     const handleSubmit = async (e)=>{
       e.preventDefault();
-        console.log('before sendinf', pointOfSaleToAdd);
-setIsModalOpen(false);
+ setIsModalOpen(false);
 
         onSend(pointOfSaleToAdd)
        

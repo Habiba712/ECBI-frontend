@@ -74,6 +74,28 @@ export default function InfProfilePage() {
             console.log('item', item);
             sum += item.pointsEarned;
         });
+        const updateUserPoints = async () => {
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUserPoints/${userId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    method: "PUT",
+                    body: JSON.stringify({ points: sum })
+                }).then((res) => {
+                    if (res.ok) {
+                        res.json().then((data) => {
+                            console.log('referral link data', data);
+                            
+                        })
+                    }
+                })
+            }
+            catch (err) {
+                console.log('error', err);
+            }
+
+        }
         return sum;
     }
     const handleLogout = async () => {

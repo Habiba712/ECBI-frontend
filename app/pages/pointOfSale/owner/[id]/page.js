@@ -110,22 +110,22 @@ export default function PointOfSale() {
                         onClick={() => redirect(`/pages/pointOfSale/owner`)}
 
                     >
-                        <BackIcon className="hover:scale-110 transition-all ease-in-out duration-500 w-5 h-5 text-gray-400" />
-                        Back to my points of sale</button>
+                        <BackIcon className="hover:scale-110 transition-all ease-in-out duration-500 w-5 h-5 text-gray-400" />Back to list
+                       </button>
                 </div>
             </div>
             <div className="bg-white shadow-lg rounded-lg ">
-                {/* first part */}
-                <div className="flex flex-col gap-3 p-4">
+              
+                {/* <div className="flex flex-col gap-3 p-4">
 
                     <div className="w-2/3 h-2/3">
                         <img src={pointsOfSaleById?.coverImage} alt="restaurant" className="rounded-lg h-[300px] w-full object-cover aspect-square flex-grow" />
                     </div>
-                    <h1 className="font-bold  text-gray-700">{pointsOfSaleById?.name}</h1>
+                    <h1 className="font-bold  text-black font-semibold">{pointsOfSaleById?.name}</h1>
                     <p>
                         {pointsOfSaleById?.description}
                     </p>
-                </div>
+                </div> */}
 
                 {/* //some overviews */}
                 <div className="flex flex-col gap-3 p-4 text-sm " >
@@ -143,13 +143,13 @@ export default function PointOfSale() {
                                              ">{pointsOfSaleById?.stats.totalVisits}</span>
                                 <span style={{
                                     'fontSize': '12px'
-                                }} className="text-gray-700 text-sm ">Total Visits</span>
+                                }} className="text-black font-semibold text-sm ">Total Visits</span>
                             </div>
 
 
 
                         </div>
-                        <div className="p-4 shadow-lg rounded-lg bg-green-100">
+                        <div className="p-4 shadow-lg rounded-lg bg-blue-100">
                             <div className="flex justify-between w-full">
 
 
@@ -157,13 +157,13 @@ export default function PointOfSale() {
                             </div>
 
                             <div className="flex flex-col justify-center items-center ">
-                                <span className="font-semibold text-3xl text-green-700 
+                                <span className="font-semibold text-3xl text-blue-700 
                                              ">{pointsOfSaleById?.stats.averageRating}</span>
                                 <span
                                     style={{
                                         'fontSize': '12px'
                                     }}
-                                    className="text-gray-700 text-sm ">Average Rating</span>
+                                    className="text-black font-semibold text-sm ">Average Rating</span>
                             </div>
 
 
@@ -183,13 +183,13 @@ export default function PointOfSale() {
                                              text-3xl">{pointsOfSaleById?.stats.totalReviews}</span>
                                 <span style={{
                                     'fontSize': '12px'
-                                }} className="text-gray-700 text-sm ">Total Reviews</span>
+                                }} className="text-black font-semibold text-sm ">Total Reviews</span>
                             </div>
 
 
 
                         </div>
-                        <div className="p-4 shadow-lg rounded-lg bg-red-100">
+                        <div className="p-4 shadow-lg rounded-lg bg-purple-100">
                             <div className="flex justify-between w-full">
 
 
@@ -197,11 +197,11 @@ export default function PointOfSale() {
                             </div>
 
                             <div className="flex flex-col justify-center items-center ">
-                                <span className="font-semibold text-3xl text-red-700 
+                                <span className="font-semibold text-3xl text-purple-700 
                                              ">{pointsOfSaleById?.stats?.pointsRedeemed}</span>
                                 <span style={{
                                     'fontSize': '12px'
-                                }} className="text-gray-700 text-sm">Points Used</span>
+                                }} className="text-black font-semibold text-sm">Points Used</span>
                             </div>
 
 
@@ -216,10 +216,12 @@ export default function PointOfSale() {
 
 
 
-            </div>{/* recent reviews and visits */}
+            </div>
+            
+            {/* recent reviews and visits */}
             <div className="shadow-lg rounded-lg p-4 mt-4">
                 <div className="p-4">
-                    <h3 className="font-bold text-gray-700">Recents Visitors & Reviews</h3>
+                    <h3 className="font-bold text-black font-semibold">Recents Visitors & Reviews</h3>
                     
                 </div>
                 {
@@ -252,7 +254,7 @@ export default function PointOfSale() {
                                             'font-size': "12px"
                                         }}>
 
-                                            {item.rating && <span className="text-green-500 flex">
+                                            {item.rating && <span className="text-blue-500 flex">
                                                 {calculateStars(item.rating)}
 
                                             </span>}
@@ -260,7 +262,7 @@ export default function PointOfSale() {
                                         </span>
                                         <span style={{
                                             'font-size': "12px"
-                                        }} className="text-green-600">
+                                        }} className="text-blue-600">
                                             +{item?.pointsEarned ? item.pointsEarned : 0} points earned
                                         </span>
                                     </div>

@@ -22,7 +22,7 @@ export default function PointOfSale() {
             <div className="flex flex-col gap-3 p-4 text-sm " >
                 <div className="grid grid-cols-2 gap-3 w-full ">
 
-                    <div className="p-4 shadow-lg rounded-lg bg-gradient-to-r from-purple-700 to-blue-700">
+                    <div className="p-4 shadow-lg rounded-lg bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]">
                         <div className="flex justify-between w-full">
                             <h2 className="text-gray-100 font-semibold ">Total Visits</h2>
                             <ClientsIcon className="w-7 h-7 text-gray-100" />
@@ -40,7 +40,7 @@ export default function PointOfSale() {
 
 
                     </div>
-                    <div className="p-4 shadow-lg rounded-lg bg-gradient-to-r from-purple-700 to-blue-700">
+                    <div className="p-4 shadow-lg rounded-lg bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]">
                         <div className="flex justify-between w-full">
                             <h2 className="text-gray-100 font-semibold ">Average Rating</h2>
                             <StarIcon className="w-7 h-7 text-gray-100 " />
@@ -62,7 +62,7 @@ export default function PointOfSale() {
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3 w-full">
-                    <div className="p-4 shadow-lg rounded-lg bg-gradient-to-r from-purple-700 to-blue-700">
+                    <div className="p-4 shadow-lg rounded-lg bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]">
                         <div className="flex justify-between w-full">
                             <h2 className="text-gray-100 font-semibold ">Total Reviews</h2>
                             <MessageReviewIcon className="w-7 h-7 text-gray-100 " />
@@ -80,7 +80,7 @@ export default function PointOfSale() {
 
 
                     </div>
-                    <div className="p-4 shadow-lg rounded-lg bg-gradient-to-r from-purple-700 to-blue-700">
+                    <div className="p-4 shadow-lg rounded-lg bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]">
                         <div className="flex justify-between w-full">
                             <h2 className="text-gray-100 font-semibold ">Points Redeemed</h2>
                             <AwardIcon className="w-7 h-7 text-gray-100 " />
