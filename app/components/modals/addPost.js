@@ -103,7 +103,7 @@ export default function AddPost() {
                 posId: id,
                 visitorId: owner
             });
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getAllReferralLinks?posId=6a29f8e9063b3c819d9dabc2&visitorId=6a29b11df75d0601eca81733`);
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getAllReferralLinks?posId=${id}&visitorId=${owner}`);
             const data = await res.json();
             console.log('dataaaa', data);
             if (data && data.length > 0) {
