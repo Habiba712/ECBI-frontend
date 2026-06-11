@@ -139,7 +139,7 @@ see updates here.
                                         key={notif?._id}
 
                                         onClick={() => handleSlide(notif?._id)}
-                                        className={`flex items-center w-full rounded-lg  border-gray-50/80 bg-white shadow-lg   gap-3 py-3 px-1 cursor-pointer hover:bg-gray-50/50 transition-colors duration-150 mb-1 ${notif?.read == false && 'border-1 border-green-200 shadow-hidden'}`
+                                        className={`flex items-center w-full rounded-lg  border-gray-50/80 bg-white shadow-lg   gap-3 py-3 px-1 cursor-pointer hover:bg-gray-50/50 transition-colors duration-150 mb-1 ${notif?.read == false && 'border-1 border-purple-300 shadow-hidden'}`
 
                                         }
                                     >
