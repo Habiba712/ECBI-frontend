@@ -74,7 +74,7 @@ export default function InfProfilePage() {
             console.log('item', item);
             sum += item.pointsEarned;
         });
-        const updateUserPoints = async () => {
+        
             try {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUserPoints/${userId}`, {
                     headers: {
@@ -95,7 +95,7 @@ export default function InfProfilePage() {
                 console.log('error', err);
             }
 
-        }
+        
         return sum;
     }
     const handleLogout = async () => {
