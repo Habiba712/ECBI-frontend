@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 export default function ReferralPage({ params }) {
     const id = params; // directly use params.id in client component
-
+    console.log('referral.js',id)
     const router = useRouter();
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);

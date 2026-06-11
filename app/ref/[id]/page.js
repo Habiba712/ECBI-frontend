@@ -8,6 +8,7 @@ import AuthWrapper from "../../utils/withAuth";
 
 export default function ReferralPageLink({params}) {
     const { id } = use(Promise.resolve(params));
+    console.log('ref page',id)
   
     return (
        <Suspense fallback={<div>Loading...</div>}>
