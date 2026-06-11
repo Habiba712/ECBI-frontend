@@ -126,15 +126,17 @@ export default function AddPost() {
         }
     }
 
-    useEffect(() => {
-        const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
-        setOwner(sessionData?.userId);
-    }, []);
+   useEffect(() => {
+    const sessionData = JSON.parse(localStorage.getItem("sessionData"));
+    if (!sessionData?.userId || !id) return;
 
-    useEffect(() => {
-        // console.log('oue', owner, id)
-        findReferralLink();
-    }, [id, owner])
+    setOwner(sessionData.userId);
+}, [id]);
+
+   useEffect(() => {
+    if (!owner || !id) return;
+    findReferralLink();
+}, [owner, id]);
 
     //  console.log('user id', owner, id);
     //  console.log('referral links', myReferralLinksForThisPos[0]);
