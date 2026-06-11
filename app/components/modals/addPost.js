@@ -134,7 +134,7 @@ export default function AddPost() {
     useEffect(() => {
         // console.log('oue', owner, id)
         findReferralLink();
-    }, [id, owner, referralOwner])
+    }, [id, owner])
 
     //  console.log('user id', owner, id);
     //  console.log('referral links', myReferralLinksForThisPos[0]);
