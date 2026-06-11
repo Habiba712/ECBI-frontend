@@ -16,7 +16,7 @@ export default function ReferralPage({ params }) {
     const [referrerUser, setReferrerUser] = useState(null);
     const [owner, setOwner] = useState("");
 
-
+// https://ecbi-frontend-9ww4.vercel.app/pages/posts/createPost/6a29a1359fdf62f558dcbc30
 
     const fetchReferral = async (owner) => {
         const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinkByLink/${id}`);

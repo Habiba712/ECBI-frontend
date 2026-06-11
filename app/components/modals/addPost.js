@@ -96,13 +96,10 @@ export default function AddPost() {
     }
 
     const findReferralLink = async () => {
-        console.log('er e here')
-        if (!owner || !id) return;
+        console.log('er e here', owner, id)
+       
         try {
-            const params = new URLSearchParams({
-                posId: id,
-                visitorId: owner
-            });
+            
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getAllReferralLinks?posId=${id}&visitorId=${owner}`);
             const data = await res.json();
             console.log('dataaaa', data);
