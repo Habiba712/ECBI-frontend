@@ -158,7 +158,7 @@ see updates here.
                                                 {notif?.message}
                                             </p>
                                             <span className="text-[11px] text-gray-400 mt-0.5">
-                                                {notif?.recipient?.base?.name}
+                                                {notif?.sender?.base?.name}
                                             </span>
                                         </div>
 
