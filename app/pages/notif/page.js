@@ -134,7 +134,9 @@ see updates here.
                     <div className="flex flex-col gap-3 p-4 text-sm " >
                         {notifs?.length > 0 && (
                             <div className="flex flex-col w-full">
-                                {notifs.map((notif) => (
+                                {notifs
+                                .sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt))
+                                .map((notif) => (
                                     <div
                                         key={notif?._id}
 
@@ -165,7 +167,7 @@ see updates here.
                                         {/* Action / Timestamp Container Right-Aligned */}
                                         <div className="flex flex-col items-end flex-shrink-0 ms-auto">
                                             <span className="text-[11px]  text-gray-400 whitespace-nowrap">
-                                                {new Date(notif?.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                {new Date(notif?.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' })}
                                             </span>
                                             {/* Optional 'View' badge if needed to fully match screen 2
                                             <span className="mt-1 text-[10px] font-semibold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">
