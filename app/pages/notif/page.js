@@ -18,7 +18,7 @@ export default function Notifications() {
     const [token, setToken] = useState("");
     const [activeNotifId, setActiveNotifId] = useState(null);
     const ref = useRef(null);
-
+  
     const handleSlide = (notifId) => {
         // console.log('notif id', notifId);
         ref.current = notifId;
@@ -102,7 +102,7 @@ see updates here.
                         </h3>
                     </div>
                 ):<>
-                 <div className="inf-dash-top fixed top-0 max-w-md mx-auto w-full ">
+                 <div className="inf-dash-top fixed top-0 max-w-md mx-auto w-full z-10">
                     <h2 className="w-full text-center"
     style={{
       fontSize: "18px",

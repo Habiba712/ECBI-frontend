@@ -11,6 +11,9 @@ import TredingUpIcon from '../../../public/svg/tredingUp';
 import goblet from '../../../public/goblet.png';
 import ClientsIcon from '../../../public/svg/clients';
 import history from '../../../public/svg/history.svg';
+import StarIcon from '../../../public/svg/star';
+import surprise_box from '../../../public/surprise_box.png';
+import { formatDistanceToNow } from "date-fns";
 
 export default function WalletPage() {
     const [wallet, setWallet] = useState([]);
@@ -20,7 +23,32 @@ export default function WalletPage() {
     const [userId, setUserId] = useState(0);
     const [token, setToken]= useState(0);
     const [loggedInUser, setLoggedInUser] = useState(0);
+    const [getReferralLinks, setGetReferralLinks] = useState();
+    const [getTotalFriends, setGetTotalFriends] = useState();
+
+    const getMyReferralLinks = async () => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinksForWallet/${userId}`, {
+                 
+           
+             }).then((res) => {
+                if (res.ok) {
+                    res.json().then((data) => {
+                        console.log('referral link data', data);
+                        setGetReferralLinks(data);
+                        setGetTotalFriends(data?.reduce((acc, reff) => acc + reff?.referredUsers?.length, 0));
+                    })
+                }
+            })
+
+        } catch (err) {
+            console.log('error', err);
+        }
+    }
+    console.log('ref', getReferralLinks)
+    
  
+
     const getUser = async () => {
         console.log('🔥 getUserById HIT', userId);
 
@@ -60,6 +88,7 @@ export default function WalletPage() {
         // setShowReferralLinks(false);
         if (userId) {
             getUser();
+            getMyReferralLinks();
         }
     }, [userId])
 
@@ -222,11 +251,84 @@ export default function WalletPage() {
                 See More
                 </button>
         </div>
-        <div>{
-            
-            
+        <div className="w-full">
+            {
+                getReferralLinks?.length > 0 && (
+                    getReferralLinks?.map((referral) =>(
+
+                        referral?.referredUsers?.length > 0 && (
+                            referral?.referredUsers?.map((reff) => (
+                           
+                           <div key={reff?.user?._id} className="rounded-lg border border-gray-200 py-3 px-2 mb-2 flex">
+                            <div className="flex gap-2 items-center w-30">
+                                <Image src={reff?.user?.base?.avatar} alt="avatar" width={40} height={40} className="rounded-full object-cover aspect-square" />
+                                <span className="text-green-600 font-semibold border-2 border-green-100 rounded-full flex items-center justify-center h-[40px] w-[40px] text-[12px]">+{(totalBalance - 50) / referral?.referredUsers?.length}</span>
+                                </div>
+
+                               <div className="w-50 ">
+                                <p className="font-semibold ">Referral Completed</p>
+                                <span className="text-gray-500 text-xs font-sans flex-wrap"> Your friend {reff?.user?.base?.name} has completed the referral</span>
+                                </div>
+                                <div className="w-20 flex justify-end ">
+                                    <span className="text-gray-400 text-xs font-sans flex-nowrap w-fit">
+                                        {formatDistanceToNow(new Date(reff?.joinedAt), { addSuffix: true })}
+                                    </span>
+                                    </div>
+                            </div>
+                            
+                        )))
+                       
+                    ))
+                )
             }
 
+        </div>
+
+        <div className="flex gap-2 w-full justify-between">
+            <div className="flex flex-col shadow-lg rounded-lg items-center justify-center bg-white  py-4 px-4 w-full">
+                <div className="bg-purple-100 rounded-full p-1 ">
+                    <ClientsIcon className="w-7 h-7 text-purple-500 stroke-2" />
+                    </div>
+                <p style={{'fontSize':'20px'}} className="font-semibold">{getTotalFriends} </p>
+                <p style={{'fontSize':'13px','fontWeight':'600'}}  className="text-gray-500 text-lg text-center w-full">Friends Referred</p>
+                
+            </div>
+            <div className="flex flex-col shadow-lg rounded-lg items-center justify-center bg-white  py-4 px-4 w-full">
+                <div className="bg-green-100 rounded-full p-1 ">
+                <StarIcon className="w-7 h-7 text-green-500 stroke-2" />
+
+                </div>
+                <p style={{'fontSize':'20px'}} className="font-semibold">{totalBalance}</p>
+                <p style={{'fontSize':'13px','fontWeight':'600'}}  className="text-gray-500 text-lg text-center w-full ">PointsEarned</p>
+            </div>
+            <div className="flex flex-col shadow-lg rounded-lg items-center justify-center bg-white  py-4 px-4 w-full">
+                <div className="bg-orange-100 rounded-full p-1 ">
+                <GiftIcon className="w-7 h-7 text-yellow-500 stroke-2" />
+
+                </div>
+                <p style={{'fontSize':'20px'}} className="font-semibold">{redeemedPoints ? redeemedPoints : 0}</p>
+                <p style={{'fontSize':'13px','fontWeight':'600'}}  className="text-gray-500 text-lg text-center w-full">Rewards Redeemed</p>
+            </div>
+        </div>
+
+        <div className="w-full flex bg-purple-100 rounded-lg items-center justify-between px-4  py-2 shadow-lg">
+            <div className="w-25 ">
+<Image src={surprise_box} alt="pos cover image" width={100} height={100} className="rounded-full object-cover aspect-square" />
+            </div>
+            <div className="w-50">
+                <p style={{'fontSize':'18px'}} className="text-purple-800 font-semibold">
+                    Redeem Your Points
+                </p>
+                <p className="text-gray-500 font-semibold">
+                    Turn your points into amazing rewards and discounts
+                </p>
+            </div>
+            <div className="w-25">
+                <button className="bg-purple-900 opacity-80 text-white px-1 py-2 rounded-full text-[13px] flex nowrap w-full cursor-pointer">
+                Explore Rewards
+            </button>
+            </div>
+            
         </div>
       </div>
             </div>
