@@ -105,8 +105,8 @@ export default function WalletPage() {
     }, [userId])
 
     return (
-        <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   w-full mb-30 ">
-            <div className={`h-[100px] flex flex-col justify-start  items-center  px-4 py-3 text-white rounded-b-full w-full bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]`}
+        <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   mb-30 ">
+            <div className={`h-[100px] flex flex-col justify-start  items-center py-3 text-white rounded-b-full w-full bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]`}
             >
                 <div className="w-full flex items-center justify-between relative z-10 ">
 
@@ -201,7 +201,7 @@ export default function WalletPage() {
                     <div className="flex flex-col gap-2 text-md shadow-lg rounded-lg items-center justify-center bg-white w-full font-semibold py-2 px-3">
                         <button className="rounded-full cursor-pointer p-2 bg-gray-100
                         hover:scale-[1.1] transition-all duration-300
-                        " onClick={() => changeTab("rewards")}>
+                        " >
                             <Image src={goblet} alt="pos cover image" width={30} height={30} className="rounded-full object-cover aspect-square" />
                         </button>
 
@@ -209,7 +209,7 @@ export default function WalletPage() {
 
                     </div>
 
-                    <div className="flex flex-col gap-2 text-md shadow-lg rounded-lg items-center justify-center bg-white w-full font-semibold py-2 px-3">
+                    <div className="flex flex-col gap-2 text-md shadow-lg rounded-lg items-center justify-center bg-white w-full font-semibold py-2">
                         <button className="rounded-full cursor-pointer p-2 bg-gray-100
                         hover:scale-[1.1] transition-all duration-300
                         " 
@@ -222,7 +222,7 @@ export default function WalletPage() {
 
                     </div>
 
-                    <div className="flex flex-col gap-2 text-md shadow-lg rounded-lg items-center justify-center bg-white w-full font-semibold py-2 px-3">
+                    <div className="flex flex-col gap-2 text-md shadow-lg rounded-lg items-center justify-center bg-white w-full font-semibold py-2">
                         <button className="rounded-full cursor-pointer p-2 bg-gray-100
                         hover:scale-[1.1] transition-all duration-300
                     " onClick={() => changeTab("referrals")}
@@ -252,7 +252,7 @@ export default function WalletPage() {
                 </div>
                 
                    
-                   <>
+                   <div className="">
                    {tab === "history" ? (
                          <History 
              getReferralLinks={getReferralLinks}
@@ -270,10 +270,11 @@ export default function WalletPage() {
                         <Referrals />
                     ): null
                 }
-                   </>
+                   </div>
               
                 
- <div className="w-full flex bg-purple-100 rounded-lg items-center justify-between  py-2 shadow-lg px-1 mt-3">
+ <div className="px-1 ">
+    <div className="w-full flex bg-purple-100 rounded-lg items-center justify-between  py-2 shadow-lg mt-3 ">
                         <div className="w-20">
                             <Image src={surprise_box} alt="pos cover image" width={100} height={100} className="rounded-full object-cover aspect-square" />
                         </div>
@@ -292,6 +293,7 @@ export default function WalletPage() {
                         </div>
 
                     </div>
+ </div>
             
             </div>
         </section>

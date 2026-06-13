@@ -10,7 +10,7 @@ import { formatDistanceToNow } from "date-fns";
 
 export default function History({getReferralLinks, getTotalFriends, totalBalance, redeemedPoints}) {
     return (
-   <div className="px-4 flex flex-col gap-3 ">
+   <div className="flex flex-col gap-3 px-1">
                     <div className="flex justify-between items-center">
                         <p
                             style={{
@@ -22,7 +22,7 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                                 opacity: 0.95,
                                 fontFamily: "sans-serif",
                             }}
-                            clasName=" font-semibold text-center text-sans">
+                            clasName=" font-semibold text-center text-sans ">
                             Recent Activity
                         </p>
                         <button className="text-purple-500 font-semibold text-md cursor-pointer">
@@ -37,7 +37,7 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                                     referral?.referredUsers?.length > 0 && (
                                         referral?.referredUsers?.map((reff) => (
 
-                                            <div key={reff?.user?._id} className="rounded-lg border border-gray-200 py-3 px-2 mb-2 flex">
+                                            <div key={reff?.user?._id} className="rounded-lg border border-gray-200 py-3 mb-2 flex">
                                                 <div className="flex gap-2 items-center w-30">
                                                     <Image src={reff?.user?.base?.avatar} alt="avatar" width={40} height={40} className="rounded-full object-cover aspect-square" />
                                                     <span className="text-green-600 font-semibold border-2 border-green-100 rounded-full flex items-center justify-center h-[40px] w-[40px] text-[12px]">+{(totalBalance - 50) / referral?.referredUsers?.length}</span>
