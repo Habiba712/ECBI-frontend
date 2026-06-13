@@ -7,6 +7,7 @@ import Image from "next/image";
 import MailIcon from "../../../public/svg/mail";
 import DeleteIcon from "../../../public/svg/delete";
 import { setRef } from "@mui/material";
+import { formatDistanceToNow } from "date-fns";
 
 
 
@@ -131,7 +132,7 @@ see updates here.
             </div>
             {
                 notifs?.length > 0 && (
-                    <div className="flex flex-col gap-3 p-4 text-sm " >
+                    <div className="flex flex-col gap-3 py-4 px-2 text-sm " >
                         {notifs?.length > 0 && (
                             <div className="flex flex-col w-full">
                                 {notifs
@@ -167,29 +168,27 @@ see updates here.
                                         {/* Action / Timestamp Container Right-Aligned */}
                                         <div className="flex flex-col items-end flex-shrink-0 ms-auto">
                                             <span className="text-[11px]  text-gray-400 whitespace-nowrap">
-                                                {new Date(notif?.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' })}
+                                                {formatDistanceToNow(new Date(notif?.createdAt), {addSuffix: true})}
+                                                
                                             </span>
-                                            {/* Optional 'View' badge if needed to fully match screen 2
-                                            <span className="mt-1 text-[10px] font-semibold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">
-                                                .
-                                            </span> */}
+                                          
                                         </div>
                                         {/* appears slidin to the left */}
                                         {
                                             activeNotifId && ref.current == notif?._id && (
-                                                <div className="flex "
+                                                <div className="flex gap-1"
                                                     key={notif?._id}
                                                 >
-                                                    <div className="p-3">
+                                                    <div className="">
                                                         <button
                                                             onClick={() => markAsRead(notif?._id)}
-                                                            className="cursor-pointer hover:scale-[1.5] transtion ease-in-out duration-300"
+                                                            className="bg-gray-100 p-2 rounded-full cursor-pointer hover:scale-[1.5] transtion ease-in-out duration-300"
                                                         > <MailIcon className="w-5 h-5 text-blue-600" /></button>
                                                     </div>
-                                                    <div className="p-3">
+                                                    <div className="">
                                                         <button
                                                             onClick={() => handleDelete(notif?._id)}
-                                                            className="cursor-pointer hover:scale-[1.5] transtion ease-in-out duration-300"
+                                                            className="bg-gray-100 p-2 rounded-full cursor-pointer hover:scale-[1.5] transtion ease-in-out duration-300"
                                                         > <DeleteIcon
                                                                 className="w-5 h-5 text-red-600" />
                                                         </button>
