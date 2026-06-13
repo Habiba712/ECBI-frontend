@@ -89,7 +89,7 @@ export default function Educational({ }) {
                     </div>
 
                     <div className=" w-full">
-                        <h3 className="font-semibold ">Share on Social Media</h3>
+                        <h3 className="font-semibold ">Birthday Bonus</h3>
                         <p className="text-gray-600 font-semibold">Get a special bonus on your birthday! </p>
                     </div>
                     <p style={{'fontSize':'20px'}} className="font-bold text-pink-600">+10</p>
