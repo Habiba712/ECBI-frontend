@@ -149,7 +149,7 @@ export default function Header() {
                                     <div className="icon-mobile relative"> 
                                         <NotificationsIcon className="w-5 h-5 cursor-pointer" /> 
                                         {notifCount > 0 && (
-                                            <span className="absolute -top-1 left-3 text-[6px] bg-red-500 rounded-full text-white w-3 h-3 flex items-center justify-center border-2 border-white">
+                                            <span className="absolute -top-1 left-3 text-[8px] bg-red-500 rounded-full text-white w-[15px] h-[15px] flex items-center justify-center border-2 border-white">
                                                 {notifCount}
                                             </span>
                                         )}

@@ -26,6 +26,7 @@ export default function AddPost() {
     const [referredLoggedInUser, setReferredLoggedInUser] = useState(null);
     const [caption, setCaption] = useState("");
     const [referralOwner, setReferralOwner] = useState(null);
+   
 
 
     const handleModal = () => {
