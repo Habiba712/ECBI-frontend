@@ -37,7 +37,7 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                                     referral?.referredUsers?.length > 0 && (
                                         referral?.referredUsers?.map((reff) => (
 
-                                            <div key={reff?.user?._id} className="rounded-lg border border-gray-200 py-3 mb-2 flex justify-between items-center gap-3">
+                                            <div key={reff?.user?._id} className="rounded-lg border border-gray-200 px-3 py-3 mb-2 flex justify-between items-center gap-3">
                                                 <div className="flex items-center ">
                                                     <Image src={reff?.user?.base?.avatar} alt="avatar" width={40} height={40} className="rounded-full object-cover aspect-square" />
                                                     <span className="text-green-600 font-semibold border-2 border-green-100 rounded-full flex items-center justify-center h-[40px] w-[40px] text-[20px]">+{(totalBalance - 50) / referral?.referredUsers?.length}</span>
@@ -47,7 +47,7 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                                                     <p className="font-semibold ">Referral Completed</p>
                                                     <span className="text-gray-500 text-xs font-sans flex-wrap"> Your friend {reff?.user?.base?.name} has completed the referral</span>
                                                 </div>
-                                                <div className=" flex justify-end  items-start ">
+                                                <div className=" flex justify-end  items-start">
                                                     <span className="text-gray-400 text-xs font-sans flex-nowrap w-fit">
                                                         {formatDistanceToNow(new Date(reff?.joinedAt), { addSuffix: true })}
                                                     </span>
