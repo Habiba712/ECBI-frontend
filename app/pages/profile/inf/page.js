@@ -151,7 +151,7 @@ export default function InfProfilePage() {
     }
     const handleGenerateLink = async ({ userId, posId }) => {
         console.log('link', userId, posId)
-
+// https://ecbi-frontend-9ww4.vercel.app/ref/ozxh8as3
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/createReferralLink`, {
                 headers: {

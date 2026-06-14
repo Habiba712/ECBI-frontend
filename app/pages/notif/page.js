@@ -168,7 +168,7 @@ see updates here.
                                         {/* Action / Timestamp Container Right-Aligned */}
                                         <div className="flex flex-col items-end flex-shrink-0 ms-auto">
                                             <span className="text-[11px]  text-gray-400 whitespace-nowrap">
-                                                {formatDistanceToNow(new Date(notif?.createdAt), {addSuffix: true})}
+                                                {formatDistanceToNow(new Date(notif?.createdAt), { addSuffix: true })}
                                                 
                                             </span>
                                           

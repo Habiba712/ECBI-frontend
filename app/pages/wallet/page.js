@@ -28,8 +28,11 @@ export default function WalletPage() {
     const [token, setToken] = useState(0);
     const [loggedInUser, setLoggedInUser] = useState(0);
     const [getReferralLinks, setGetReferralLinks] = useState();
+    const [getReferralLinksAll, setGetReferralLinksAll] = useState();
     const [getTotalFriends, setGetTotalFriends] = useState();
-     const [isLoading, setIsLoading] = useState(false);
+    const [totalReferrals, setTotalReferrals] = useState(0);
+    const [totalActiveReferrals, setTotalActiveReferrals] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
     const [history, setHistory] = useState([]);
     const [educational, setEducational] = useState(false);
     const [rewards, setRewards] = useState(false);
@@ -47,6 +50,45 @@ export default function WalletPage() {
                         console.log('referral link data', data);
                         setGetReferralLinks(data);
                         setGetTotalFriends(data?.reduce((acc, reff) => acc + reff?.referredUsers?.length, 0));
+                    })
+                }
+            })
+
+        } catch (err) {
+            console.log('error', err);
+        }
+    }
+
+    const getreferralLinksAll = async () => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinksByUserId/${userId}`, {
+
+
+            }).then((res) => {
+                if (res.ok) {
+                    res.json().then((data) => {
+                        console.log('referral link data all',
+
+                        )
+                        setGetReferralLinksAll(data?.map(link => ({
+                            ...link,
+                            referredUsers: link?.referredUsers?.filter(
+                                referredUser => referredUser?.isActive === true || referredUser?.isActive === false && referredUser?.userId !== userId && referredUser?.tempId === null
+                            )
+                        }))
+                            .filter(link => link?.referredUsers?.length > 0)
+                            .reduce((acc, curr) => acc + curr?.referredUsers?.length, 0)
+
+                        );
+
+                        setTotalActiveReferrals(data?.map(link => ({
+                            ...link,
+                            referredUsers: link?.referredUsers?.filter(
+                                referredUser => referredUser?.isActive === true && referredUser?.userId !== userId && referredUser?.tempId === null
+                            )
+                        }))
+                            .filter(link => link?.referredUsers?.length > 0)
+                            )
                     })
                 }
             })
@@ -101,6 +143,7 @@ export default function WalletPage() {
         if (userId) {
             getUser();
             getMyReferralLinks();
+            getreferralLinksAll();
         }
     }, [userId])
 
@@ -212,8 +255,8 @@ export default function WalletPage() {
                     <div className="flex flex-col gap-2 text-md shadow-lg rounded-lg items-center justify-center bg-white w-full font-semibold py-2">
                         <button className="rounded-full cursor-pointer p-2 bg-gray-100
                         hover:scale-[1.1] transition-all duration-300
-                        " 
-                        onClick={() => changeTab("educational")}
+                        "
+                            onClick={() => changeTab("educational")}
                         >
                             <GiftIcon className="w-7 h-7 text-green-500 stroke-2" />
                         </button>
@@ -238,7 +281,7 @@ export default function WalletPage() {
                         <button className="rounded-full cursor-pointer p-2 bg-gray-100
                         hover:scale-[1.1] transition-all duration-300
                         "
-                        onClick={() => changeTab("history")}
+                            onClick={() => changeTab("history")}
                         >
 
                             <Image src={history_icon} alt="pos cover image" width={30} height={30} className="rounded-full object-cover aspect-square" />
@@ -250,31 +293,35 @@ export default function WalletPage() {
 
 
                 </div>
-                
-                   
-                   <div className="">
-                   {tab === "history" ? (
-                         <History 
-             getReferralLinks={getReferralLinks}
-             getTotalFriends={getTotalFriends}
-             totalBalance={totalBalance}
-             redeemedPoints={redeemedPoints}
-             />
+
+
+                <div className="">
+                    {tab === "history" ? (
+                        <History
+                            getReferralLinks={getReferralLinks}
+                            getTotalFriends={getTotalFriends}
+                            totalBalance={totalBalance}
+                            redeemedPoints={redeemedPoints}
+                        />
                     ) : tab === "educational" ? (
                         <Educational />
                     )
-                    : tab === "rewards" ? (
-                        <Rewards />
-                    )
-                    : tab === "referrals" ? (
-                        <Referrals />
-                    ): null
-                }
-                   </div>
-              
-                
- <div className="px-1 ">
-    <div className="w-full flex bg-purple-100 rounded-lg items-center justify-between  py-2 shadow-lg mt-3 ">
+                        : tab === "rewards" ? (
+                            <Rewards getReferralLinks={getReferralLinks} />
+                        )
+                            : tab === "referrals" ? (
+                                <Referrals 
+                                getReferralLinksAll={getReferralLinksAll}
+                                activeReferrals={totalActiveReferrals}
+                                totalPoints={totalBalance}
+                                />
+                            ) : null
+                    }
+                </div>
+
+
+                <div className="px-1 ">
+                    <div className="w-full flex bg-purple-100 rounded-lg items-center justify-between  py-2 shadow-lg mt-3 ">
                         <div className="w-20">
                             <Image src={surprise_box} alt="pos cover image" width={100} height={100} className="rounded-full object-cover aspect-square" />
                         </div>
@@ -293,8 +340,8 @@ export default function WalletPage() {
                         </div>
 
                     </div>
- </div>
-            
+                </div>
+
             </div>
         </section>
     )
