@@ -84,7 +84,7 @@ export default function WalletPage() {
                         setTotalActiveReferrals(data?.map(link => ({
                             ...link,
                             referredUsers: link?.referredUsers?.filter(
-                                referredUser => referredUser?.isActive === true && referredUser?.userId !== userId && referredUser?.tempId === null
+                                referredUser => referredUser?.isActive === true && referredUser?.user?._id !== userId && referredUser?.tempId === null
                             )
                         }))
                             .filter(link => link?.referredUsers?.length > 0)
