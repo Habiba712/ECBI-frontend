@@ -22,7 +22,7 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                                 opacity: 0.95,
                                 fontFamily: "sans-serif",
                             }}
-                            clasName=" font-semibold text-center text-sans ">
+                            className=" font-semibold text-center text-sans ">
                             Recent Activity
                         </p>
                         <button className="text-purple-500 font-semibold text-md cursor-pointer">

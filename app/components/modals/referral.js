@@ -108,7 +108,7 @@ export default function ReferralPage({ params }) {
                         Value Propsition
                     </h3>
                     <p className='font-semibold py-2'>
-                        Discover <span className='text-purple-700'>{posData?.name}</span> , one of the best spots for delicious cofee & pastries. If check in today, you help {posData?.name} to ear <span className='text-purple-700'>50  points </span>, and we'll give YOU <span className='text-purple-700'>20  points </span>as a welcome gift!
+                        Discover <span className='text-purple-700'>{posData?.name}</span> , one of the best spots for delicious cofee & pastries. If check in today, you help {posData?.name} to ear <span className='text-purple-700'>50  points </span>, and we'll give YOU <span className='text-purple-700'>50  points </span>as a welcome gift!
                     </p>
                     <h4
                         className=' text-sm font-semibold text-center w-full mb-2'

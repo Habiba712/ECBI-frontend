@@ -70,10 +70,10 @@ export default function InfProfilePage() {
     const pointsAwardedSum =  (myReferralLinks) => {
         console.log('my referral linkssss', myReferralLinks);
         let sum = 50;
-        myReferralLinks.forEach((item) => {
-            console.log('item', item);
-            sum += item.pointsEarned;
-        });
+        let prevPoints = myReferralLinks?.find((item) => {
+            item?.pos === posId
+        })?.pointsEarned;
+        sum += prevPoints;
         console.log('user id', userId);
         
             // try {
@@ -106,7 +106,7 @@ export default function InfProfilePage() {
                     'Content-Type': 'application/json',
                 },
                 method: "PUT",
-                body: JSON.stringify({ points: points })
+                body: JSON.stringify({ points: points, posId: posId })
             }).then((res) => {
                 if (res.ok) {
                     res.json().then((data) => {
@@ -231,7 +231,7 @@ export default function InfProfilePage() {
                 <div className="w-full flex justify-around">
                     <div className="rounded-lg bg-black-100  flex flex-col justify-center items-center px-5 py-2 max-w-24 w-full bg-white/30 backdrop-blur-lg">
                         <h4 className="text-xl font-semibold">
-                            {pointsAwardedSum(myReferralLinks)}
+                            {pointsAwardedSum(myReferralLinks) || 50}
                         </h4>
                         <p className="text-lg ">Points</p>
                     </div>
@@ -241,7 +241,7 @@ export default function InfProfilePage() {
                     </div>
                     <div className="rounded-lg bg-black-100  flex flex-col justify-center items-center px-5 py-2 max-w-24 w-full bg-white/30 backdrop-blur-lg">
                         <h4 className="text-xl font-semibold">
-                            {myReferralLinks.length}
+                            {myReferralLinks?.length || 0}
                         </h4>
                         <p className="text-lg">Referrals</p>
                     </div>
