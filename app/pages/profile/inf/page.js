@@ -101,28 +101,7 @@ export default function InfProfilePage() {
         // updateUserPoints(userId, sum);
         return sum;
     }
-    // https://ecbi-frontend-9ww4.vercel.app/ref/dp1n353w
-    // const updateUserPoints = async (userId, points) => {
-    //     try {
-    //         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUserPoints/${userId}`, {
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             method: "PUT",
-    //             body: JSON.stringify({ pointsEarned: points, posId: posId })
-    //         }).then((res) => {
-    //             if (res.ok) {
-    //                 res.json().then((data) => {
-    //                     console.log('referral link data', data);
-
-    //                 })
-    //             }
-    //         })
-
-    //     } catch (err) {
-    //         console.log('error', err);
-    //     }
-    // }
+    
     const handleLogout = async () => {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`, {

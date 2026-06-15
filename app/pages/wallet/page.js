@@ -111,9 +111,10 @@ export default function WalletPage() {
                 console.log('datadoioi', data);
                 setLoggedInUser(data.user);
 
-                setEarnedPoints(data?.user?.finalUser?.points);
-                setRedeemedPoints(data?.user?.finalUser?.redeemedPoints);
-                setTotalBalance(calculateBalance(data?.user?.finalUser?.points, data?.user?.finalUser?.redeemedPoints));
+                setEarnedPoints(data?.user?.finalUser?.pointsByPos?.earnedPoints);
+                setRedeemedPoints(data?.user?.finalUser?.pointsByPos?.redeemedPoints);
+                setTotalBalance(calculateBalance(data?.user?.finalUser?.pointsByPos));
+                //  setTotalBalance(calculateBalance(data?.user?.finalUser?.pointsByPos, data?.user?.finalUser?.pointsByPos?.redeemedPoints));
 
                 // setVisitedPos(data.user.finalUser.visits);
                 // console.log("Fetched user data:", data.data);
@@ -123,12 +124,21 @@ export default function WalletPage() {
             console.log("Error fetching user data:", err);
         }
     }
-    const calculateBalance = (earnedPoints, redeemedPoints) => {
-        if (earnedPoints && redeemedPoints) {
-            return earnedPoints - redeemedPoints;
+
+
+    const calculateBalance = (pointsByPos) => {
+        console.log('pointsByPos', pointsByPos);
+        const gainedPoints = pointsByPos?.reduce((acc, curr) => acc + curr?.earnedPoints, 0);
+        const spentPoints = pointsByPos?.reduce((acc, curr) => acc + curr?.redeemedPoints, 0);
+        console.log('earned points', gainedPoints, spentPoints);
+        if (gainedPoints && spentPoints) {
+            const total = gainedPoints.reduce((acc, curr) => acc + curr?.gainedPoints, 0) - spentPoints;
+            console.log('total', total);
+            return total;
+    
         }
-        else if (!redeemedPoints) {
-            return earnedPoints;
+        else if (!spentPoints) {
+            return gainedPoints;
         }
 
     }
@@ -244,7 +254,10 @@ export default function WalletPage() {
                     <div className="flex flex-col gap-2 text-md shadow-lg rounded-lg items-center justify-center bg-white w-full font-semibold py-2 px-3">
                         <button className="rounded-full cursor-pointer p-2 bg-gray-100
                         hover:scale-[1.1] transition-all duration-300
-                        " >
+                        " 
+                                                    onClick={() => changeTab("rewards")}
+
+                        >
                             <Image src={goblet} alt="pos cover image" width={30} height={30} className="rounded-full object-cover aspect-square" />
                         </button>
 
@@ -320,27 +333,7 @@ export default function WalletPage() {
                 </div>
 
 
-                <div className="px-1 ">
-                    <div className="w-full flex bg-purple-100 rounded-lg items-center justify-between  py-2 shadow-lg mt-3 ">
-                        <div className="w-20">
-                            <Image src={surprise_box} alt="pos cover image" width={100} height={100} className="rounded-full object-cover aspect-square" />
-                        </div>
-                        <div className="w-50">
-                            <p style={{ 'fontSize': '18px' }} className="text-purple-800 font-semibold">
-                                Redeem Your Points
-                            </p>
-                            <p className="text-gray-500 font-semibold">
-                                Turn your points into amazing rewards and discounts
-                            </p>
-                        </div>
-                        <div className="w-30">
-                            <button className="w-full bg-purple-900 opacity-80 text-white px-1 py-2 rounded-full text-[13px] flex justify-center nowrap w-full cursor-pointer font-semibold">
-                                Explore Rewards
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
+             
 
             </div>
         </section>

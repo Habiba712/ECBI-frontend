@@ -7,10 +7,11 @@ import StarIcon from '../../../public/svg/star';
 import TaskIcon from '../../../public/svg/task';
 import ShareIcon from '../../../public/svg/share';
 import CakeIcon from '../../../public/svg/cake';
+import surprise_box from '../../../public/surprise_box.png';
 
 export default function Educational({ }) {
     return (
-        <div className="px-4 flex flex-col gap-3 ">
+        <> <div className="px-4 flex flex-col gap-3 ">
             <div className="flex gap-3 rounded-lg shadow-lg px-4 py-1">
                 <div className="flex flex-col">
                     <h1 className="text-2xl font-bold text-gray-800">How to Earn Points</h1>
@@ -98,5 +99,28 @@ export default function Educational({ }) {
 
 
         </div>
+           <div className="px-1 ">
+                    <div className="w-full flex bg-purple-100 rounded-lg items-center justify-between  py-2 shadow-lg mt-3 px-2">
+                        <div className="w-20">
+                            <Image src={surprise_box} alt="pos cover image" width={100} height={100} className="rounded-full object-cover aspect-square" />
+                        </div>
+                        <div className="w-50">
+                            <p style={{ 'fontSize': '18px' }} className="text-purple-800 font-semibold">
+                                Redeem Your Points
+                            </p>
+                            <p className="text-gray-500 font-semibold">
+                                Turn your points into amazing rewards and discounts
+                            </p>
+                        </div>
+                        <div className="w-30">
+                            <button className="w-full bg-purple-900 opacity-80 text-white px-1 py-2 rounded-full text-[13px] flex justify-center nowrap w-full cursor-pointer font-semibold">
+                                Explore Rewards
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+        </>
+       
     )
 }

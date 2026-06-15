@@ -5,6 +5,8 @@ import ClientsIcon from "../../../public/svg/clients"
 import CheckIcon from '../../../public/svg/check';
 import StarIcon from '../../../public/svg/star';
 import Image from 'next/image';
+import surprise_box from '../../../public/surprise_box.png';
+
 
 export default function Referrals({getReferralLinksAll, activeReferrals, totalPoints}) {
     
@@ -77,6 +79,26 @@ export default function Referrals({getReferralLinksAll, activeReferrals, totalPo
         }
     </div>
     
+   <div className="px-1 ">
+                    <div className="w-full flex bg-purple-100 rounded-lg items-center justify-between  py-2 shadow-lg mt-3 px-2">
+                        <div className="w-20">
+                            <Image src={surprise_box} alt="pos cover image" width={100} height={100} className="rounded-full object-cover aspect-square" />
+                        </div>
+                        <div className="w-50">
+                            <p style={{ 'fontSize': '18px' }} className="text-purple-800 font-semibold">
+                                Redeem Your Points
+                            </p>
+                            <p className="text-gray-500 font-semibold">
+                                Turn your points into amazing rewards and discounts
+                            </p>
+                        </div>
+                        <div className="w-30">
+                            <button className="w-full bg-purple-900 opacity-80 text-white px-1 py-2 rounded-full text-[13px] flex justify-center nowrap w-full cursor-pointer font-semibold">
+                                Explore Rewards
+                            </button>
+                        </div>
 
+                    </div>
+                </div>
    </div>
     )}

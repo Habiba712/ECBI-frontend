@@ -29,7 +29,7 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                             See More
                         </button>
                     </div>
-                    <div className="w-full">
+                    <div className="w-full rounded-lg border border-gray-200 ">
                         {
                             getReferralLinks?.length > 0 && (
                                 getReferralLinks?.map((referral) => (
@@ -37,10 +37,10 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                                     referral?.referredUsers?.length > 0 && (
                                         referral?.referredUsers?.map((reff) => (
 
-                                            <div key={reff?.user?._id} className="rounded-lg border border-gray-200 px-3 py-3 mb-2 flex justify-between items-center gap-3">
+                                            <div key={reff?.user?._id} className="px-3 py-3 mb-2 flex justify-between items-center gap-3">
                                                 <div className="flex items-center ">
                                                     <Image src={reff?.user?.base?.avatar} alt="avatar" width={40} height={40} className="rounded-full object-cover aspect-square" />
-                                                    <span className="text-green-600 font-semibold border-2 border-green-100 rounded-full flex items-center justify-center h-[40px] w-[40px] text-[20px]">+{(totalBalance - 50) / referral?.referredUsers?.length}</span>
+                                                    <span className="text-green-600 font-semibold border-2 border-green-100 rounded-full flex items-center justify-center h-[40px] w-[40px] text-[20px]">+{(totalBalance -0) / referral?.referredUsers?.length}</span>
                                                 </div>
 
                                                 <div className=" ">
@@ -89,7 +89,27 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                         </div>
                     </div>
 
-                   
+                      <div className="px-1 ">
+                    <div className="w-full flex bg-purple-100 rounded-lg items-center justify-between  py-2 shadow-lg mt-3 px-2">
+                        <div className="w-20">
+                            <Image src={surprise_box} alt="pos cover image" width={100} height={100} className="rounded-full object-cover aspect-square" />
+                        </div>
+                        <div className="w-50">
+                            <p style={{ 'fontSize': '18px' }} className="text-purple-800 font-semibold">
+                                Redeem Your Points
+                            </p>
+                            <p className="text-gray-500 font-semibold">
+                                Turn your points into amazing rewards and discounts
+                            </p>
+                        </div>
+                        <div className="w-30">
+                            <button className="w-full bg-purple-900 opacity-80 text-white px-1 py-2 rounded-full text-[13px] flex justify-center nowrap w-full cursor-pointer font-semibold">
+                                Explore Rewards
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
                 </div>
 
     )}
