@@ -59,8 +59,7 @@ export default function AddPost() {
                         //we need to update the referral link, so the link owner can be rewarded ...
                           updateUserEarns(referralOwner, id, 50);
                            updateReferralLink(true, 50);
-                        console.log('updating user earns', formData.owner, formData.pos, 50);
-                    console.log('updating user earns', owner, pos, 50);
+                        console.log('updating user earns', referralOwner, id, 50);
                  
 
                     }
