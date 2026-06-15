@@ -168,6 +168,8 @@ export default function AddPost() {
     console.log('my referral links for this pos', myReferralLinksForThisPos);
     console.log('referred logged in user', referredLoggedInUser);
     console.log('referral owner', referralOwner);
+    console.log('owner', owner);
+    console.log('pos', pos);
     return (
         <div className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center py-8  h-full max-w-md mx-auto px-3 ">
