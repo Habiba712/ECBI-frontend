@@ -234,7 +234,7 @@ export default function InfProfilePage() {
                 <div className="w-full flex justify-around">
                     <div className="rounded-lg bg-black-100  flex flex-col justify-center items-center px-5 py-2 max-w-24 w-full bg-white/30 backdrop-blur-lg">
                         <h4 className="text-xl font-semibold">
-                            {pointsAwardedSum(myReferralLinks) || 50}
+                            {pointsAwardedSum(myReferralLinks) || 20}
                         </h4>
                         <p className="text-lg ">Points</p>
                     </div>
