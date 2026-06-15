@@ -213,7 +213,7 @@ export default function PointOfSale() {
                                         {post?.owner?.base?.name}
                                     </span>
                                 </div>
-                                <div className="bg-purple-100 flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">
+                                <div className="bg-purple-100 flex items-center gap-1 bg-emerald-50 text-emerald-700 border  px-2.5 py-1 rounded-full shadow-sm">
                                     <LightIcon className="w-4 h-4 text-emerald-500 fill-current fill-purple-800 stroke-purple-800" />
                                     <span className="text-xs font-bold tracking-wide text-purple-800">+50 pts</span>
                                 </div>

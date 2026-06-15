@@ -25,6 +25,7 @@ export default function InfProfilePage() {
     const [copied, setCopied] = useState(false);
     const router = useRouter();
     const [showReferralLinks, setShowReferralLinks] = useState(false);
+    const [userPoints, setUserPoints] = useState([]);
     const [theReferralLink, setTheReferralLink] = useState([
         {
             link: "",
@@ -39,6 +40,7 @@ export default function InfProfilePage() {
                 console.log('datadoioi', data);
                 setLoggedInUser(data.user);
                 setVisitedPos(data.user.finalUser.visits);
+                setUserPoints(data.user.finalUser.pointsByPos);
                 // console.log("Fetched user data:", data.data);
             }))
 
@@ -49,14 +51,14 @@ export default function InfProfilePage() {
     const getMyReferralLinks = async () => {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getReferralLinksByUserId/${userId}`, {
-                 
-           
-             }).then((res) => {
+
+
+            }).then((res) => {
                 if (res.ok) {
                     res.json().then((data) => {
                         console.log('referral link data', data);
                         setMyReferralLinks(prev => {
-                                return [...prev, ...data];
+                            return [...prev, ...data];
                         });
                     })
                 }
@@ -66,60 +68,61 @@ export default function InfProfilePage() {
             console.log('error', err);
         }
     }
-    
-    const pointsAwardedSum =  (myReferralLinks) => {
+
+    const pointsAwardedSum = (myReferralLinks) => {
         console.log('my referral linkssss', myReferralLinks);
         let sum = 50;
-        let prevPoints = myReferralLinks?.find((item) => {
-            item?.pos === posId
-        })?.pointsEarned;
-        sum += prevPoints;
-        console.log('user id', userId);
+        console.log('user points', userPoints);
+        let prevPoints = userPoints?.reduce((acc, curr) => acc + curr?.earnedPoints, 0)
         
-            // try {
-            //     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUserPoints/${userId}`, {
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //         },
-            //         method: "PUT",
-            //         body: JSON.stringify({ points: sum })
-            //     }).then((res) => {
-            //         if (res.ok) {
-            //             res.json().then((data) => {
-            //                 console.log('referral link data', data);
-                            
-            //             })
-            //         }
-            //     })
-            // }
-            // catch (err) {
-            //     console.log('error', err);
-            // }
+        sum += prevPoints;
+        console.log('user id', userId, sum);
 
-        updateUserPoints(userId, sum);
+        // try {
+        //     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUserPoints/${userId}`, {
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         method: "PUT",
+        //         body: JSON.stringify({ points: sum })
+        //     }).then((res) => {
+        //         if (res.ok) {
+        //             res.json().then((data) => {
+        //                 console.log('referral link data', data);
+
+        //             })
+        //         }
+        //     })
+        // }
+        // catch (err) {
+        //     console.log('error', err);
+        // }
+
+        // updateUserPoints(userId, sum);
         return sum;
     }
-    const updateUserPoints = async (userId, points) => {
-        try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUserPoints/${userId}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                method: "PUT",
-                body: JSON.stringify({ points: points, posId: posId })
-            }).then((res) => {
-                if (res.ok) {
-                    res.json().then((data) => {
-                        console.log('referral link data', data);
-                        
-                    })
-                }
-            })
+    // https://ecbi-frontend-9ww4.vercel.app/ref/dp1n353w
+    // const updateUserPoints = async (userId, points) => {
+    //     try {
+    //         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUserPoints/${userId}`, {
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             method: "PUT",
+    //             body: JSON.stringify({ pointsEarned: points, posId: posId })
+    //         }).then((res) => {
+    //             if (res.ok) {
+    //                 res.json().then((data) => {
+    //                     console.log('referral link data', data);
 
-        } catch (err) {
-            console.log('error', err);
-        }
-    }
+    //                 })
+    //             }
+    //         })
+
+    //     } catch (err) {
+    //         console.log('error', err);
+    //     }
+    // }
     const handleLogout = async () => {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`, {
@@ -151,7 +154,7 @@ export default function InfProfilePage() {
     }
     const handleGenerateLink = async ({ userId, posId }) => {
         console.log('link', userId, posId)
-// https://ecbi-frontend-9ww4.vercel.app/ref/ozxh8as3
+        // https://ecbi-frontend-9ww4.vercel.app/ref/ozxh8as3
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/createReferralLink`, {
                 headers: {
@@ -203,20 +206,20 @@ export default function InfProfilePage() {
         }
     }, [userId])
     //  console.log('visited pos', visitedPos);
-    console.log('my referral links', myReferralLinks);  
+    console.log('my referral links', myReferralLinks);
     return (
         <section className="min-h-screen h-full max-w-md mx-auto  w-full  mb-15">
             {/* first section */}
             <div className="h-[200px] flex flex-col justify-center bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)] items-center w-full py-5 px-4 text-white">
-                     <button className="w-full" onClick={() => router.back()}>
-                                                <RightArrowIcon className="w-8 h-8 text-white cursor-pointer rotate-180 stroke-2" />
-                                            </button>
-                    
-                
+                <button className="w-full" onClick={() => router.back()}>
+                    <RightArrowIcon className="w-8 h-8 text-white cursor-pointer rotate-180 stroke-2" />
+                </button>
+
+
                 <div className="flex gap-2 w-full px-5 py-5">
                     <div className="flex flex-col items-start justify-center">
                         <Image src={loggedInUser?.base?.avatar || default_user} alt="pos cover image" width={50} height={50} className="rounded-full object-cover aspect-square" />
-                        
+
                     </div>
                     <div className="flex flex-col items-start justify-center px-1">
                         <h5 className=" flex items-end font-semibold text-lg ">
