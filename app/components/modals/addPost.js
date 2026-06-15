@@ -59,12 +59,12 @@ export default function AddPost() {
                                                 console.log('updating user earns', referralOwner, id, 50);
 
                         //we need to update the referral link, so the link owner can be rewarded ...
-                          updateUserEarns(referralOwner, id, 50);
                            updateReferralLink(true, 50);
                  
 
                     }
-                    
+                                              updateUserEarns(referralOwner, id, 50);
+
                     //visited = true; visitedAt = now; 
                     router.push(`/pages/dashboard/inf`);
                     // setIsModalOpen(false);
