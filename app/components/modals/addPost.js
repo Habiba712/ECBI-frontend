@@ -57,6 +57,7 @@ export default function AddPost() {
                         updateReferralLink(true, 50);
 
                     }
+                    updateUserEarns(owner, id, points = 50)
                     //visited = true; visitedAt = now; 
                     router.push(`/pages/dashboard/inf`);
                     // setIsModalOpen(false);
@@ -66,7 +67,27 @@ export default function AddPost() {
             console.log('error', err);
         }
     }
-    
+    const updateUserEarns = async (userId, posId, points) => {
+        console.log('user id', userId, posId, points);
+        try{
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUserPoints/${userId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                method: "PUT",
+                body: JSON.stringify({ posId, points })
+            }).then((res) => {
+                if (res.ok) {
+                    res.json().then((data) => {
+                        console.log('updated user points', data);
+
+                    })
+                }
+            })
+        }catch(err){
+            console.log('error', err);
+        }
+    }
     const updateReferralLink = async (expiredState, rewarded = null) => {
         console.log('we re ehre for the rewrd, ', rewarded)
         if (!owner || !id) return;
