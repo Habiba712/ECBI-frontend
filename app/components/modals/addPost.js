@@ -38,7 +38,7 @@ export default function AddPost() {
     const handleSubmit = async (e) => {
         e.preventDefault();
          console.log('owner', owner);
-    console.log('pos', pos);
+    console.log('pos', id);
         try {
             const formData = new FormData();
             formData.append('owner', owner);
