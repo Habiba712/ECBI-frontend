@@ -56,10 +56,11 @@ export default function AddPost() {
             }).then((res) => {
                 if (res.ok) {
                     if (isActive && referralOwner !== null) {
+                                                console.log('updating user earns', referralOwner, id, 50);
+
                         //we need to update the referral link, so the link owner can be rewarded ...
                           updateUserEarns(referralOwner, id, 50);
                            updateReferralLink(true, 50);
-                        console.log('updating user earns', referralOwner, id, 50);
                  
 
                     }
