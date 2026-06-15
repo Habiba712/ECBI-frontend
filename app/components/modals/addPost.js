@@ -37,6 +37,8 @@ export default function AddPost() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+         console.log('owner', owner);
+    console.log('pos', pos);
         try {
             const formData = new FormData();
             formData.append('owner', owner);
@@ -45,6 +47,7 @@ export default function AddPost() {
             formData.append('image', photoURL);
             formData.append('caption', caption);
             console.log('modal', showModal);
+            console.log('form data', formData);
 
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/post/createPost`, {
                 method: "POST",
@@ -66,6 +69,9 @@ export default function AddPost() {
                     router.push(`/pages/dashboard/inf`);
                     // setIsModalOpen(false);
                 }
+                 console.log('owner', owner);
+    console.log('pos', pos);
+    
             })
         } catch (err) {
             console.log('error', err);
@@ -168,8 +174,7 @@ export default function AddPost() {
     console.log('my referral links for this pos', myReferralLinksForThisPos);
     console.log('referred logged in user', referredLoggedInUser);
     console.log('referral owner', referralOwner);
-    console.log('owner', owner);
-    console.log('pos', pos);
+   
     return (
         <div className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center py-8  h-full max-w-md mx-auto px-3 ">
