@@ -75,7 +75,7 @@ export default function InfProfilePage() {
         console.log('user points', userPoints);
         let prevPoints = userPoints?.reduce((acc, curr) => acc + curr?.earnedPoints, 0)
         
-        sum += prevPoints;
+        sum = prevPoints;
         console.log('user id', userId, sum);
 
         // try {
