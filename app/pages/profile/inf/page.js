@@ -239,7 +239,7 @@ export default function InfProfilePage() {
                         <p className="text-lg ">Points</p>
                     </div>
                     <div className="rounded-lg bg-black-100  flex flex-col justify-center items-center px-5 py-2 max-w-24 w-full bg-white/30 backdrop-blur-lg">
-                        <h4 className="text-xl font-semibold">{loggedInUser?.finalUser?.posts?.length}</h4>
+                        <h4 className="text-xl font-semibold">{loggedInUser?.finalUser?.posts?.length || 0} </h4>
                         <p className="text-lg ">Posts</p>
                     </div>
                     <div className="rounded-lg bg-black-100  flex flex-col justify-center items-center px-5 py-2 max-w-24 w-full bg-white/30 backdrop-blur-lg">
