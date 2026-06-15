@@ -57,7 +57,9 @@ export default function AddPost() {
                         updateReferralLink(true, 50);
 
                     }
-                    updateUserEarns(owner, id, points = 50)
+                    console.log('updating user earns', formData.owner, formData.pos, 50);
+                    console.log('updating user earns', owner, pos, 50);
+                    updateUserEarns(formData.owner, formData.pos, 50);
                     //visited = true; visitedAt = now; 
                     router.push(`/pages/dashboard/inf`);
                     // setIsModalOpen(false);
