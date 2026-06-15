@@ -78,7 +78,7 @@ export default function AddPost() {
         }
     }
     const updateUserEarns = async (userId, posId, points) => {
-        console.log('user id', userId, posId, points);
+        console.log('updateUserEarns', userId, posId, points);
         try{
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUserPoints/${userId}`, {
                 headers: {
