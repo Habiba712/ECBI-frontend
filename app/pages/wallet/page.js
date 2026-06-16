@@ -113,8 +113,8 @@ export default function WalletPage() {
                 console.log('datadoioi', data);
                 setLoggedInUser(data.user);
 
-                setEarnedPoints(data?.user?.finalUser?.pointsByPos?.earnedPoints);
-                setRedeemedPoints(data?.user?.finalUser?.pointsByPos?.redeemedPoints);
+                setEarnedPoints(data?.user?.finalUser?.pointsByPos?.reduce((acc, curr) => acc + curr?.earnedPoints, 0));
+                setRedeemedPoints(data?.user?.finalUser?.pointsByPos?.reduce((acc, curr) => acc + curr?.redeemedPoints, 0));
                 setTotalBalance(calculateBalance(data?.user?.finalUser?.pointsByPos));
                 //  setTotalBalance(calculateBalance(data?.user?.finalUser?.pointsByPos, data?.user?.finalUser?.pointsByPos?.redeemedPoints));
 

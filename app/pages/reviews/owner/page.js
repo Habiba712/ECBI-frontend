@@ -245,11 +245,11 @@ export default function OwnerReviews() {
                                                 </span>}
 
                                             </span>
-                                            <span style={{
+                                            {/* <span style={{
                                                 'font-size': "12px"
                                             }} className="text-green-600">
                                                 +{review?.pointsEarned ? review.pointsEarned : 0} points earned
-                                            </span>
+                                            </span> */}
                                         </div>
 
 
