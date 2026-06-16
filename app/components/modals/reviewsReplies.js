@@ -15,7 +15,7 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
         e.preventDefault();
         onSend({
             reply:{
-                reviewId: review.item.id,
+                reviewId: review.review.id,
                 replyText: reply
             }
         });
@@ -33,7 +33,7 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                 }
                   return stars;
             }
-    console.log('review', review);
+    console.log('review', review.review);
     return(
         <div className="z-0 w-full mh-100vh bg-black/50 fixed inset-0 
         flex items-center justify-center">
@@ -54,13 +54,13 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                 <div className="flex flex-col gap-3 mt-3 text-start p-4 bg-gray-100 rounded-lg border-b border-gray-100 ">
                     <div className="flex gap-2 items-center">
                          <div>
-                        <Image src={review.item.userAvatar} alt="user avatar" width={40} height={40} className="rounded-full" />
+                        <Image src={review.review.avatar} alt="user avatar" width={40} height={40} className="rounded-full" />
                         </div>
                     <div className="text-start">
-                        <p className="text-sm font-semibold">{review.item.userName}</p>
+                        <p className="text-sm font-semibold">{review.review.userName}</p>
                         <p className="text-xs text-gray-400">
-                             {review.item.rating && <span className="text-green-500 flex">
-                                                {calculateStars(review.item.rating)}
+                             {review.review.rating && <span className="text-green-500 flex">
+                                                {calculateStars(review.review.rating)}
 
                                             </span>}
                         </p>
@@ -68,7 +68,7 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                     </div>
                    
                     <div>
-                        <p className="text-sm">{review.item.comment}</p>
+                        <p className="text-sm">{review.review.comment}</p>
                     </div>
                 </div>
                 <div className="">

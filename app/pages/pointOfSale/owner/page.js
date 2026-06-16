@@ -27,6 +27,7 @@ export default function PointOfSale() {
     const [modalAddData, setModalAddData] = useState();
     const [userOwnerId, setUserOwnerId] = useState();
     const [pointsOfSaleByOwner, setPointsOfSaleByOwner] = useState();
+    const [reviewsByPosId, setReviewsByPosId] = useState();
 
 
     const handleShowMOdal = (data) => {
@@ -156,7 +157,7 @@ export default function PointOfSale() {
             {/* first part */}
             <div className="p-4 text-md flex justify-between items-center w-full">
                 <div>
-                    <h1 className="font-bold text-2xl text-black">My Restaurant</h1>
+                    <h1 className="font-bold text-2xl text-black">My Points of Sale</h1>
                     <p className="text-sm">Manage your restaurant listings</p>
                 </div>
                 <div>
@@ -260,10 +261,11 @@ export default function PointOfSale() {
                                     </div>
                                     <div className="rounded-lg bg-green-100 px-3 py-2 w-full flex flex-col justify-center items-center">
                                         <span className="font-semibold text-green-400">{item?.stats.averageRating}</span>
-                                        <p className="text-sm">Ratings</p>
+                                        <p className="text-sm">Average Ratings</p>
                                     </div>
                                     <div className="rounded-lg bg-blue-100 px-3 py-2 w-full flex flex-col justify-center items-center">
-                                        <span className="font-semibold text-blue-400">{item?.stats.totalReviews}</span>
+                                        <span className="font-semibold text-blue-400">
+                                          {item?.stats?.totalReviews}</span>
                                         <p className="text-sm">Reviews</p>
                                     </div>
 

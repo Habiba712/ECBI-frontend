@@ -35,13 +35,15 @@ export default function OwnerReviews() {
                 }
             ).then((res) => {
                 if (res.ok) {
-
-                    return res.json();
+                     return res.json();
                 }
 
+            }).then((res) =>{
+                console.log('res pos', res);
+                            setPointsOfSaleByOwner(res);
 
             })
-            setPointsOfSaleByOwner(res);
+
         } catch (err) {
             next(err)
         }
@@ -63,8 +65,12 @@ export default function OwnerReviews() {
                 if (res.ok) {
                     return res.json();
                 }
-            })
+            }).then((res) => {
+                 console.log('res rev', res);
             setReviews(res.getReviews);
+
+            })
+                               
 
         } catch (err) {
             console.log(err);
@@ -76,44 +82,44 @@ export default function OwnerReviews() {
         setIsModalOpen(true);
     }
 
-    const hundleUpdateReview = async (reply)=>{
+    const hundleUpdateReview = async (reply) => {
         console.log('reply', reply);
-        try{
-            const res = fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/updateReviews/${reply.reply.reviewId}`,{
-                headers:{'content-type':'application/json'},
-                method:'PUT',
-                body: JSON.stringify({ownerReply:reply.reply.replyText})
-            }).then((res)=>{
-                if(res.ok){
+        try {
+            const res = fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/updateReviews/${reply.reply.reviewId}`, {
+                headers: { 'content-type': 'application/json' },
+                method: 'PUT',
+                body: JSON.stringify({ ownerReply: reply.reply.replyText })
+            }).then((res) => {
+                if (res.ok) {
                     handleGetAllReviews();
                     return res.json();
                 }
             })
             console.log('res', res);
 
-        }catch(err){
+        } catch (err) {
             next(err)
         }
     }
     console.log('is modal open', isModalOpen);
-    const calculateStars = (rating) =>{
+    const calculateStars = (rating) => {
         console.log('rating', rating);
         let stars = [];
-        for (let i=0; i < rating; i++){
-             stars.push(<StarIcon className={'w-5 h-5 text-yellow-500 fill-current'}/>)
-                
-           
+        for (let i = 0; i < rating; i++) {
+            stars.push(<StarIcon className={'w-5 h-5 text-yellow-500 fill-current'} />)
+
+
         }
-          return stars;
+        return stars;
     }
 
     useEffect(() => {
         handleGetAllReviews()
         handleGetPointsOfSale()
-         const sessionData = JSON.parse(localStorage?.getItem("sessionData"));
-   setUserOwnerId(sessionData?.userId);
-    setBusinessName(sessionData?.businessName);
-    }, [])
+        const sessionData = JSON.parse(localStorage?.getItem("sessionData"));
+        setUserOwnerId(sessionData?.userId);
+        setBusinessName(sessionData?.businessName);
+    }, [userOwnerId])
     console.log('reviewww fetched', reviews);
     console.log('poitns of sale', pointsOfSaleByOwner);
 
@@ -211,13 +217,13 @@ export default function OwnerReviews() {
                                     <div className="flex justify-between w-full items-center">
                                         <div className="flex justify-around gap-2 w-fit">
                                             <div className="w-fit  flex justify-center items-center">
-                                                <Image src={review.userId.avatar} alt="restaurant" width={50} height={50} className="rounded-full" />
+                                                <Image src={review?.userId?.base?.avatar} alt="restaurant" width={50} height={50} className="rounded-full" />
                                             </div>
 
                                             <div className=" flex flex-col">
                                                 <p className="font-semibold" style={{
                                                     'font-size': "14px"
-                                                }}>{review.userId.username}</p>
+                                                }}>{review.userId.base.name}</p>
                                                 <p style={{
                                                     'font-size': "12px"
                                                 }}>{review?.pointOfSaleId?.name}</p>
@@ -235,9 +241,9 @@ export default function OwnerReviews() {
 
                                                 {review.rating && <span className="text-green-500 flex">
                                                     {calculateStars(review.rating)}
-                                                   
-                                                    </span>}
-                                               
+
+                                                </span>}
+
                                             </span>
                                             <span style={{
                                                 'font-size': "12px"
@@ -259,15 +265,15 @@ export default function OwnerReviews() {
                                                                 id: review._id,
                                                                 comment: review.comment,
                                                                 rating: review.rating,
-                                                                userName: review.userId.username,
-                                                                userAvatar: review.userId.avatar
+                                                                userName: review.userId.base.name,
+                                                                avatar: review.userId.base.avatar
 
                                                             }
                                                         })}
                                                     >
-                                                        <ReplyIcon className="w-5 h-5 text-gray-400" />
+                                                        <ReplyIcon className="w-5 h-5 " />
                                                         <span>Reply to Review</span>
-                                                        </button>
+                                                    </button>
                                                 </div>
 
                                                 :

@@ -210,7 +210,7 @@ export default function Header() {
                                     <Link href="/pages/pointOfSale/owner" className="flex items-center gap-3">
                                         <RestaurantIcon className="w-6 h-6 cursor-pointer" />
                                         <span className={`transition-all duration-800 ease-in-out ${menuOpen ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'}`}>
-                                            Point Of Sale
+                                            My Points Of Sale
                                         </span>
                                     </Link>
                                 </li>
