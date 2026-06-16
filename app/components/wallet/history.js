@@ -37,18 +37,21 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                                     referral?.referredUsers?.length > 0 && (
                                         referral?.referredUsers?.map((reff) => (
 
-                                            <div key={reff?.user?._id} className="px-3 py-3 mb-2 flex justify-between items-center gap-3">
+                                            <div key={reff?.user?._id} className="px-3 py-1 flex justify-between gap-3 items-start">
                                                 <div className="flex items-center ">
-                                                    <Image src={reff?.user?.base?.avatar} alt="avatar" width={40} height={40} className="rounded-full object-cover aspect-square" />
-                                                    <span className="text-green-600 font-semibold border-2 border-green-100 rounded-full flex items-center justify-center h-[40px] w-[40px] text-[20px]">+{(totalBalance -0) / referral?.referredUsers?.length}</span>
+                                                    <div className="w-[40px]">  <Image src={reff?.user?.base?.avatar} alt="avatar" width={50} height={50} className="rounded-full object-cover aspect-square" /></div>
+                                                  <div> <span className="text-green-600 font-semibold  rounded-full flex items-center justify-center h-[20px] w-[20px] text-[16px]">+{(totalBalance -0) / referral?.referredUsers?.length}
+
+                                                    </span></div>
+                                                   
                                                 </div>
 
-                                                <div className=" ">
+                                                <div className="  w-full flex flex-col">
                                                     <p className="font-semibold ">Referral Completed</p>
-                                                    <span className="text-gray-500 text-xs font-sans flex-wrap"> Your friend {reff?.user?.base?.name} has completed the referral</span>
+                                                    <span className="w-full text-gray-500 text-xs font-sans line-"> Your friend {reff?.user?.base?.name} has completed the referral</span>
                                                 </div>
-                                                <div className=" flex justify-end  items-start">
-                                                    <span className="text-gray-400 text-xs font-sans flex-nowrap w-fit">
+                                                <div className=" flex justify-end  items-start ">
+                                                    <span className="text-gray-400 text-xs font-sans flex-nowrap">
                                                         {formatDistanceToNow(new Date(reff?.joinedAt), { addSuffix: true })}
                                                     </span>
                                                 </div>
@@ -89,27 +92,25 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                         </div>
                     </div>
 
-                      <div className="px-1 ">
-                    <div className="w-full flex bg-purple-100 rounded-lg items-center justify-between  py-2 shadow-lg mt-3 px-2">
-                        <div className="w-20">
-                            <Image src={surprise_box} alt="pos cover image" width={100} height={100} className="rounded-full object-cover aspect-square" />
-                        </div>
-                        <div className="w-50">
-                            <p style={{ 'fontSize': '18px' }} className="text-purple-800 font-semibold">
-                                Redeem Your Points
-                            </p>
-                            <p className="text-gray-500 font-semibold">
-                                Turn your points into amazing rewards and discounts
-                            </p>
-                        </div>
-                        <div className="w-30">
-                            <button className="w-full bg-purple-900 opacity-80 text-white px-1 py-2 rounded-full text-[13px] flex justify-center nowrap w-full cursor-pointer font-semibold">
-                                Explore Rewards
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
+                       <div className="flex bg-purple-100 rounded-lg items-center justify-between  py-2 shadow-lg mt-3 px-2">
+                                              <div className="">
+                                                  <Image src={surprise_box} alt="pos cover image" width={100} height={100} className="rounded-full object-cover aspect-square" />
+                                              </div>
+                                              <div className="w-fit ">
+                                                  <p style={{ 'fontSize': '18px' }} className="w-fit text-purple-800 font-semibold">
+                                                      Redeem Your Points
+                                                  </p>
+                                                  <p className="text-gray-500 font-semibold px-1 ">
+                                                      Turn your points into amazing rewards and discounts
+                                                  </p>
+                                              </div>
+                                              <div className="">
+                                                  <button className="bg-purple-900 opacity-80 text-white px-1 py-2 rounded-lg text-[13px] flex justify-center nowrap cursor-pointer font-semibold ">
+                                                      Explore Rewards
+                                                  </button>
+                                              </div>
+                      
+                                          </div>
                 </div>
 
     )}

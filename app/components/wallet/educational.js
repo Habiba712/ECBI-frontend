@@ -99,27 +99,27 @@ export default function Educational({ }) {
 
 
         </div>
-           <div className="px-1 ">
-                    <div className="w-full flex bg-purple-100 rounded-lg items-center justify-between  py-2 shadow-lg mt-3 px-2">
-                        <div className="w-20">
+        
+                    <div className="flex bg-purple-100 rounded-lg items-center justify-between  py-2 shadow-lg mt-3 px-2">
+                        <div className="">
                             <Image src={surprise_box} alt="pos cover image" width={100} height={100} className="rounded-full object-cover aspect-square" />
                         </div>
-                        <div className="w-50">
-                            <p style={{ 'fontSize': '18px' }} className="text-purple-800 font-semibold">
+                        <div className="w-fit ">
+                            <p style={{ 'fontSize': '18px' }} className="w-fit text-purple-800 font-semibold">
                                 Redeem Your Points
                             </p>
-                            <p className="text-gray-500 font-semibold">
+                            <p className="text-gray-500 font-semibold px-1 ">
                                 Turn your points into amazing rewards and discounts
                             </p>
                         </div>
-                        <div className="w-30">
-                            <button className="w-full bg-purple-900 opacity-80 text-white px-1 py-2 rounded-full text-[13px] flex justify-center nowrap w-full cursor-pointer font-semibold">
+                        <div className="">
+                            <button className="bg-purple-900 opacity-80 text-white px-1 py-2 rounded-full text-[13px] flex justify-center nowrap cursor-pointer font-semibold ">
                                 Explore Rewards
                             </button>
                         </div>
 
                     </div>
-                </div>
+                
         </>
        
     )

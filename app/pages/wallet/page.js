@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import {useRouter} from 'next/navigation';
 import RightArrowIcon from '../../../public/svg/rightArrow';
 import { QuestionMarkIcon } from '../../../public/svg/question-mark';
 import coin from '../../../public/dollar.png';
@@ -38,6 +39,7 @@ export default function WalletPage() {
     const [rewards, setRewards] = useState(false);
     const [referrals, setReferrals] = useState(false);
     const [tab, setTab] = useState("history");
+    const router = useRouter();
 
     const getMyReferralLinks = async () => {
         try {
@@ -159,15 +161,15 @@ export default function WalletPage() {
 
     return (
         <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   mb-30 ">
-            <div className={`h-[100px] flex flex-col justify-start  items-center py-3 text-white rounded-b-full w-full bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]`}
+            <div className={`h-[100px] flex flex-col justify-start  items-center py-3 text-white rounded-b-lg w-full bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]`}
             >
                 <div className="w-full flex items-center justify-between relative z-10 ">
 
                     <button
                         onClick={() => router.back()}
-                        className=""
+                        
                     >
-                        <RightArrowIcon className="w-6 h-6 text-white rotate-180 stroke-2 cursor-pointer" />
+                        <RightArrowIcon className="z-10 w-6 h-6 text-white rotate-180 stroke-2 cursor-pointer" />
                     </button>
 
                     <h2
@@ -196,7 +198,7 @@ export default function WalletPage() {
             </div>
             <div>
 
-                <div className="flex flex-col gap-3 p-4 text-sm bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)] rounded-[30px] border-1 border-purple-50  w-full relative -top-10" >
+                <div className="flex flex-col gap-3 p-4 text-sm bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)] rounded-[30px] border-1 border-purple-50  w-full relative -top-13" >
                     <div className="border-b py-2 border-gray-300">
                         <h3 className="text-white px-2 text-xl"> Total Points</h3>
                         <div className="px-2 flex items-center gap-3">
