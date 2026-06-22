@@ -13,7 +13,8 @@ import { on } from "events";
 export default function EditPointOfSaleModal({ data, setIsModalOpen, onSend }) {
     console.log('data to edit', data);
 
-   
+       const [posPicToAdd, setPosPicToAdd] = useState(null);
+
     const [pointOfSaleToEdit, setPointOfSaleToEdit] = useState({
         id:data?._id,
         name:data?.name,
@@ -42,6 +43,7 @@ setIsModalOpen(false);
        
 
     }
+    console.log('postpic', posPicToAdd);
     return (
         <div className="z-0 w-full mh-100vh bg-black/50 fixed inset-0
         flex items-center justify-center py-8">
@@ -238,7 +240,7 @@ onChange={(e)=>setPointOfSaleToEdit({...pointOfSaleToEdit,website:e.target.value
                                     Background Image
                                 </label>
                             </div>
-                            <div className="grid grid-cols-2 w-full">
+                            <div className="flex flex-col gap-2 w-full">
                                 <label
                                     htmlFor="file-upload"
                                     className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-400 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300">Choose file </label>
@@ -247,13 +249,29 @@ onChange={(e)=>setPointOfSaleToEdit({...pointOfSaleToEdit,website:e.target.value
                                     id="file-upload"
                                     className="hidden mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300"
                                     placeholder="Upload an image"
-                                    onChange={(e)=>setPointOfSaleToEdit({...pointOfSaleToEdit,coverImage:e.target.value})}
+                                    onChange={(e)=>{
+                                        const file = e.target.files[0];
+                                        if(file){
+                                             setPosPicToAdd(URL.createObjectURL(file))
+                                        setPointOfSaleToEdit({...pointOfSaleToEdit,coverImage:e.target.value})}}
+                                        }
+                                       
 
                                 />
+                                  
 
                                 <label>Or <input  id="file-upload" type="text" placeholder="Enter an image URL" className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300"
                                   onChange={(e)=>setPointOfSaleToEdit({...pointOfSaleToEdit, coverImage:e.target.value})}
-                                /></label>
+                                /></label> {
+                                            posPicToAdd && (
+                                                
+                                                <div className="transition duration-300 ease-in-out w-full flex justify-center bg-purple-50 border-2 border-dashed border-purple-300 rounded-xl text-center p-3 cursor-pointer hover:bg-purple-100 transition">
+
+                                                    <img src={posPicToAdd} alt="Preview Image" className="w-[200px] h-[200px] object-cover aspect-square" />
+                                                </div>
+                                            )
+
+                                        }
                             </div>
 
                         </div>

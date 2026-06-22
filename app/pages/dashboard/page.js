@@ -6,6 +6,7 @@ import ClientsIcon from "../../../public/svg/clients"
 import MessageReviewIcon from "../../../public/svg/messageReview"
 import StarIcon from "../../../public/svg/star"
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image"
 import { formatDistanceToNow } from "date-fns";
 import defaultUser from "../../../public/default_user.png";
@@ -19,6 +20,9 @@ export default function PointOfSale() {
     const [visitHistorycount, setVisitHistorycount] = useState([])
     const [businessNameSession, setBusinessNameSession] = useState([])
     const [totalVisits, setTotalVisits] = useState(0);
+        const [reviews, setReviews] = useState();
+        const router = useRouter();
+
     const getClients = async () => {
 
         try {
@@ -45,8 +49,7 @@ export default function PointOfSale() {
                             visit => visit?.businessName ===businessNameSession
                          ))
                         
-                         console.log('visitsHis', visitsHis);
-                       console.log('result', result.slice(0,3));
+                      
                     const sum = visitsHis?.reduce((acc, user) => {
   const userSum = user?.finalUser?.visitHistory?.reduce((innerAcc, vis) => {
     return innerAcc + (vis.count || 0);
@@ -57,7 +60,7 @@ export default function PointOfSale() {
 
 
                     
-                    console.log('sum ', sum);
+                
          
                     setTotalVisits(sum);
                        return setClients(visitsHis);
@@ -73,6 +76,45 @@ export default function PointOfSale() {
 
 
     }
+
+        const handleGetAllReviews = async () => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/getAllReviews`,
+
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                        // 'Authorization': `Bearer ${sessionData.token}`
+                    },
+                    method: "GET"
+                }
+            ).then((res) => {
+                if (res.ok) {
+                    console.log('res', res);
+                    return res.json();
+                }
+            }).then((res) => {
+                 console.log('res rev', res);
+            setReviews(res.getReviews);
+
+            })
+                               
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+      const calculateStars = (rating) => {
+            console.log('rating', rating);
+            let stars = [];
+            for (let i = 0; i < rating; i++) {
+                stars.push(<StarIcon className={'w-5 h-5 text-yellow-500 fill-current'} />)
+    
+    
+            }
+            return stars;
+        }
+
     const getPoSsByOwnerId = async (next, req, res) => {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointsOfSaleByOwnerId/${userId}`, {
@@ -106,6 +148,7 @@ export default function PointOfSale() {
         // setShowReferralLinks(false);
         if (userId) {
             getPoSsByOwnerId();
+            handleGetAllReviews();
         }
     }, [userId])
     useEffect(() => {
@@ -182,7 +225,9 @@ export default function PointOfSale() {
 
                         <div className="flex flex-col mt-3">
                             <span className="font-semibold text-gray-100 
-                            text-3xl">29</span>
+                            text-3xl">
+                                {reviews && reviews?.length > 0 && reviews?.filter(review => review?.pointOfSaleId?.name === businessNameSession)?.length }
+                            </span>
                             <span style={{
                                 'fontSize': '12px'
                             }} className="text-gray-100 text-sm ">This Month</span>
@@ -229,12 +274,19 @@ export default function PointOfSale() {
             {/* top 3 clients */}
 
             <div className="p-4 flex flex-col gap-3 ">
-                <div className="p-4 shadow-lg rounded-lg flex flex-col gap-4 ">
-                    <h2 className=" font-semibold mb-3">Top 3 clients</h2>
+                <div className="p-4 shadow-lg rounded-lg flex flex-col">
+                    <h2 className="font-semibold mb-3 w-full text-lg">Top 3 clients</h2>
                     {
-                        clients.length > 0 && clients.slice(0,3).map((client) => (
+                        clients.length > 0 && clients
+                        .sort((a,b) =>{
+                            const countA = a?.finalUser?.visitHistory?.find(visit => visit?.businessName === businessNameSession)?.count || 0;
+                            const countB = b?.finalUser?.visitHistory?.find(visit => visit?.businessName === businessNameSession)?.count || 0;
+                            return countB - countA;
+                        })
+                        .slice(0,3)
+                        .map((client) => (
 
-                            <div key={client._id || index}className="bg-gray-100 rounded-lg flex justify-between p-3 ">
+                            <div key={client._id || index}className="bg-gray-100 rounded-lg flex justify-between p-3 mb-3">
 
                                 <div className="flex gap-3  items-center">
                                     <div>
@@ -262,50 +314,76 @@ export default function PointOfSale() {
             </div>
 
             {/* some reviews */}
+             <div className="p-4 flex flex-col gap-3 ">
+                <div className="p-4 shadow-lg rounded-lg mt-3 flex flex-wrap justify-between">
+                    <div className="w-full flex justify-between items-center">
+                         <h2 className=" font-semibold mb-3 w-full text-lg">Recent reviews</h2>
+                         
+                              <button 
+                              onClick={() => router.push('/pages/reviews/owner')}
+                              className="text-blue-700 text-lg font-semibold cursor-pointer text-nowrap hover:text-purple-500 transition-all duration-300 ease-in-out">
+                                  See all
+                              </button>
+                        
 
-            <div className="p-4 flex flex-col gap-3 ">
-                <div className="p-4 shadow-lg rounded-lg flex flex-col gap-4 ">
-                    <div className="w-full flex justify-between p-3">
-                        <h2 className=" font-semibold mb-3">Recent reviews</h2>
-                        <Link
-                            className="font-semibold text-blue-600"
-                            href={'/pages/reviews'}>View More </Link>
                     </div>
+                         
+                          {reviews && reviews?.length > 0 && reviews
+                                ?.slice(0,4)
+                                 ?.filter((element) => element.pointOfSaleId.ownerId === userId)
+                                  ?.map((review, index) => {
+          
+                                      return (
+                                          <div key={index} className="w-[45%] flex items-start mb-5  bg-gray-100 px-3 py-3 rounded-lg ">
+                                              <div className="w-full flex justify-between  items-center">
+                                                  <div className="flex justify-between  w-full">
+                                                      <div className=" flex justify-start items-start w-[80px]">
+                                                          <Image src={review?.userId?.base?.avatar || defaultUser} alt="restaurant" width={50} height={50} className="rounded-full object-cover aspect-square" />
+                                                      </div>
+          
+                                                      <div className=" flex flex-col items-start w-full">
+                                                          <p className="font-semibold px-2" style={{
+                                                              'font-size': "14px"
+                                                          }}>{review.userId.base.name}</p>
+                                                          <p style={{
+                                                              'font-size': "12px"
+                                                          }} className="px-2">{review?.pointOfSaleId?.name}</p>
+                                                          <span className="text-gray-400 px-2" style={{
+                                                              'font-size': "12px"
+                                                          }}>
+                                                              {review.visitedAt.replace('T', ' ').split(' ')[0].toString()}
+                                                              </span>  
+                                                              <p className="w-full px-2  rounded-lg py-2 w-full">{review.comment} pgjpojr</p>
+          
+                                                      </div>
+                                                            
+                                                  </div>
+                                            <div className="">
+                                                      <span style={{
+                                                          'font-size': "12px"
+                                                      }}>
+          
+                                                          {review.rating && <span className="text-green-500 flex">
+                                                              {calculateStars(review.rating)}
+          
+                                                          </span>}
+          
+                                                      </span>
+                                                      
+                                                  </div>
+          
+          
+                                              </div>
+                                            
+                                          </div>
+                                      )
+                                  })
+                          }
+          
+                      </div>
+             </div>
 
-
-                    <div className="bg-gray-100 rounded-lg flex flex-col justify-between p-3 gap-4">
-
-                        <div className="flex justify-between w-full">
-                            <div className="flex gap-3  items-center">
-                                <span
-                                    className="w-10 h-10 bg-gradient-to-br from-green-800 via-blue-800 to-blue-600 rounded-full shadow-lg flex justify-center items-center text-white font-bold"
-                                >😇 </span>
-                                <div className="flex flex-col">
-                                    <span className="font-semibold ">Srah Johnson</span>
-                                    <span style={{
-                                        'fontSize': '12px'
-                                    }}>Point Of Sale</span>
-                                </div>
-                            </div>
-
-                            <div className="flex flex-col items-end">
-                                <span>⭐⭐⭐⭐</span>
-                                <span style={{
-                                    'fontSize': '12px'
-                                }} className=" text-gray-400">Jan 12, 2025</span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <p className="text-sm ">
-                                Absolutely amazing pizza! The margherita is to die for. Will definitely come back!
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
+                 
         </section>
     )
 }

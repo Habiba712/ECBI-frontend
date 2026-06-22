@@ -5,6 +5,7 @@ import Image from "next/image";
 import CloseIcon from "../../../public/svg/close";
 import { useState } from "react";
 import StarIcon from "../../../public/svg/star";
+import defaultUser from "../../../public/default_user.png";
 
 export default function ReviewsReplies({review, setIsModalOpen, onSend}){
     console.log('review', review);
@@ -15,7 +16,7 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
         e.preventDefault();
         onSend({
             reply:{
-                reviewId: review.review.id,
+                reviewId: review.item.id,
                 replyText: reply
             }
         });
@@ -33,9 +34,8 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                 }
                   return stars;
             }
-    console.log('review', review.review);
     return(
-        <div className="z-0 w-full mh-100vh bg-black/50 fixed inset-0 
+        <div key = {review.item.id} className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center">
             {/* the parent div should be a modal
              */}
@@ -54,13 +54,13 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                 <div className="flex flex-col gap-3 mt-3 text-start p-4 bg-gray-100 rounded-lg border-b border-gray-100 ">
                     <div className="flex gap-2 items-center">
                          <div>
-                        <Image src={review.review.avatar} alt="user avatar" width={40} height={40} className="rounded-full" />
+                        <Image src={review.item.avatar || defaultUser} alt="restaurant" width={50} height={50} className="rounded-full object-cover aspect-square" />
                         </div>
                     <div className="text-start">
-                        <p className="text-sm font-semibold">{review.review.userName}</p>
+                        <p className="text-sm font-semibold">{review.item.userName}</p>
                         <p className="text-xs text-gray-400">
-                             {review.review.rating && <span className="text-green-500 flex">
-                                                {calculateStars(review.review.rating)}
+                             {review.item.rating && <span className="text-green-500 flex">
+                                                {calculateStars(review.item.rating)}
 
                                             </span>}
                         </p>
@@ -68,7 +68,7 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                     </div>
                    
                     <div>
-                        <p className="text-sm">{review.review.comment}</p>
+                        <p className="text-sm">{review.item.comment}</p>
                     </div>
                 </div>
                 <div className="">

@@ -47,6 +47,7 @@ const [isTimerActive, setIsTimerActive] = useState(false);
     }
 
     const handleForgotPassword = async (e) => {
+        console.log('email', email);
         e.preventDefault();
       
        
@@ -110,10 +111,10 @@ setMessage("Email sent, please check your inbox");
 
                         </div>
                        
+                       
+                            <button className="w-full flex justify-center items-center p-2 border border-purple-300 rounded-full gap-3 cursor-pointer" type="submit">Send</button>
+                       
                         <div className="w-full flex justify-center items-center py-2 gap-3">
-                            <button type="submit">Send</button>
-                        </div>
-                        <div lassName="w-full flex justify-center items-center py-2 gap-3">
                             {isTimerActive && <p className="w-full text-center">Time Left: {formatTimer(timeLeft)}</p>}
                         </div>
                     </div>

@@ -14,12 +14,14 @@ import WalletIcon from "../../public/svg/wallet";
 import PersonIcon from "../../public/svg/person";
 import MenuBehaviorIcon from "../../public/svg/menuBehavior";
 import NotificationsIcon from "../../public/svg/notifications";
+import defaultUser from "../../public/default_user.png";
 
 export default function Header() {
     const pathname = usePathname();
     const router = useRouter();
 
     const [token, setToken] = useState("");
+    const [coverImage, setCoverImage] = useState("");
     const [role, setRole] = useState("");
     const [buisinessName, setBuisinessName] = useState("");
     const [fetchedUser, setFetchedUser] = useState(null);
@@ -63,7 +65,9 @@ export default function Header() {
             
             if (res.ok) {
                 const data = await res.json();
-                console.log('Fetched User Profile Data:', data);
+                console.log('Fetched User Profile Data:', data?.data?.base?.avatar);
+
+                setCoverImage(data?.data?.base?.avatar);
                 
                 setFetchedUser(data?.user?.finalUser || null);
                 
@@ -182,7 +186,7 @@ export default function Header() {
                     }}
                 >
                     <div className='pb-6 flex items-center w-fit border-b-3 border-gray-100 py-3 relative mx-4'>
-                        <Image src={'/fancy_resto_bg.webp'} width={100} height={100} alt="logo" className='sidebar-top' />
+                        <Image src={coverImage || defaultUser} width={100} height={100} alt="logo" className='sidebar-top' />
                         <div className={`px-3 transition-all duration-800 ease-in-out text-nowrap ${menuOpen ? 'hidden opacity-0 translate-x-4' : 'opacity-100 translate-x-0'}`}>
                             <h1>{buisinessName || "Restaurant Admin"}</h1>
                             <span className='text-sm text-gray-400 word-nowrap words-break-all'>Management Hub</span>

@@ -18,12 +18,13 @@ export default function AccountSettings() {
     const [newPhone, setNewPhone] = useState("");
     const [newName, setNewName] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [token, setToken] = useState("");
 
 
 
     const[businessName, setBusinessName]= useState("")
     const [ownerId, setOwnerId]= useState("")
-    const [ownerById, setOwnerById] = useState();
+    // const [ownerById, setOwnerById] = useState();
     const [incorrectOldPassword, setIncorrectOldPassword] = useState("");
     const [newPasswordError, setNewPasswordError] = useState("");
     const [newPhoneError, setNewPhoneError] = useState("");
@@ -44,32 +45,33 @@ export default function AccountSettings() {
             toast.dismiss();
         }, 5000);
     }
-    const getOwnerById = async (next, req, res) => {
+    const getOwnerById = async (req, res) => {
+        console.log('owner id', ownerId);
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/getUserById/${userOwnerId}`,
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/getUserById/${ownerId}`,
                 {
                     headers: {
-                        'Content-Type': 'application/json'
-                        // 'Authorization': `Bearer ${sessionData.token}`
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
                     method: "GET"
                 }
             ).then((res) => {
                 if (res.ok) {
+                    console.log('res', res);
                     return res.json();
                 }
-            })
-            setOwnerById(res.data);
-            setNewEmail(res.data.email);
-            setNewPhone(res.data.telephone);
-            setNewName(res.data.username);
-            setNewVisitsNotification(res.data.preferences.visits_notifications);
-            setReviewsNotification(res.data.preferences.reviews_notifications);
-            setWeeklyReportsNotification(res.data.preferences.weekly_report);
-            setNewBusinessName(res.data.businessName);
+            }) 
+            console.log('res', res);
+                   
+            setNewEmail(res?.data?.base?.email);
+            setNewPhone(res?.data?.base?.telephone);
+            setNewName(res?.data?.base?.name);
+            setNewBusinessName(res?.data?.ownerInfo?.businessName);
+      
 
         } catch (err) {
-            next(err)
+            console.log('err', err);
         }
     }
     const handleUpdateSettings = async (e) => {
@@ -77,7 +79,7 @@ export default function AccountSettings() {
         const data = {
             email: newEmail,
             telephone: newPhone,
-            username: newName,
+            name: newName,
             oldPassword: oldPassword,
             password: newPasswordConfirm,
             preferences: {
@@ -88,12 +90,7 @@ export default function AccountSettings() {
             businessName: newBusinessName
         }
         console.log('data to update', data);
-        //    if(!newEmail || !newPhone || !newName || !oldPassword || !newPasswordConfirm){
-        //        setErrorMessage('you did fill any fields!!');
-        //        return false; 
-        //    }
-
-
+  
         if (newPassword !== newPasswordConfirm) {
             setNewPasswordError('Passwords do not match');
             return false;
@@ -111,9 +108,10 @@ export default function AccountSettings() {
         console.log('confirm password', newPasswordConfirm);
         try {
 
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/settingsUpdateById/${userOwnerId}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/settingsUpdateById/${ownerId}`, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 method: "PUT",
                 body: JSON.stringify({
@@ -124,7 +122,7 @@ export default function AccountSettings() {
 
             if (res.ok) {
         notify();
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
            setNewPasswordError("");
     setIncorrectOldPassword("");
     setNewPhoneError("");
@@ -206,13 +204,18 @@ console.log('arr', arr);
 
     
     }
-console.log('error message', incorrectOldPassword);
-console.log('error message', newPhoneError);
+    console.log('error message', incorrectOldPassword);
+    console.log('error message', newPhoneError);
+ useEffect(() => {
+         
+        const sessionData = JSON.parse(localStorage?.getItem("sessionData"));
+        setOwnerId(sessionData?.userId);
+        setToken(sessionData?.token);
+     }, [])
     useEffect(() => {
         getOwnerById();
         
-        }, [])
-    console.log('owner by id', ownerById);
+        }, [ownerId])
     return (
         <section className="mt-1 p-4 text-gray-800 w-full  transition-all duration-300 ease-in-out">
             <div className="p-4 flex flex-col gap-2 settings-page mb-5">
@@ -226,8 +229,8 @@ console.log('error message', newPhoneError);
                     <div className="p-5 mb-5 rounded-lg bg-white settings-form-container">
                         <h3 className="py-2 px-3 font-semibold">Account Imformation</h3>
                         <form>
-                            <div className="py-2 flex flex-col w-full gap-2 items- justify-center">
-                                <label htmlFor="name">Userame</label>
+                            <div className="py-2 flex flex-col w-full gap-2 items-start justify-center">
+                                <label htmlFor="name">Owner Username</label>
                                 <input
                                     type="text"
                                     name="name"
@@ -238,7 +241,7 @@ console.log('error message', newPhoneError);
                                     onChange={(e) => setNewName(e.target.value)}
                                 />
                             </div>
-                             <div className="py-2 flex flex-col w-full gap-2 items- justify-center">
+                             <div className="py-2 flex flex-col w-full gap-2 items-start justify-center">
                                 <label htmlFor="businessName">Business Name</label>
                                 <input
                                     type="text"
@@ -246,11 +249,12 @@ console.log('error message', newPhoneError);
                                     className="w-full formFields"
                                     id="businessName"
                                     placeholder="Enter your business name"
+                                    defaultValue={newBusinessName}
                                     value={newBusinessName}
                                     onChange={(e) => setNewBusinessName(e.target.value)}
                                 />
                             </div>
-                            <div className="py-2 flex flex-col w-full gap-2 items- justify-center">
+                            <div className="py-2 flex flex-col w-full gap-2 items-start justify-center">
                                 <label htmlFor="email">Email</label>
                                 <input
                                     type="email"
@@ -258,11 +262,12 @@ console.log('error message', newPhoneError);
                                     name="email"
                                     id="email"
                                     placeholder="Enter your email"
+                                    defaultValue={newEmail}
                                     value={newEmail}
                                     onChange={(e) => setNewEmail(e.target.value)}
                                 />
                             </div>
-                            <div className="py-2 flex flex-col w-full gap-2 items- justify-center">
+                            <div className="py-2 flex flex-col w-full gap-2 items-start justify-center">
                                 <label htmlFor="phone">Phone</label>
                                 <input
                                     type="number"
@@ -286,7 +291,7 @@ console.log('error message', newPhoneError);
                         <div>
                             <div>
                                 {/* //password */}
-                                <div className="py-2 flex flex-col w-full gap-2 items- justify-center">
+                                <div className="py-2 flex flex-col w-full gap-2 items-start justify-center">
                                     <label htmlFor="password">Current Password</label>
                                     <input
                                         type="password"
@@ -303,7 +308,7 @@ console.log('error message', newPhoneError);
                                      {incorrectOldPassword ? <span className="relative -top-2 px-3 text-red-400 text-sm ">{incorrectOldPassword}</span> : null}
                                             
                                 </div>
-                                <div className="py-2 flex flex-col w-full gap-2 items- justify-center">
+                                <div className="py-2 flex flex-col w-full gap-2 items-start justify-center">
                                     <label htmlFor="password">New Password</label>
                                     <input
                                         type="password"
@@ -321,7 +326,7 @@ console.log('error message', newPhoneError);
                                             
                                   
                                 </div>
-                                <div className="py-2 flex flex-col w-full gap-2 items- justify-center">
+                                <div className="py-2 flex flex-col w-full gap-2 items-start justify-center">
                                     <label htmlFor="confirmPassword">Confirm Password</label>
                                     <input
                                         type="password"
@@ -348,7 +353,7 @@ console.log('error message', newPhoneError);
 
                     <div className="p-5 mb-5 rounded-lg bg-white  settings-form-container">
                         <h3 className="py-2 px-3 font-semibold">Notification Preferences</h3>
-                        <div className="px-3 flex flex-col gap-3 items-between justify-center switch-container">
+                        <div className="px-3 flex flex-col gap-3 items-startbetween justify-center switch-container">
                             <div className="flex justify-between items-center">
                                 <div>
                                     <p className="switch-text">Email Notifications</p>
@@ -415,7 +420,7 @@ console.log('error message', newPhoneError);
             </div>
 
   <ToastContainer 
-  className="border border-transparent"
+  
   />
 
         </section>

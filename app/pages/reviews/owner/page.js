@@ -6,6 +6,7 @@ import next from "next";
 import ReviewsReplies from "../../../components/modals/reviewsReplies";
 import ReplyIcon from "../../../../public/svg/reply";
 import StarIcon from "../../../../public/svg/star";
+import defaultUser from "../../../../public/default_user.png";
 
 export default function OwnerReviews() {
     const [reviews, setReviews] = useState();
@@ -186,7 +187,7 @@ export default function OwnerReviews() {
             </div>
 
             {/* list of reviews */}
-            <div className="shadow-lg rounded-lg p-4 mt-3">
+            <div className="shadow-lg rounded-lg p-4 mt-3 b">
 
                 {
                     reviews && reviews?.length > 0 &&
@@ -217,7 +218,7 @@ export default function OwnerReviews() {
                                     <div className="flex justify-between w-full items-center">
                                         <div className="flex justify-around gap-2 w-fit">
                                             <div className="w-fit  flex justify-center items-center">
-                                                <Image src={review?.userId?.base?.avatar} alt="restaurant" width={50} height={50} className="rounded-full" />
+                                                <Image src={review?.userId?.base?.avatar || defaultUser} alt="restaurant" width={50} height={50} className="rounded-full object-cover aspect-square" />
                                             </div>
 
                                             <div className=" flex flex-col">
@@ -255,7 +256,7 @@ export default function OwnerReviews() {
 
                                     </div>
                                     <div className="flex flex-col items-end w-full">
-                                        <p className="mb-3 py-3 w-full">{review.comment}</p>
+                                        <p className=" py-3 w-full">{review.comment}</p>
                                         {
                                             !review.ownerReply ?
                                                 <div className="w-full py-2">

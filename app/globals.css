@@ -318,3 +318,17 @@ border-bottom-right-radius: 30px;
 .post-owner{
    @apply flex items-end text-sm text-base font-semibold;
 }
+
+/* Force-strip the malicious border wrapper collision */
+.Toastify__toast {
+    border: none !important;
+    border-radius: 8px !important; /* Adjust to match your system theme */
+}
+
+/* Fix internal icon/button boundary clipping */
+.Toastify__toast-body, 
+.Toastify__close-button {
+    border: none !important;
+    outline: none !important;
+    
+}

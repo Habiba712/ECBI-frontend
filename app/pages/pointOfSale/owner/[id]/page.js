@@ -10,7 +10,7 @@ import Image from "next/image";
 import BackIcon from "../../../../../public/svg/back";
 import ReplyIcon from "../../../../../public/svg/reply";
 import ReviewsReplies from "../../../../components/modals/reviewsReplies";
-
+import defaultUser from "../../../../../public/default_user.png";
 
 export default function PointOfSale() {
     const { id } = useParams();
@@ -40,6 +40,19 @@ export default function PointOfSale() {
             next(err)
         }
     }
+        const calculateStars = (rating) =>{
+            console.log('rating', rating);
+            let stars = [];
+            for (let i=0; i < rating; i++){
+                 stars.push(<StarIcon 
+                    key={i}
+                    className={'w-5 h-5 text-yellow-500 fill-current'}/>)
+                    
+               
+            }
+              return stars;
+        }
+    
     const getReviewsByPointOfSaleId = async (next, req, res) => {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/getReviewsByPointOfSaleId/${id}`,
@@ -83,17 +96,7 @@ export default function PointOfSale() {
             next(err)
         }
     }
-    const calculateStars = (rating) =>{
-            console.log('rating', rating);
-            let stars = [];
-            for (let i=0; i < rating; i++){
-                 stars.push(<StarIcon className={'w-5 h-5 text-yellow-500 fill-current'}/>)
-                    
-               
-            }
-              return stars;
-        }
-    
+
     useEffect(() => {
         getPointsOfSaleById();
         getReviewsByPointOfSaleId();
@@ -102,7 +105,7 @@ export default function PointOfSale() {
     console.log('reviews', reviews);
     return (
         <section className="mt-4 mx-auto max-w-4xl p-4 text-gray-500  w-full "
-        key={pointsOfSaleById?.id}
+        
         >
             <div className="p-4  text-md flex flex-col  items-center w-full">
                 <div className="flex justify-between items-center w-full">
@@ -219,7 +222,7 @@ export default function PointOfSale() {
             </div>
             
             {/* recent reviews and visits */}
-            <div className="shadow-lg rounded-lg p-4 mt-4">
+            <div className="shadow-lg rounded-lg p-4 flex flex-col gap-2">
                 <div className="p-4">
                     <h3 className="font-bold text-black font-semibold">Recents Visitors & Reviews</h3>
                     
@@ -228,22 +231,22 @@ export default function PointOfSale() {
                     reviews && reviews?.length > 0 ?
                     reviews?.map((item, index) => {
                         return (
-                            <div key={index} className="flex flex-col items-center w-full border border-gray-200 rounded-lg p-2 ">
+                            <div key={item._id || index} className="flex flex-col gap-2items-center w-full border border-gray-200 rounded-lg p-2 ">
                                 <div className="flex justify-between w-full items-center">
                                     <div className="flex justify-around gap-2 w-fit">
                                         <div className="w-fit  flex justify-center items-center">
-                                            <Image src={item?.userId?.avatar} alt="restaurant" width={50} height={50} className="rounded-full" />
+                                            <Image src={item?.userId?.base?.avatar || defaultUser} alt="restaurant" width={50} height={50} className="rounded-full" />
                                         </div>
 
                                         <div className=" flex flex-col">
-                                            <p className="font-semibold" style={{
-                                                'font-size': "14px"
-                                            }}>{item.userId.username}</p>
+                                            <p className="font-semibold text-[14px]" style={{
+                                                'fontSize': "14px"
+                                            }}>{item.userId.base.name}</p>
                                             <p style={{
-                                                'font-size': "12px"
+                                                'fontSize': "12px"
                                             }}>{item?.pointOfSaleId?.name}</p>
                                             <span className="text-gray-400" style={{
-                                                'font-size': "12px"
+                                                'fontSize': "12px"
                                             }}>
                                                 {item.visitedAt.replace('T', ' ').split(' ')[0].toString()}</span>
 
@@ -251,7 +254,7 @@ export default function PointOfSale() {
                                     </div>
                                     <div className="flex flex-col items-end">
                                         <span style={{
-                                            'font-size': "12px"
+                                            'fontSize': "12px"
                                         }}>
 
                                             {item.rating && <span className="text-blue-500 flex">
@@ -261,7 +264,7 @@ export default function PointOfSale() {
 
                                         </span>
                                         <span style={{
-                                            'font-size': "12px"
+                                            'fontSize': "12px"
                                         }} className="text-blue-600">
                                             +{item?.pointsEarned ? item.pointsEarned : 0} points earned
                                         </span>
@@ -280,13 +283,13 @@ export default function PointOfSale() {
                                                             id: item._id,
                                                             comment: item.comment,
                                                             rating: item.rating,
-                                                            userName: item.userId.username,
-                                                            userAvatar: item.userId.avatar
+                                                            userName: item.userId.base.name,
+                                                            userAvatar: item.userId.base.avatar || defaultUser
 
                                                         }
                                                     })}
                                                 >
-                                                    <ReplyIcon className="w-5 h-5 text-gray-400" />
+                                                    <ReplyIcon className="w-5 h-5" />
                                                     <span>Reply to Review</span>
                                                 </button>
                                             </div>
@@ -294,7 +297,7 @@ export default function PointOfSale() {
                                             :
                                             <div className="w-full py-2">
                                                 <p style={{
-                                                    'font-size': "12px"
+                                                    'fontSize': "12px"
                                                 }} className="w-full p-4 border-l-3 border-blue-400 bg-blue-100 rounded-lg">
                                                     {item.ownerReply}
                                                 </p>
