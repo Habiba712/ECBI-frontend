@@ -252,8 +252,8 @@ export default function WalletPage() {
 
 
                 </div>
-                <div className="flex gap-3 p-4 relative -top-5" >
-                    <div className="flex flex-col gap-2 text-md shadow-lg rounded-lg items-center justify-center bg-white w-full font-semibold py-2 px-3">
+                <div className="flex justify-between gap-3 p-4 relative -top-5 w-full" >
+                    <div className={`${tab === "rewards" ? "w-1/4 flex flex-col gap-2 text-md rounded-lg items-center justify-center bg-gray-100 w-1/4 font-semibold py-2 px-3 " : "w-1/4 flex flex-col gap-2 text-md shadow-lg rounded-lg items-center justify-center bg-white w-1/4 font-semibold py-2 px-3"} `}>
                         <button className="rounded-full cursor-pointer p-2 bg-gray-100
                         hover:scale-[1.1] transition-all duration-300
                         " 
@@ -267,7 +267,7 @@ export default function WalletPage() {
 
                     </div>
 
-                    <div className="flex flex-col gap-2 text-md shadow-lg rounded-lg items-center justify-center bg-white w-full font-semibold py-2">
+                    <div className={`${tab === "educational" ? "w-1/4 flex flex-col gap-2 text-md rounded-lg items-center justify-center bg-gray-100 w-1/4 font-semibold py-2 px-3 " : "w-1/4 flex flex-col gap-2 text-md shadow-lg rounded-lg items-center justify-center bg-white w-1/4 font-semibold py-2 px-3"} `}>
                         <button className="rounded-full cursor-pointer p-2 bg-gray-100
                         hover:scale-[1.1] transition-all duration-300
                         "
@@ -280,7 +280,7 @@ export default function WalletPage() {
 
                     </div>
 
-                    <div className="flex flex-col gap-2 text-md shadow-lg rounded-lg items-center justify-center bg-white w-full font-semibold py-2">
+                    <div className={`${tab === "referrals" ? "w-1/4 flex flex-col gap-2 text-md rounded-lg items-center justify-center bg-gray-100 font-semibold py-2 px-3 " : "w-1/4 flex flex-col gap-2 text-md shadow-lg rounded-lg items-center justify-center bg-white w-1/4 font-semibold py-2 px-3"} `}>
                         <button className="rounded-full cursor-pointer p-2 bg-gray-100
                         hover:scale-[1.1] transition-all duration-300
                     " onClick={() => changeTab("referrals")}
@@ -292,10 +292,9 @@ export default function WalletPage() {
 
                     </div>
 
-                    <div className="flex flex-col gap-2 text-md shadow-lg rounded-lg items-center justify-center bg-white w-full font-semibold py-2 px-3">
-                        <button className="rounded-full cursor-pointer p-2 bg-gray-100
-                        hover:scale-[1.1] transition-all duration-300
-                        "
+                    <div className={`${tab === "history" ? " flex flex-col gap-2 text-md rounded-lg items-center justify-center bg-gray-100 w-1/4 font-semibold py-2 px-3 " : "w-1/4 flex flex-col gap-2 text-md shadow-lg rounded-lg items-center justify-center bg-white w-1/4 font-semibold py-2 px-3"} `}>
+                        <button className={`rounded-full cursor-pointer p-2 bg-gray-100
+                        hover:scale-[1.1] transition-all duration-300`}
                             onClick={() => changeTab("history")}
                         >
 

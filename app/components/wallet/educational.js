@@ -11,7 +11,8 @@ import surprise_box from '../../../public/surprise_box.png';
 
 export default function Educational({ }) {
     return (
-        <> <div className="px-4 flex flex-col gap-3 ">
+        <> 
+        <div className="px-4 flex flex-col gap-3 ">
             <div className="flex gap-3 rounded-lg shadow-lg px-4 py-1">
                 <div className="flex flex-col">
                     <h1 className="text-2xl font-bold text-gray-800">How to Earn Points</h1>

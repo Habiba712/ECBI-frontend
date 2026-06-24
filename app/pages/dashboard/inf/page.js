@@ -2,6 +2,7 @@
 
 import SearchIcon from "../../../../public/svg/search"
 import { useState, useEffect , useRef} from "react";
+import { useRouter } from 'next/navigation';
 import AddPost from "../../../components/modals/addPost";
 import Image from "next/image";
 import LightIcon from "../../../../public/svg/light";
@@ -22,6 +23,7 @@ export default function PointOfSale() {
     const [comment, setComment] = useState("");
     const [showCommentSection, setShowCommentSection] = useState(false);
     const ref = useRef(null);
+    const router = useRouter();
 
     const handleShowComment = (postId) => {
        setShowCommentSection(prev => !prev);
@@ -264,7 +266,13 @@ export default function PointOfSale() {
 
                                     {post?.pos?.address?.city && (
                                         <>
-                                            <span className="font-semibold text-gray-700">{post?.pos?.name}</span> <span className="text-gray-300">•</span>  <span>{post?.pos?.address?.city}</span><ZipCodeIcon className="w-4 h-4 text-gray-400 flex-shrink-0 " />
+                                            <button
+                                            onClick={() => {
+                                                console.log('post?.pos?._id', post?.pos?._id);
+                                                router.push(`/pages/pointOfSale/user/${post?.pos?._id}`)}}
+                                             className="font-semibold text-gray-700 cursor-pointer">
+                                                {post?.pos?.name}
+                                                </button> <span className="text-gray-300">•</span>  <span>{post?.pos?.address?.city}</span><ZipCodeIcon className="w-4 h-4 text-gray-400 flex-shrink-0 " />
 
                                         </>
                                     )}

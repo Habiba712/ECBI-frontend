@@ -167,13 +167,7 @@ export default function AddPost() {
     findReferralLink();
 }, [owner, id]);
 
-    //  console.log('user id', owner, id);
-    //  console.log('referral links', myReferralLinksForThisPos[0]);
-    //  console.log('referred user', referredLoggedInUser);
-    console.log('show modal', showModal)
-    console.log('my referral links for this pos', myReferralLinksForThisPos);
-    console.log('referred logged in user', referredLoggedInUser);
-    console.log('referral owner', referralOwner);
+
    
     return (
         <div className="z-0 w-full  bg-black/50 fixed inset-0

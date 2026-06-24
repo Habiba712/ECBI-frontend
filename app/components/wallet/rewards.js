@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import dollar from '../../../public/dollar.png';
 import  GiftIcon from '../../../public/svg/gift';
+import surprise_box from '../../../public/surprise_box.png';
 export default function Rewards({ getReferralLinks }) {
     console.log('get referral links', getReferralLinks);
     const [rewards, setRewards] = useState([
@@ -23,7 +24,7 @@ export default function Rewards({ getReferralLinks }) {
     }, [getReferralLinks]);
     console.log('rewards', rewards);
     return (
-        <div className="px-4 flex flex-col gap-3 ">
+        <div className="px-4 flex flex-col gap-3  ">
             <div>
                 <p
                     style={{
@@ -81,7 +82,28 @@ export default function Rewards({ getReferralLinks }) {
             
         </div>
         <p className="text-purple-700 font-semibold">Keep earning points to unlock more amazing rewards!</p>
-       </div>
+       </div> 
+       <div className="flex bg-purple-100 rounded-lg items-center justify-between  py-2 shadow-lg mt-3 px-2">
+                                <div className="">
+                                    <Image src={surprise_box} alt="pos cover image" width={100} height={100} className="rounded-full object-cover aspect-square" />
+                                </div>
+                                <div className="w-fit ">
+                                    <p style={{ 'fontSize': '18px' }} className="w-fit text-purple-800 font-semibold">
+                                        Redeem Your Points
+                                    </p>
+                                    <p className="text-gray-500 font-semibold px-1 ">
+                                        Turn your points into amazing rewards and discounts
+                                    </p>
+                                </div>
+                                <div className="">
+                                    <button className="bg-purple-900 opacity-80 text-white px-1 py-2 rounded-full text-[13px] flex justify-center nowrap cursor-pointer font-semibold ">
+                                        Explore Rewards
+                                    </button>
+                                </div>
+        
+                            </div>
         </div>
+        
+         
     )
 }
