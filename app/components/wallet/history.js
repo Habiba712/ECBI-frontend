@@ -7,6 +7,8 @@ import surprise_box from '../../../public/surprise_box.png';
 import Image from 'next/image';
 import { formatDistanceToNow } from "date-fns";
 import { motion } from 'framer-motion';
+import defaultUser from '../../../public/default_user.png';
+
 
 
 export default function History({getReferralLinks, getTotalFriends, totalBalance, redeemedPoints}) {
@@ -48,8 +50,8 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
 
                                             <div key={reff?.user?._id} className="px-3 py-1 flex justify-between gap-3 items-start">
                                                 <div className="flex items-center ">
-                                                    <div className="w-[40px]">  <Image src={reff?.user?.base?.avatar} alt="avatar" width={50} height={50} className="rounded-full object-cover aspect-square" /></div>
-                                                  <div> <span className="text-green-600 font-semibold  rounded-full flex items-center justify-center h-[20px] w-[20px] text-[16px]">+{(totalBalance -0) / referral?.referredUsers?.length}
+                                                    <div className="w-[40px]">  <Image src={reff?.user?.base?.avatar || defaultUser} alt="avatar" width={50} height={50} className="rounded-full object-cover aspect-square" /></div>
+                                                  <div> <span className="text-green-600 font-semibold  rounded-full flex items-center justify-center h-[20px] w-[20px] text-[16px]">+{reff?.pointsAwarded}
 
                                                     </span></div>
                                                    

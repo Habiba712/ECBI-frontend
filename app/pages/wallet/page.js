@@ -20,6 +20,7 @@ import Educational from '../../components/wallet/educational';
 import Rewards from '../../components/wallet/rewards';
 import Referrals from '../../components/wallet/referral';
 import { AnimatePresence } from 'framer-motion';
+import defaultUser from '../../../public/default_user.png';
 
 export default function WalletPage() {
     const [wallet, setWallet] = useState([]);
@@ -41,6 +42,8 @@ export default function WalletPage() {
     const [rewards, setRewards] = useState(false);
     const [referrals, setReferrals] = useState(false);
     const [tab, setTab] = useState("history");
+    const [platformBalance, setPlatformBalance] = useState(0);
+    const [referalsBalance, setReferralsBalance] = useState(0);
     const router = useRouter();
 
     const getMyReferralLinks = async () => {
@@ -72,7 +75,7 @@ export default function WalletPage() {
                 if (res.ok) {
                     res.json().then((data) => {
                         console.log('referral link data all',
-
+data
                         )
                         setGetReferralLinksAll(data?.map(link => ({
                             ...link,
@@ -84,6 +87,18 @@ export default function WalletPage() {
                             .reduce((acc, curr) => acc + curr?.referredUsers?.length, 0)
 
                         );
+
+                        console.log('bakance', 
+                            data?.find(referral => referral?.referrerUser === userId).referredUsers.reduce((acc, curr) => acc + curr?.pointsAwarded, 0)
+                            // .referredUsers?.filter(referredUser => referredUser?.isActive === true || referredUser?.isActive === false && referredUser?.userId !== userId && referredUser?.tempId === null)
+                            // .reduce((acc, curr) => acc + curr?.pointsAwarded, 0)
+                            
+                        
+                            
+                         );
+
+
+                        setReferralsBalance(data?.find(referral => referral?.referrerUser === userId).referredUsers.reduce((acc, curr) => acc + curr?.pointsAwarded, 0))
 
                         setTotalActiveReferrals(data?.map(link => ({
                             ...link,
@@ -115,17 +130,13 @@ export default function WalletPage() {
                 console.log('dataaa',data?.user?.finalUser?.pointsPlatrform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0));
                 setLoggedInUser(data.user);
 
-                setEarnedPoints(
-                    (data?.user?.finalUser?.pointsByPos || data?.user?.finalUser?.pointsPlatrform) 
-                    ? 
-                    (
-                        data?.user?.finalUser?.pointsByPos?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) > 0 ? data?.user?.finalUser?.pointsByPos?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) : 0  +
-                        data?.user?.finalUser?.pointsPlatrform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) > 0 ? data?.user?.finalUser?.pointsPlatrform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) : 0
+                setPlatformBalance(
+                    (data?.user?.finalUser?.pointsPlatrform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) > 0 ? data?.user?.finalUser?.pointsPlatrform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) : 0
                     ) 
-                    : 0
+                    
                 );
                 setRedeemedPoints(data?.user?.finalUser?.pointsByPos?.reduce((acc, curr) => acc + curr?.redeemedPoints, 0) + data?.user?.finalUser?.pointsPlatrform?.reduce((acc, curr) => acc + curr?.redeemedPoints, 0));
-                setTotalBalance(calculateBalance(data?.user?.finalUser?.pointsByPos, data?.user?.finalUser?.pointsPlatrform));
+                // setTotalBalance(calculateBalance(data?.user?.finalUser?.pointsByPos, data?.user?.finalUser?.pointsPlatrform));
                 
                
             }))
@@ -136,28 +147,37 @@ export default function WalletPage() {
     }
 
 
-    const calculateBalance = (pointsByPos, pointsFromPlatform) => {
-        console.log('pointsByPos', pointsByPos);
-        if(!pointsByPos && !pointsFromPlatform){ return 0}
+    // const calculateBalance = (pointsByPos, pointsFromPlatform) => {
+    //     console.log('pointsByPos', pointsByPos);
+    //     if(!pointsByPos && !pointsFromPlatform){ return 0}
 
-        const gainedPoints = (pointsByPos?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) || 0) + 
-        (pointsFromPlatform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) || 0);
-        console.log('gained points', gainedPoints);
+    //     const gainedPoints = (pointsByPos?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) || 0) + 
+    //     (pointsFromPlatform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) || 0);
+    //     console.log('gained points', gainedPoints);
 
-        const spentPoints = (pointsByPos?.reduce((acc, curr) => acc + curr?.redeemedPoints, 0) || 0) + (pointsFromPlatform?.reduce((acc, curr) => acc + curr?.redeemedPoints, 0) || 0);
-        console.log('spent points', spentPoints);
+    //     const spentPoints = (pointsByPos?.reduce((acc, curr) => acc + curr?.redeemedPoints, 0) || 0) + (pointsFromPlatform?.reduce((acc, curr) => acc + curr?.redeemedPoints, 0) || 0);
+    //     console.log('spent points', spentPoints);
 
 
-        if (gainedPoints && spentPoints) {
-            const total = gainedPoints.reduce((acc, curr) => acc + curr?.gainedPoints, 0) - spentPoints;
-            console.log('total', total);
-            return total;
+    //     if (gainedPoints && spentPoints) {
+    //         const total = gainedPoints.reduce((acc, curr) => acc + curr?.gainedPoints, 0) - spentPoints;
+    //         console.log('total', total);
+    //         return total;
     
-        }
-        else if (!spentPoints) {
-            return gainedPoints;
-        }
+    //     }
+    //     else if (!spentPoints) {
+    //         return gainedPoints;
+    //     }
 
+    // }
+
+    const calculateBalance = (referalPoints, platformPoints)=>{
+        if(!referalPoints && !platformPoints){ return 0}
+        const sum = referalPoints + platformPoints;
+        setEarnedPoints(sum);
+
+        console.log('sum', sum);
+        return setTotalBalance(sum);
     }
     useEffect(() => {
         const session = JSON.parse(localStorage.getItem("sessionData")) || null;
@@ -173,6 +193,12 @@ export default function WalletPage() {
             getreferralLinksAll();
         }
     }, [userId])
+
+    useEffect(() => {
+        console.log('referals balance', referalsBalance);
+        console.log('platform balance', platformBalance);
+        calculateBalance(referalsBalance, platformBalance);
+    }, [referalsBalance, platformBalance])
 console.log('earned points', earnedPoints);
     return (
         <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   mb-30 ">
@@ -291,7 +317,7 @@ console.log('earned points', earnedPoints);
                             <GiftIcon className="w-7 h-7 text-green-500 stroke-2" />
                         </button>
 
-                        <p> How to Earn</p>
+                        <p className="text-center"> How to Earn</p>
 
                     </div>
 
