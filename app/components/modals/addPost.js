@@ -98,44 +98,44 @@ export default function AddPost() {
             console.log('error', err);
         }
     }
-    const updateReferralLink = async (expiredState, rewarded = null) => {
-        console.log('we re ehre for the rewrd, ', rewarded)
-        if (!owner || !id) return;
+    // const updateReferralLink = async (expiredState, rewarded = null) => {
+    //     console.log('we re ehre for the rewrd, ', rewarded)
+    //     if (!owner || !id) return;
 
-        console.log('er re here', expiredState)
-        const link_id = myReferralLinksForThisPos[0]?.linkId;
-        console.log('link', myReferralLinksForThisPos);
-        console.log('link id', link_id);
-        console.log('owner', myReferralLinksForThisPos);
-        console.log('link id', link_id);
-        console.log('is active', isActive);
-        try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/updateReferralLink/${myReferralLinksForThisPos[0]?.linkId}`, {
-                method: "PUT",
+    //     console.log('er re here', expiredState)
+    //     const link_id = myReferralLinksForThisPos[0]?.linkId;
+    //     console.log('link', myReferralLinksForThisPos);
+    //     console.log('link id', link_id);
+    //     console.log('owner', myReferralLinksForThisPos);
+    //     console.log('link id', link_id);
+    //     console.log('is active', isActive);
+    //     try {
+    //         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/updateReferralLink/${myReferralLinksForThisPos[0]?.linkId}`, {
+    //             method: "PUT",
                 
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({
                     
-                    rewardedLinkOwner: rewarded,
+    //                 rewardedLinkOwner: rewarded,
 
-                    isExpired: expiredState,
-                    visitorId: owner,
-                    isActive: isActive,
-                })
-            }).then((res) => {
-                if (res.ok) {
-                    console.log('res', res);
-                    // getAllPosts();
-                    // return res.json();
-                }
-            })
+    //                 isExpired: expiredState,
+    //                 visitorId: owner,
+    //                 isActive: isActive,
+    //             })
+    //         }).then((res) => {
+    //             if (res.ok) {
+    //                 console.log('res', res);
+    //                 // getAllPosts();
+    //                 // return res.json();
+    //             }
+    //         })
 
-        } catch (err) {
-            console.log('error', err);
-        }
-    }
+    //     } catch (err) {
+    //         console.log('error', err);
+    //     }
+    // }
 
     const findReferralLink = async () => {
         console.log('er e here', owner, id)
@@ -297,7 +297,7 @@ export default function AddPost() {
                             setExpiredLink={setExpiredLink}
                             setIsActive={setIsActive}
 
-                            onClose={(val) => updateReferralLink(val)}
+                            onClose={() => setShowModal(false)}
                         />
                     )
 
