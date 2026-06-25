@@ -60,7 +60,7 @@ export default function AddPost() {
                         console.log('updating user earns', referralOwner, id, 50);
 
                         //we need to update the referral link, so the link owner can be rewarded ...
-                        updateReferralLink(true, 50);
+                        // updateReferralLink(true, 50);
 
 
                     }
@@ -112,6 +112,10 @@ export default function AddPost() {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/updateReferralLink/${myReferralLinksForThisPos[0]?.linkId}`, {
                 method: "PUT",
+                
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({
                     
                     rewardedLinkOwner: rewarded,
@@ -119,9 +123,12 @@ export default function AddPost() {
                     isExpired: expiredState,
                     visitorId: owner,
                     isActive: isActive,
-                }),
-                headers: {
-                    'Content-Type': 'application/json'
+                })
+            }).then((res) => {
+                if (res.ok) {
+                    console.log('res', res);
+                    // getAllPosts();
+                    // return res.json();
                 }
             })
 

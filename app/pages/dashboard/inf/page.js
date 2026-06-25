@@ -86,7 +86,7 @@ export default function PointOfSale() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/post/getAllPosts`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    // 'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
                 method: "GET"
             }).then((res) => {
@@ -248,7 +248,7 @@ export default function PointOfSale() {
                                 <img
                                     src={post?.photoUrl}
                                     alt="post attachment"
-                                    className="w-full h-auto max-h-[500px] object-cover aspect-square block mx-auto"
+                                    className="w-full h-auto max-h-[00px] object-cover aspect-square block mx-auto"
                                 />
                             </div>
                             {/* third section */}
