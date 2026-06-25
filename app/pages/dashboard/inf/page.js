@@ -11,6 +11,7 @@ import CommentIcon from "../../../../public/svg/comment";
 import ShareIcon from "../../../../public/svg/share";
 import ZipCodeIcon from "../../../../public/svg/zipCode";
 import CommentsModal from "../../../components/modals/commentsModal";
+import defaultUser from "../../../../public/default_user.png";
 
 export default function PointOfSale() {
 
@@ -24,6 +25,7 @@ export default function PointOfSale() {
     const [showCommentSection, setShowCommentSection] = useState(false);
     const ref = useRef(null);
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(true);
 
     const handleShowComment = (postId) => {
        setShowCommentSection(prev => !prev);
@@ -91,6 +93,7 @@ export default function PointOfSale() {
                 if (res.ok) {
                     res.json().then((data) => {
                         setPostsList(data);
+                        setIsLoading(false);
                         console.log('data', data);
                     })
 
@@ -153,13 +156,11 @@ export default function PointOfSale() {
     }
     useEffect(() => {
         const session = JSON.parse(localStorage.getItem("sessionData")) || null;
-        // console.log('session', session?.userId);
-        setUserId(session?.userId);
+         setUserId(session?.userId);
         setToken(session?.token);
     }, []);
     useEffect(() => {
-        // setShowReferralLinks(false);
-        if (userId) {
+         if (userId) {
             getUser();
         }
     }, [userId])
@@ -197,31 +198,53 @@ export default function PointOfSale() {
 
             </div>
             <div className="mt-20 ">
-                {/* <button 
-                onClick={()=>handleClick()}
-                className="rounded-full bg-gradient-to-r from-purple-700 to-blue-700 px-4 py-2 cursor-pointer text-white font-semibold hover:scale-110 transition-all duration-500 ease-in-out">
-                    Create New Post
-                </button> */}
-                {
+              
+               {
+                isLoading ? (
+    <div className="w-full max-w-md mx-auto bg-white mb-6 border border-gray-100 rounded-xl overflow-hidden animate-pulse">
+        {/* 1. Header: Avatar + Username */}
+        <div className="flex items-center gap-3 p-4">
+            <div className="rounded-full bg-slate-200 h-9 w-9"></div>
+            <div className="space-y-2 flex-1">
+                <div className="h-3 bg-slate-200 rounded w-24"></div>
+            </div>
+        </div>
+ 
+        <div className="w-full aspect-square bg-slate-200"></div>
+ 
+        <div className="flex items-center gap-4 p-4 pb-2">
+            <div className="h-5 w-5 bg-slate-200 rounded-full"></div> {/* Heart Icon */}
+            <div className="h-5 w-5 bg-slate-200 rounded-full"></div> {/* Comment Icon */}
+            <div className="h-5 w-5 bg-slate-200 rounded-full"></div> {/* Share Icon */}
+        </div>
+
+         <div className="px-4 pb-4 space-y-2">
+            <div className="h-3 bg-slate-200 rounded w-16"></div> {/* Username */}
+            <div className="h-2.5 bg-slate-200 rounded w-36"></div> {/* Restaurant Name • City */}
+            <div className="h-3 bg-slate-200 rounded w-5/6 pt-1"></div> {/* Caption Line 1 */}
+            <div className="h-3 bg-slate-200 rounded w-1/2"></div> {/* Caption Line 2 */}
+        </div>
+    </div>
+) : <> {
                     postsList?.length > 0 && postsList.map((post, index) => (
                         <div key={index} className="post-container">
                             {/* first section */}
-                            <div className="flex justify-between items-center px-1 pt-2 border-b border-gray-50 bg-white">
+                            <div className="flex justify-between items-center px-3 pt-2 border-b border-gray-50 bg-white">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <div className="relative w-9 h-9 overflow-hidden rounded-full border border-gray-100 flex-shrink-0 ">
-                                        <Image src={post?.owner?.base?.avatar || "/default_user.png"} alt="pos cover image" fill className="object-cover" />
+                                    <div className="relative w-9 h-9  rounded-full border border-gray-100 flex-shrink-0 ">
+                                        <Image src={post?.owner?.base?.avatar || defaultUser} alt="pos cover image" fill className="object-cover" />
                                     </div>
                                     <span className="text-sm font-semibold text-gray-900 leading-none">
                                         {post?.owner?.base?.name}
                                     </span>
                                 </div>
-                                <div className="bg-purple-100 flex items-center gap-1 bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full shadow-sm">
+                                {/* <div className="bg-purple-100 flex items-center gap-1 bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full shadow-sm">
                                     <LightIcon className="w-4 h-4 text-emerald-500 fill-current fill-purple-800 stroke-purple-800" />
                                     <span className="text-xs font-bold tracking-wide text-purple-800">+50 pts</span>
-                                </div>
+                                </div> */}
                             </div>
                             {/* secondsection */}
-                            <div className="relative w-full bg-gray-50 flex items-center justify-center max-h-[500px] overflow-hidden border-y border-gray-100">
+                            <div className="relative w-full bg-gray-50 flex items-center justify-center max-h-[500px]  border-y border-gray-100">
                                 <img
                                     src={post?.photoUrl}
                                     alt="post attachment"
@@ -229,7 +252,7 @@ export default function PointOfSale() {
                                 />
                             </div>
                             {/* third section */}
-                            <div className="px-1 pt-3 pb-1 flex items-center gap-4 bg-white">
+                            <div className="px-4 pt-3 pb-1 flex items-center gap-4 bg-white">
                                 <button className="font-semibold flex items-center gap-1"
                                     onClick={() => handleLike(post?._id)}>
 
@@ -253,7 +276,7 @@ export default function PointOfSale() {
                             </div>
                             
                             {/* forth section */}
-                            <div className="px-1 flex flex-col gap-1.5 bg-white">
+                            <div className="px-4 flex flex-col gap-1.5 bg-white">
                                 {/* Caption Layout */}
                                 <p className="text-sm text-gray-800 leading-relaxed">
                                     <span className="font-semibold text-gray-900 mr-2">{post?.owner?.base?.name}</span>
@@ -322,7 +345,10 @@ export default function PointOfSale() {
 
                         </div>
                     ))
-                }
+                }</>
+   
+
+               }
 
             </div>
             {
