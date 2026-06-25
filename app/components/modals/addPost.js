@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import CheckReferralLink from "./checkReferralLink";
 export default function AddPost() {
     const { id } = useParams();
+    console.log('id', id);
     const router = useRouter();
     const [owner, setOwner] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -26,7 +27,7 @@ export default function AddPost() {
     const [referredLoggedInUser, setReferredLoggedInUser] = useState(null);
     const [caption, setCaption] = useState("");
     const [referralOwner, setReferralOwner] = useState(null);
-   
+
 
 
     const handleModal = () => {
@@ -37,8 +38,8 @@ export default function AddPost() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-         console.log('owner', owner);
-    console.log('pos', id);
+        console.log('owner', owner);
+        console.log('pos', id);
         try {
             const formData = new FormData();
             formData.append('owner', owner);
@@ -55,23 +56,22 @@ export default function AddPost() {
                 body: formData,
             }).then((res) => {
                 if (res.ok) {
-                    if (isActive && referralOwner !== null) {
-                                                console.log('updating user earns', referralOwner, id, 50);
+                    if (referralOwner !== null) {
+                        console.log('updating user earns', referralOwner, id, 50);
 
                         //we need to update the referral link, so the link owner can be rewarded ...
-                           updateReferralLink(true, 50);
-                 
+                        updateReferralLink(true, 50);
+
 
                     }
-                                              updateUserEarns(referralOwner, id, 50);
+                    updateUserEarns(referralOwner, id, 50);
 
                     //visited = true; visitedAt = now; 
                     router.push(`/pages/dashboard/inf`);
                     // setIsModalOpen(false);
                 }
-                 console.log('owner', owner);
-    console.log('pos', pos);
-    
+              
+
             })
         } catch (err) {
             console.log('error', err);
@@ -79,7 +79,7 @@ export default function AddPost() {
     }
     const updateUserEarns = async (userId, posId, points) => {
         console.log('updateUserEarns', userId, posId, points);
-        try{
+        try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUserPoints/${userId}`, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ export default function AddPost() {
                     })
                 }
             })
-        }catch(err){
+        } catch (err) {
             console.log('error', err);
         }
     }
@@ -104,6 +104,8 @@ export default function AddPost() {
 
         console.log('er re here', expiredState)
         const link_id = myReferralLinksForThisPos[0]?.linkId;
+        console.log('link', myReferralLinksForThisPos);
+        console.log('link id', link_id);
         console.log('owner', myReferralLinksForThisPos);
         console.log('link id', link_id);
         console.log('is active', isActive);
@@ -111,6 +113,7 @@ export default function AddPost() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/updateReferralLink/${myReferralLinksForThisPos[0]?.linkId}`, {
                 method: "PUT",
                 body: JSON.stringify({
+                    
                     rewardedLinkOwner: rewarded,
 
                     isExpired: expiredState,
@@ -129,9 +132,9 @@ export default function AddPost() {
 
     const findReferralLink = async () => {
         console.log('er e here', owner, id)
-       
+
         try {
-            
+
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/referralLink/getAllReferralLinks?posId=${id}&visitorId=${owner}`);
             const data = await res.json();
             console.log('dataaaa', data);
@@ -155,20 +158,20 @@ export default function AddPost() {
         }
     }
 
-   useEffect(() => {
-    const sessionData = JSON.parse(localStorage.getItem("sessionData"));
-    if (!sessionData?.userId || !id) return;
+    useEffect(() => {
+        const sessionData = JSON.parse(localStorage.getItem("sessionData"));
+        if (!sessionData?.userId || !id) return;
 
-    setOwner(sessionData.userId);
-}, [id]);
+        setOwner(sessionData.userId);
+    }, [id]);
 
-   useEffect(() => {
-    if (!owner || !id) return;
-    findReferralLink();
-}, [owner, id]);
+    useEffect(() => {
+        if (!owner || !id) return;
+        findReferralLink();
+    }, [owner, id]);
 
 
-   
+
     return (
         <div className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center py-8  h-full max-w-md mx-auto px-3 ">
@@ -286,7 +289,7 @@ export default function AddPost() {
                             closeModal={setShowModal}
                             setExpiredLink={setExpiredLink}
                             setIsActive={setIsActive}
-                            
+
                             onClose={(val) => updateReferralLink(val)}
                         />
                     )
