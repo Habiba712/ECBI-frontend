@@ -231,8 +231,8 @@ export default function PointOfSale() {
                             {/* first section */}
                             <div className="flex justify-between items-center px-3 pt-2 border-b border-gray-50 bg-white">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <div className="relative w-9 h-9  rounded-full border border-gray-100 flex-shrink-0 ">
-                                        <Image src={post?.owner?.base?.avatar || defaultUser} alt="pos cover image" fill className="object-cover" />
+                                    <div className="relative    rounded-full border border-gray-100 flex-shrink-0 ">
+                                        <Image src={post?.owner?.base?.avatar || defaultUser} alt="pos cover image" width={30} height={30}  className="object-cover rounded-full aspect-square" />
                                     </div>
                                     <span className="text-sm font-semibold text-gray-900 leading-none">
                                         {post?.owner?.base?.name}
