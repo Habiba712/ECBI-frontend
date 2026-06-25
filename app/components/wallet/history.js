@@ -6,11 +6,20 @@ import StarIcon from '../../../public/svg/star';
 import surprise_box from '../../../public/surprise_box.png';
 import Image from 'next/image';
 import { formatDistanceToNow } from "date-fns";
+import { motion } from 'framer-motion';
 
 
 export default function History({getReferralLinks, getTotalFriends, totalBalance, redeemedPoints}) {
     return (
-   <div className="px-4 flex flex-col gap-3">
+       <motion.div 
+                className="bg-white w-full h-full rounded-lg p-4 overflow-y-auto scrollbar-thin"
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 250 }}
+                onClick={(e) => e.stopPropagation()} // Prevents closing when clicking modal content
+            >
+             <div className="px-4 flex flex-col gap-3">
                     <div className="flex justify-between items-center">
                         <p
                             style={{
@@ -112,5 +121,7 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                       
                                           </div>
                 </div>
+        </motion.div>
+  
 
     )}

@@ -26,6 +26,7 @@ export default function InfProfilePage() {
     const router = useRouter();
     const [showReferralLinks, setShowReferralLinks] = useState(false);
     const [userPoints, setUserPoints] = useState([]);
+    const [pointsFromPlatform, setPointsFromPlatform] = useState([]);
     const [theReferralLink, setTheReferralLink] = useState([
         {
             link: "",
@@ -41,6 +42,7 @@ export default function InfProfilePage() {
                 setLoggedInUser(data.user);
                 setVisitedPos(data.user.finalUser.visits);
                 setUserPoints(data.user.finalUser.pointsByPos);
+                setPointsFromPlatform(data.user.finalUser.pointsPlatrform);
                 // console.log("Fetched user data:", data.data);
             }))
 
@@ -71,12 +73,17 @@ export default function InfProfilePage() {
 
     const pointsAwardedSum = (myReferralLinks) => {
         console.log('my referral linkssss', myReferralLinks);
-        let sum = 50;
+        let sum;
         console.log('user points', userPoints);
-        let prevPoints = userPoints?.reduce((acc, curr) => acc + curr?.earnedPoints, 0)
+        let prevPoints = userPoints?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) || 0
         
         sum = prevPoints;
         console.log('user id', userId, sum);
+
+        const sumPointsFromPlatform = pointsFromPlatform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) || 0;
+
+        sum += sumPointsFromPlatform;
+        console.log('sum', sum);
 
         // try {
         //     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/updateUserPoints/${userId}`, {
@@ -213,7 +220,7 @@ export default function InfProfilePage() {
                 <div className="w-full flex justify-around">
                     <div className="rounded-lg bg-black-100  flex flex-col justify-center items-center px-5 py-2 max-w-24 w-full bg-white/30 backdrop-blur-lg">
                         <h4 className="text-xl font-semibold">
-                            {pointsAwardedSum(myReferralLinks) || 20}
+                            {pointsAwardedSum(myReferralLinks) || 0}
                         </h4>
                         <p className="text-lg ">Points</p>
                     </div>

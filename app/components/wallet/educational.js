@@ -8,10 +8,19 @@ import TaskIcon from '../../../public/svg/task';
 import ShareIcon from '../../../public/svg/share';
 import CakeIcon from '../../../public/svg/cake';
 import surprise_box from '../../../public/surprise_box.png';
+import { motion } from "framer-motion";
 
 export default function Educational({ }) {
     return (
-        <> 
+            <motion.div
+                    className="bg-white w-full h-full rounded-lg p-4 overflow-y-auto scrollbar-thin"
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    exit={{ y: "100%" }}
+                    transition={{ type: "spring", damping: 25, stiffness: 250 }}
+                    onClick={(e) => e.stopPropagation()} // Prevents closing when clicking modal content
+                >
+                  <> 
         <div className="px-4 flex flex-col gap-3 ">
             <div className="flex gap-3 rounded-lg shadow-lg px-4 py-1">
                 <div className="flex flex-col">
@@ -121,7 +130,9 @@ export default function Educational({ }) {
 
                     </div>
                 
-        </>
+        </>    
+                </motion.div>
+      
        
     )
 }

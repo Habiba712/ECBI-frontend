@@ -18,6 +18,8 @@ import { AvatarGroup } from '@mui/material';
 import Link from 'next/link';
 import AddReview from '../../../../components/reviews/addReview';
 import ThankYouModal from '../../../../components/modals/thankYou';
+import { AnimatePresence } from 'framer-motion';
+import { motion } from "framer-motion";
 
 
 export default function PointOfSaleUserPage() {
@@ -107,8 +109,15 @@ export default function PointOfSaleUserPage() {
                 </div>
                 <Image src={pos?.coverImage} alt="pos" width={500} height={200} className="object-cover aspect-square flex-grow" />
             </div>
-
-            <div className="rounded-t-[20px] bg-white p-4 flex flex-col items-start gap-3 w-full relative -top-10">
+                <motion.div
+                        className="bg-white w-full h-full rounded-lg p-4 overflow-y-auto scrollbar-thin"
+                        initial={{ y: "100%" }}
+                        animate={{ y: 0 }}
+                        exit={{ y: "100%" }}
+                        transition={{ type: "spring", damping: 25, stiffness: 250 }}
+                        onClick={(e) => e.stopPropagation()} // Prevents closing when clicking modal content
+                    >
+                     <div className="rounded-t-[20px] bg-white p-4 flex flex-col items-start gap-3 w-full relative -top-10 ">
                 <div className="flex  gap-4  px-3">
                     <div className="flex flex-col rounded-lg py-4 ">
                         <h1 className="font-bold text-black font-semibold text-xl">{pos?.name}</h1>
@@ -226,8 +235,11 @@ export default function PointOfSaleUserPage() {
                    onClick={()=>handleShowMOdal(id)}
                     className="bg-purple-600 rounded-lg w-full flex items-center justify-center text-white font-semibold py-3 cursor-pointer">Leave Review</button>
                 </div>
-            </div>
-            {
+            </div>    
+                    </motion.div>
+           
+            <AnimatePresence>
+               {
                 isModalOpen &&
                 <AddReview
                     data={modalData}
@@ -235,8 +247,10 @@ export default function PointOfSaleUserPage() {
                     setIsModalOpen={setIsModalOpen}
                     onSend={(data)=>handleAddReview(data)}
                 />
-            }
-            {
+            }   
+            </AnimatePresence>
+          <AnimatePresence>
+              {
                 thankYouModal &&
                 <ThankYouModal id={id}
                 onClose={()=>{
@@ -248,6 +262,8 @@ export default function PointOfSaleUserPage() {
                     // onSend={()=>setThankYouModal(false)}
                 />
             }
+          </AnimatePresence>
+          
         </section>
     )
 }

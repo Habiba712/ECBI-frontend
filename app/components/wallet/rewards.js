@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import dollar from '../../../public/dollar.png';
 import  GiftIcon from '../../../public/svg/gift';
 import surprise_box from '../../../public/surprise_box.png';
+import { motion } from "framer-motion";
+
 export default function Rewards({ getReferralLinks }) {
     console.log('get referral links', getReferralLinks);
     const [rewards, setRewards] = useState([
@@ -24,7 +26,15 @@ export default function Rewards({ getReferralLinks }) {
     }, [getReferralLinks]);
     console.log('rewards', rewards);
     return (
-        <div className="px-4 flex flex-col gap-3  ">
+            <motion.div
+                    className="bg-white w-full h-full rounded-lg p-4 overflow-y-auto scrollbar-thin"
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    exit={{ y: "100%" }}
+                    transition={{ type: "spring", damping: 25, stiffness: 250 }}
+                    onClick={(e) => e.stopPropagation()} // Prevents closing when clicking modal content
+                >
+                 <div className="px-4 flex flex-col gap-3  ">
             <div>
                 <p
                     style={{
@@ -102,7 +112,9 @@ export default function Rewards({ getReferralLinks }) {
                                 </div>
         
                             </div>
-        </div>
+        </div>    
+                </motion.div>
+       
         
          
     )

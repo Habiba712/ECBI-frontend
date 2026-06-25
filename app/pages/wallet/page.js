@@ -19,10 +19,12 @@ import History from '../../components/wallet/history';
 import Educational from '../../components/wallet/educational';
 import Rewards from '../../components/wallet/rewards';
 import Referrals from '../../components/wallet/referral';
+import { AnimatePresence } from 'framer-motion';
 
 export default function WalletPage() {
     const [wallet, setWallet] = useState([]);
     const [totalBalance, setTotalBalance] = useState(0);
+    const [totolBalancePlatrform, setTotolBalancePlatrform] = useState(0);
     const [earnedPoints, setEarnedPoints] = useState(0);
     const [redeemedPoints, setRedeemedPoints] = useState(0);
     const [userId, setUserId] = useState(0);
@@ -110,16 +112,22 @@ export default function WalletPage() {
 
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/getUserById/${userId}`).then((res) => res.json().then((data) => {
-                console.log('datadoioi', data);
+                console.log('dataaa',data?.user?.finalUser?.pointsPlatrform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0));
                 setLoggedInUser(data.user);
 
-                setEarnedPoints(data?.user?.finalUser?.pointsByPos?.reduce((acc, curr) => acc + curr?.earnedPoints, 0));
-                setRedeemedPoints(data?.user?.finalUser?.pointsByPos?.reduce((acc, curr) => acc + curr?.redeemedPoints, 0));
-                setTotalBalance(calculateBalance(data?.user?.finalUser?.pointsByPos));
-                //  setTotalBalance(calculateBalance(data?.user?.finalUser?.pointsByPos, data?.user?.finalUser?.pointsByPos?.redeemedPoints));
-
-                // setVisitedPos(data.user.finalUser.visits);
-                // console.log("Fetched user data:", data.data);
+                setEarnedPoints(
+                    (data?.user?.finalUser?.pointsByPos || data?.user?.finalUser?.pointsPlatrform) 
+                    ? 
+                    (
+                        data?.user?.finalUser?.pointsByPos?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) > 0 ? data?.user?.finalUser?.pointsByPos?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) : 0  +
+                        data?.user?.finalUser?.pointsPlatrform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) > 0 ? data?.user?.finalUser?.pointsPlatrform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) : 0
+                    ) 
+                    : 0
+                );
+                setRedeemedPoints(data?.user?.finalUser?.pointsByPos?.reduce((acc, curr) => acc + curr?.redeemedPoints, 0) + data?.user?.finalUser?.pointsPlatrform?.reduce((acc, curr) => acc + curr?.redeemedPoints, 0));
+                setTotalBalance(calculateBalance(data?.user?.finalUser?.pointsByPos, data?.user?.finalUser?.pointsPlatrform));
+                
+               
             }))
 
         } catch (err) {
@@ -128,11 +136,18 @@ export default function WalletPage() {
     }
 
 
-    const calculateBalance = (pointsByPos) => {
+    const calculateBalance = (pointsByPos, pointsFromPlatform) => {
         console.log('pointsByPos', pointsByPos);
-        const gainedPoints = pointsByPos?.reduce((acc, curr) => acc + curr?.earnedPoints, 0);
-        const spentPoints = pointsByPos?.reduce((acc, curr) => acc + curr?.redeemedPoints, 0);
-        console.log('earned points', gainedPoints, spentPoints);
+        if(!pointsByPos && !pointsFromPlatform){ return 0}
+
+        const gainedPoints = (pointsByPos?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) || 0) + 
+        (pointsFromPlatform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) || 0);
+        console.log('gained points', gainedPoints);
+
+        const spentPoints = (pointsByPos?.reduce((acc, curr) => acc + curr?.redeemedPoints, 0) || 0) + (pointsFromPlatform?.reduce((acc, curr) => acc + curr?.redeemedPoints, 0) || 0);
+        console.log('spent points', spentPoints);
+
+
         if (gainedPoints && spentPoints) {
             const total = gainedPoints.reduce((acc, curr) => acc + curr?.gainedPoints, 0) - spentPoints;
             console.log('total', total);
@@ -158,7 +173,7 @@ export default function WalletPage() {
             getreferralLinksAll();
         }
     }, [userId])
-
+console.log('earned points', earnedPoints);
     return (
         <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   mb-30 ">
             <div className={`h-[100px] flex flex-col justify-start  items-center py-3 text-white rounded-b-lg w-full bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]`}
@@ -310,7 +325,8 @@ export default function WalletPage() {
 
 
                 <div className="">
-                    {tab === "history" ? (
+                    <AnimatePresence>
+                          {tab === "history" ? (
                         <History
                             getReferralLinks={getReferralLinks}
                             getTotalFriends={getTotalFriends}
@@ -331,6 +347,8 @@ export default function WalletPage() {
                                 />
                             ) : null
                     }
+                    </AnimatePresence>
+                  
                 </div>
 
 

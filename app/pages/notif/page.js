@@ -8,6 +8,8 @@ import MailIcon from "../../../public/svg/mail";
 import DeleteIcon from "../../../public/svg/delete";
 import { setRef } from "@mui/material";
 import { formatDistanceToNow } from "date-fns";
+import { motion } from "framer-motion";
+import defaultUser from "../../../public/default_user.png";
 
 
 
@@ -128,12 +130,20 @@ see updates here.
             </div>
 
             {/* notifs list */}
-            <div className="flex justify-between w-full">
-                <h2 className="font-semibold text-md px-2 text-gray-700 mt-3"> Last 7 days</h2>
+            <div className="flex justify-between w-full px-4">
+                <h2 className="font-semibold text-md px-3 text-gray-700 mt-3"> Last 7 days</h2>
             </div>
-            {
+             <motion.div
+                                    className="bg-white w-full h-full rounded-lg p-4 overflow-y-auto scrollbar-thin"
+                                    initial={{ y: "100%" }}
+                                    animate={{ y: 0 }}
+                                    exit={{ y: "100%" }}
+                                    transition={{ type: "spring", damping: 25, stiffness: 250 }}
+                                    onClick={(e) => e.stopPropagation()} // Prevents closing when clicking modal content
+                                >
+                                  {
                 notifs?.length > 0 && (
-                    <div className="flex flex-col gap-3 py-4 px-2 text-sm " >
+                    <div className="flex flex-col gap-3  px-2 text-sm " >
                         {notifs?.length > 0 && (
                             <div className="flex flex-col w-full">
                                 {notifs
@@ -149,9 +159,11 @@ see updates here.
                                     >
                                         {/* Avatar Wrapper - Guarantees 1:1 Aspect Ratio Box */}
                                         <div className="relative w-10 h-10 flex-shrink-0 ">
-                                            <img
-                                                src={notif?.sender?.base?.avatar || "/default-avatar.png"}
+                                            <Image
+                                                src={notif?.sender?.base?.avatar || defaultUser}
                                                 alt="avatar"
+                                                width={50}
+                                                height={50}
                                                 className="w-full h-full rounded-full object-cover"
                                             />
                                         </div>
@@ -213,7 +225,9 @@ see updates here.
                     </div>
                 )
                     
-            }
+            }  
+                                </motion.div>
+            
                 </>
             }
            
