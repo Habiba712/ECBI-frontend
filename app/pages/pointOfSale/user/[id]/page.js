@@ -22,6 +22,7 @@ import { AnimatePresence } from 'framer-motion';
 import { motion } from "framer-motion";
 
 
+
 export default function PointOfSaleUserPage() {
     const { id } = useParams();
     const [pos, setPos] = useState();
@@ -33,10 +34,30 @@ export default function PointOfSaleUserPage() {
     const [thankYouModal, setThanYouModal] = useState(false);
     const [copied, setCopied] = useState(false);
     const [showHours, setShowHours] = useState(false);
+    const now = new Date();
     const handleShowMOdal = (posId) => {
         setModalData(posId);
         setIsModalOpen(true);
     }
+    const sit_url= "https://ecbi.app/pages/pointOfSale/user/${pos._id}"
+    const handleShare = async () => {
+  const shareData = {
+    title: pos.businessName,
+    text: `Check out ${pos.businessName}!`,
+    url: sit_url//ecbi.app/pages/pointOfSale/user/${pos._id}",
+  };
+
+  try {
+    if (navigator.share) {
+      await navigator.share(shareData);
+    } else {
+      await navigator.clipboard.writeText(sit_url);
+      toast.success("Link copied!");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
 
     const getPos = async (next, req, res) => {
         try {
@@ -98,6 +119,27 @@ export default function PointOfSaleUserPage() {
             console.log('error', err);
         }
     }
+
+//     const timeToMinutes = (time) =>{
+//     const [hourMinute, period] = time?.split(" ");
+
+//     let [hours, minutes] = hourMinute?.split(":").map(Number);
+
+//     if (period === "PM" && hours !== 12) hours += 12;
+//     if (period === "AM" && hours === 12) hours = 0;
+
+//     return hours * 60 + minutes;
+// }
+// const currentMinutes =
+//     now.getHours() * 60 +
+//     now.getMinutes();
+// const open = timeToMinutes(pos?.hours?.monday?.open);
+// const close = timeToMinutes(pos?.hours?.monday?.close);
+
+// const isOpen =
+//     currentMinutes >= open &&
+//     currentMinutes < close;
+
 
     console.log('id', id)
     console.log('pos', pos);
@@ -242,9 +284,12 @@ export default function PointOfSaleUserPage() {
                               }
                         </button>
                     </div>
-                    <div className="flex flex-col items-center gap-2 ">
-                        <ShareIcon className="w-6 h-6 text-gray-600 stroke-2 " />
+                    <div className="flex flex-col items-center ">
+                        <button onClick={handleShare} className="cursor-pointer flex flex-col items-center gap-2 ">
+                             <ShareIcon className="w-6 h-6 text-gray-600 stroke-2 " />
                         <p className="text-gray-600 font-semibold flex items-center text-sm">Share</p>
+                        </button>
+                       
                     </div>
                 </div>
 
@@ -270,38 +315,140 @@ export default function PointOfSaleUserPage() {
                     <button onClick={() => setShowHours(!showHours)} 
                     className="w-full flex justify-between items-center py-2 cursor-pointer" > 
                    
-                        <p className="font-semibold text-gray-800"> Monday - Sunday </p>
-                         <p className="text-sm text-green-500 font-medium"> ● Open now · Closes at 8:00 PM </p> 
-                           <ChevronDownIcon className={`w-5 h-5 stroke-2 text-gray-600 transition-transform duration-300 ${ showHours ? "rotate-180" : "" }`} /> 
+                       <div><p className="font-semibold text-gray-800"> Monday - Sunday </p>
+                        
+                        </div> 
+                          <div className="flex gap-3"><p className={pos?.hours?.monday?.closed === false ? "text-green-500 font-medium" : "text-red-500 font-medium"}>
+    {pos?.hours?.monday?.closed === false ? "● Open Now" : "● Closed"}
+</p><ChevronDownIcon className={`w-5 h-5 stroke-2 text-gray-600 transition-transform duration-300 ${ showHours ? "rotate-180" : "" }`} /> 
+                            </div> 
                      
                   </button>
-                  <div
+               
+
+                    </div>
+                       <div
         className={`overflow-hidden transition-all duration-300 ${
             showHours ? "max-h-96 pt-3" : "max-h-0"
         }`}
     >
         
-            {/* <div
+            <div
                 
-                className="flex justify-between py-2 text-sm border-t border-gray-100"
+                className="flex justify-between py-2 text-sm border-t border-gray-100 font-semibold text-gray-800"
             >
                 <span className="text-gray-700">Moday</span>
 
                 <span
                     className={
-                        pos.hours.monday.closed === true
+                        pos?.hours?.monday?.closed === true
                             ? "text-red-500 font-medium"
                             : "text-gray-600"
                     }
                 >
-                    <span>{pos.hours.monday.open} - {pos.hours.monday.close}</span>
+                    <span>{pos?.hours?.monday?.open} - {pos?.hours?.monday?.close}</span>
                 </span>
             </div>
-        */}
+            <div
+                
+                className="flex justify-between py-2 text-sm border-t border-gray-100 font-semibold text-gray-800"
+            >
+                <span className="text-gray-700">Tuesday</span>
+
+                <span
+                    className={
+                        pos?.hours?.monday?.closed === true
+                            ? "text-red-500 font-medium"
+                            : "text-gray-600"
+                    }
+                >
+                    <span>{pos?.hours?.monday?.open} - {pos?.hours?.monday?.close}</span>
+                </span>
+            </div>
+            <div
+                
+                className="flex justify-between py-2 text-sm border-t border-gray-100 font-semibold text-gray-800"
+            >
+                <span className="text-gray-700">Wednesday</span>
+
+                <span
+                    className={
+                        pos?.hours?.monday?.closed === true
+                            ? "text-red-500 font-medium"
+                            : "text-gray-600"
+                    }
+                >
+                    <span>{pos?.hours?.monday?.open} - {pos?.hours?.monday?.close}</span>
+                </span>
+            </div>
+
+<div
+                
+                className="flex justify-between py-2 text-sm border-t border-gray-100 font-semibold text-gray-800"
+            >
+                <span className="text-gray-700">Thursday</span>
+
+                <span
+                    className={
+                        pos?.hours?.monday?.closed === true
+                            ? "text-red-500 font-medium"
+                            : "text-gray-600"
+                    }
+                >
+                    <span>{pos?.hours?.monday?.open} - {pos?.hours?.monday?.close}</span>
+                </span>
+            </div> 
+            <div
+                
+                className="flex justify-between py-2 text-sm border-t border-gray-100 font-semibold text-gray-800"
+            >
+                <span className="text-gray-700">Friday</span>
+
+                <span
+                    className={
+                        pos?.hours?.monday?.closed === true
+                            ? "text-red-500 font-medium"
+                            : "text-gray-600"
+                    }
+                >
+                    <span>{pos?.hours?.monday?.open} - {pos?.hours?.monday?.close}</span>
+                </span>
+            </div> 
+            <div
+                
+                className="flex justify-between py-2 text-sm border-t border-gray-100 font-semibold text-gray-800"
+            >
+                <span className="text-gray-700">Saturday</span>
+
+                <span
+                    className={
+                        pos?.hours?.monday?.closed === true
+                            ? "text-red-500 font-medium"
+                            : "text-gray-600"
+                    }
+                >
+                    <span>{pos?.hours?.monday?.open} - {pos?.hours?.monday?.close}</span>
+                </span>
+            </div>           
+            <div
+                
+                className="flex justify-between py-2 text-sm border-t border-gray-100 font-semibold text-gray-800"
+            >
+                <span className="text-gray-700">Sunday</span>
+
+                <span
+                    className={
+                        pos?.hours?.monday?.closed === true
+                            ? "text-red-500 font-medium"
+                            : "text-gray-600"
+                    }
+                >
+                    <span>{pos?.hours?.monday?.open} - {pos?.hours?.monday?.close}</span>
+                </span>
+            </div>
+       
     </div>
 
-
-                    </div>
                 </div>
 
                 <div className="px-3 py-2 border-b-2 border-gray-100 w-full">
