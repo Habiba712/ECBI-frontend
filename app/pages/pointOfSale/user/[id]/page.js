@@ -39,7 +39,7 @@ export default function PointOfSaleUserPage() {
         setModalData(posId);
         setIsModalOpen(true);
     }
-    const sit_url= "https://ecbi.app/pages/pointOfSale/user/${pos._id}"
+    const sit_url= "https://ecbi.vercel.app/pages/pointOfSale/user/${pos._id}"
     const handleShare = async () => {
   const shareData = {
     title: pos.name,
