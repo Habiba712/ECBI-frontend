@@ -42,9 +42,9 @@ export default function PointOfSaleUserPage() {
     const sit_url= "https://ecbi.app/pages/pointOfSale/user/${pos._id}"
     const handleShare = async () => {
   const shareData = {
-    title: pos.businessName,
-    text: `Check out ${pos.businessName}!`,
-    url: sit_url//ecbi.app/pages/pointOfSale/user/${pos._id}",
+    title: pos.name,
+    text: `Check out ${pos.name}! 👀 `,
+    url: sit_url,
   };
 
   try {
