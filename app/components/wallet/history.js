@@ -11,7 +11,7 @@ import defaultUser from '../../../public/default_user.png';
 
 
 
-export default function History({getReferralLinks, getTotalFriends, totalBalance, redeemedPoints}) {
+export default function History({getReferralLinks, getTotalFriends, totalBalance, redeemedPoints, platformGains}) {
     return (
        <motion.div 
                 className="bg-white w-full h-full rounded-lg p-4 overflow-y-auto scrollbar-thin"
@@ -49,7 +49,7 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                                         referral?.referredUsers?.map((reff) => (
 
                                             <div key={reff?.user?._id} className="px-3 py-1 flex justify-between gap-3 items-start">
-                                                <div className="flex items-center ">
+                                                <div className="w-1/3 flex items-center ">
                                                     <div className="w-[40px]">  <Image src={reff?.user?.base?.avatar || defaultUser} alt="avatar" width={50} height={50} className="rounded-full object-cover aspect-square" /></div>
                                                   <div> <span className="text-green-600 font-semibold  rounded-full flex items-center justify-center h-[20px] w-[20px] text-[16px]">+{reff?.pointsAwarded}
 
@@ -57,11 +57,11 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                                                    
                                                 </div>
 
-                                                <div className="  w-full flex flex-col">
+                                                <div className="w-full flex flex-col">
                                                     <p className="font-semibold ">Referral Completed</p>
                                                     <span className="w-full text-gray-500 text-xs font-sans line-"> Your friend {reff?.user?.base?.name} has completed the referral</span>
                                                 </div>
-                                                <div className=" flex justify-end  items-start ">
+                                                <div className="w-1/3 flex justify-center  items-start">
                                                     <span className="text-gray-400 text-xs font-sans flex-nowrap">
                                                         {formatDistanceToNow(new Date(reff?.joinedAt), { addSuffix: true })}
                                                     </span>
@@ -70,6 +70,28 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
 
                                         )))
 
+                                ))
+                            )
+                        }
+                        {
+                            platformGains?.length > 0 && (
+                                platformGains?.map((gain) => (
+                                    <div key={gain?._id} className="px-3 py-1 flex justify-center gap-3 items-start">
+                                        <div className="w-1/3 flex items-center ">
+                                            <div className="w-[40px]">  <Image src={gain?.user?.base?.avatar || defaultUser} alt="avatar" width={50} height={50} className="rounded-full object-cover aspect-square" /></div>
+                                            <div> <span className="text-red-600 font-semibold  rounded-full flex items-center justify-center h-[20px] w-[20px] text-[16px]">+{gain?.earnedPoints}
+                                                </span></div>
+                                        </div>
+                                        <div className="w-full flex flex-col">
+                                            <p className="font-semibold ">Daily Login</p>
+                                            <span className="w-full text-gray-500 text-xs font-sans line-"> Earned {gain?.earnedPoints} points for login today</span>
+                                        </div>
+                                        <div className="w-1/3 flex justify-center  items-start">
+                                            <span className="text-gray-400 text-xs font-sans flex-nowrap">
+                                                {formatDistanceToNow(new Date(gain?.createdAt), { addSuffix: true })}
+                                            </span>
+                                        </div>
+                                    </div>
                                 ))
                             )
                         }

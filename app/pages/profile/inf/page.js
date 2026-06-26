@@ -27,6 +27,11 @@ export default function InfProfilePage() {
     const [showReferralLinks, setShowReferralLinks] = useState(false);
     const [userPoints, setUserPoints] = useState([]);
     const [pointsFromPlatform, setPointsFromPlatform] = useState([]);
+     const [platformBalance, setPlatformBalance] = useState(0);
+        const [referalsBalance, setReferralsBalance] = useState(0);
+        const [totalBalance, setTotalBalance] = useState(0);
+        const [earnedPoints, setEarnedPoints] = useState(0);
+        const [redeemedPoints, setRedeemedPoints] = useState(0);
     const [theReferralLink, setTheReferralLink] = useState([
         {
             link: "",
@@ -42,7 +47,11 @@ export default function InfProfilePage() {
                 setLoggedInUser(data.user);
                 setVisitedPos(data.user.finalUser.visits);
                 setUserPoints(data.user.finalUser.pointsByPos);
-                setPointsFromPlatform(data.user.finalUser.pointsPlatrform);
+                 setPlatformBalance(
+                    (data?.user?.finalUser?.pointsPlatrform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) > 0 ? data?.user?.finalUser?.pointsPlatrform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) : 0
+                    ) 
+                    
+                );
                 // console.log("Fetched user data:", data.data);
             }))
 
@@ -59,6 +68,7 @@ export default function InfProfilePage() {
                 if (res.ok) {
                     res.json().then((data) => {
                         console.log('referral link data', data);
+                        setReferralsBalance(data?.find(referral => referral?.referrerUser === userId).referredUsers.reduce((acc, curr) => acc + curr?.pointsAwarded, 0))
                         setMyReferralLinks(prev => {
                             return [...prev, ...data];
                         });
@@ -108,7 +118,14 @@ export default function InfProfilePage() {
         // updateUserPoints(userId, sum);
         return sum;
     }
-    
+     const calculateBalance = (referalPoints, platformPoints)=>{
+        if(!referalPoints && !platformPoints){ return 0}
+        const sum = referalPoints + platformPoints;
+        setEarnedPoints(sum);
+
+        console.log('sum', sum);
+        return setTotalBalance(sum);
+    }
     const handleLogout = async () => {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`, {
@@ -180,6 +197,7 @@ export default function InfProfilePage() {
         setToken(session?.token);
     }, []);
     console.log('visited pos', visitedPos);
+    
     useEffect(() => {
         // setShowReferralLinks(false);
         if (userId) {
@@ -191,6 +209,12 @@ export default function InfProfilePage() {
             getMyReferralLinks();
         }
     }, [userId])
+     useEffect(() => {
+        console.log('referals balance', referalsBalance);
+        console.log('platform balance', platformBalance);
+        calculateBalance(referalsBalance, platformBalance);
+    }, [referalsBalance, platformBalance])
+    
     //  console.log('visited pos', visitedPos);
     console.log('my referral links', myReferralLinks);
     return (
@@ -220,7 +244,7 @@ export default function InfProfilePage() {
                 <div className="w-full flex justify-around">
                     <div className="rounded-lg bg-black-100  flex flex-col justify-center items-center px-5 py-2 max-w-24 w-full bg-white/30 backdrop-blur-lg">
                         <h4 className="text-xl font-semibold">
-                            {pointsAwardedSum(myReferralLinks) || 0}
+                            {totalBalance || 0}
                         </h4>
                         <p className="text-lg ">Points</p>
                     </div>

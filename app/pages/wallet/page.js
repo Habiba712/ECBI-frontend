@@ -44,6 +44,7 @@ export default function WalletPage() {
     const [tab, setTab] = useState("history");
     const [platformBalance, setPlatformBalance] = useState(0);
     const [referalsBalance, setReferralsBalance] = useState(0);
+    const [platformGains, setPlatformGains] = useState([]);
     const router = useRouter();
 
     const getMyReferralLinks = async () => {
@@ -129,7 +130,7 @@ data
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/getUserById/${userId}`).then((res) => res.json().then((data) => {
                 console.log('dataaa',data?.user?.finalUser?.pointsPlatrform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0));
                 setLoggedInUser(data.user);
-
+                setPlatformGains(data?.user?.finalUser?.pointsPlatrform);
                 setPlatformBalance(
                     (data?.user?.finalUser?.pointsPlatrform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) > 0 ? data?.user?.finalUser?.pointsPlatrform?.reduce((acc, curr) => acc + curr?.earnedPoints, 0) : 0
                     ) 
@@ -200,6 +201,8 @@ data
         calculateBalance(referalsBalance, platformBalance);
     }, [referalsBalance, platformBalance])
 console.log('earned points', earnedPoints);
+console.log('platform gains', platformGains);
+
     return (
         <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   mb-30 ">
             <div className={`h-[100px] flex flex-col justify-start  items-center py-3 text-white rounded-b-lg w-full bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]`}
@@ -358,6 +361,7 @@ console.log('earned points', earnedPoints);
                             getTotalFriends={getTotalFriends}
                             totalBalance={totalBalance}
                             redeemedPoints={redeemedPoints}
+                            platformGains={platformGains}
                         />
                     ) : tab === "educational" ? (
                         <Educational />
