@@ -41,7 +41,7 @@ export default function Referrals({ getReferralLinksAll, activeReferrals, totalP
 
                         <CheckIcon className="w-7 h-7 text-green-500 stroke-2" />
 
-                        <p className="font-semibold " style={{ 'fontSize': '20px' }}>{activeReferrals?.reduce((acc, curr) => acc + curr?.referredUsers?.length, 0)}</p>
+                        <p className="font-semibold " style={{ 'fontSize': '20px' }}>{activeReferrals && activeReferrals?.reduce((acc, curr) => acc + curr?.referredUsers?.length, 0)}</p>
                         <p className="text-gray-800 font-semibold">Active Referrals </p>
                     </div>
                     <div className="flex flex-col rounded-lg gap-2 px-3 py-2 bg-orange-100 items-center ">
@@ -58,7 +58,7 @@ export default function Referrals({ getReferralLinksAll, activeReferrals, totalP
 
                 <div className="">
                     {
-                        activeReferrals?.map((reff, index) => {
+                        activeReferrals.length > 0 && activeReferrals?.map((reff, index) => {
                             { console.log('reff', reff) }
                             return reff?.referredUsers?.map((referredUser, index) => (
                                 // console.log('referredUser', referredUser)

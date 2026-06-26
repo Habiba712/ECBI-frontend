@@ -52,9 +52,9 @@ export default function AddReview({ data, isModalOpen, onSend, setIsModalOpen })
                 transition={{ type: "spring", damping: 25, stiffness: 250 }}
                 onClick={(e) => e.stopPropagation()} // Prevents closing when clicking modal content
             >
-                 <div className="bg-white w-full h-full rounded-lg p-4 overflow-y-auto scroll-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 ">
+                 <div className="bg-white w-full h-full rounded-lg px-4 py-3 overflow-y-auto scroll-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 ">
 
-                <div className="w-full flex py-4 items-center">
+                <div className="w-full flex items-center">
                     <button 
                     onClick={() => setIsModalOpen(false)}
                     className="py-3 cursor-pointer">

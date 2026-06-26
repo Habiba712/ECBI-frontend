@@ -12,7 +12,7 @@ import ShareIcon from "../../../../public/svg/share";
 import ZipCodeIcon from "../../../../public/svg/zipCode";
 import CommentsModal from "../../../components/modals/commentsModal";
 import defaultUser from "../../../../public/default_user.png";
-
+import ReplyIcon from "../../../../public/svg/reply";
 export default function PointOfSale() {
 
     const [likes, setLikes] = useState({
@@ -321,20 +321,22 @@ export default function PointOfSale() {
                               key={post?._id}
 
                                         
-                              className="px-2 flex flex-col gap-1.5 bg-white items-end">
+                              className=" flex flex-col gap-1.5 bg-white items-end transition duration-300 ease-in-out">
                                 <textarea 
                                 value={comment}
+                                placeholder="Add a comment..."
                                 onChange = {(e) => setComment(e.target.value)}
-                                className="w-full h-full p-2 text-sm text-gray-800 leading-relaxed border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-300">
-                                  
+                                className="w-full h-full px-3 flex items-center justify-center text-sm text-gray-800 leading-relaxed border border-gray-300 rounded-full focus:outline-none focus:ring-1 focus:ring-blue-100">
+                                 
 
                                 </textarea>
-                                 <button 
+                                 
+                                   <button 
                                  onClick={() => handleSendComment(post?._id)}
-                                 className="w-fit px-4 py-2 rounded-full text-white bg-blue-500 flex items-start justify-center font-semibold text-md">
+                                 className="w-fit px-3 py-1 rounded-full text-gray-700 text-sm bg-gray-100 flex items-start justify-center font-semibold text-md cursor-pointer">
                                         <span>Send</span>
-                                    </button>
-                                     
+                                        
+                                    </button>  
                                      
                                     </div>
                                 )

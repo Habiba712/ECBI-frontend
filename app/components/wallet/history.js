@@ -36,9 +36,9 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                             className=" font-semibold text-center text-sans ">
                             Recent Activity
                         </p>
-                        <button className="text-purple-500 font-semibold text-md cursor-pointer">
+                        {/* <button className="text-purple-500 font-semibold text-md cursor-pointer">
                             See More
-                        </button>
+                        </button> */}
                     </div>
                     <div className="w-full rounded-lg border border-gray-200 ">
                         {
@@ -51,7 +51,7 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                                             <div key={reff?.user?._id} className="px-3 py-1 flex justify-between gap-3 items-start">
                                                 <div className="w-1/3 flex items-center ">
                                                     <div className="w-[40px]">  <Image src={reff?.user?.base?.avatar || defaultUser} alt="avatar" width={50} height={50} className="rounded-full object-cover aspect-square" /></div>
-                                                  <div> <span className="text-green-600 font-semibold  rounded-full flex items-center justify-center h-[20px] w-[20px] text-[16px]">+{reff?.pointsAwarded}
+                                                  <div> <span className="text-blue-600 font-bold  rounded-full flex items-center justify-center h-[20px] w-[20px] text-[16px]">+{reff?.pointsAwarded}
 
                                                     </span></div>
                                                    
@@ -79,7 +79,7 @@ export default function History({getReferralLinks, getTotalFriends, totalBalance
                                     <div key={gain?._id} className="px-3 py-1 flex justify-center gap-3 items-start">
                                         <div className="w-1/3 flex items-center ">
                                             <div className="w-[40px]">  <Image src={gain?.user?.base?.avatar || defaultUser} alt="avatar" width={50} height={50} className="rounded-full object-cover aspect-square" /></div>
-                                            <div> <span className="text-red-600 font-semibold  rounded-full flex items-center justify-center h-[20px] w-[20px] text-[16px]">+{gain?.earnedPoints}
+                                            <div> <span className="text-yellow-600 font-bold  rounded-full flex items-center justify-center h-[20px] w-[20px] text-[16px]">+{gain?.earnedPoints}
                                                 </span></div>
                                         </div>
                                         <div className="w-full flex flex-col">

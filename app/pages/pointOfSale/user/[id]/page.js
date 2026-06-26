@@ -31,6 +31,8 @@ export default function PointOfSaleUserPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalData, setModalData] = useState();
     const [thankYouModal, setThanYouModal] = useState(false);
+    const [copied, setCopied] = useState(false);
+    const [showHours, setShowHours] = useState(false);
     const handleShowMOdal = (posId) => {
         setModalData(posId);
         setIsModalOpen(true);
@@ -81,6 +83,18 @@ export default function PointOfSaleUserPage() {
                 }
             })
         }catch(err){
+            console.log('error', err);
+        }
+    }
+
+    const handleCopy = ({ link, text }) => {
+        console.log('link', link);
+        try {
+            navigator.clipboard.writeText(link);
+            setCopied(text);
+
+            setTimeout(() => setCopied(''), 2000)
+        } catch (err) {
             console.log('error', err);
         }
     }
@@ -164,16 +178,69 @@ export default function PointOfSaleUserPage() {
 
                 <div className="flex justify-between w-full text-black px-3 py-2 shadow-lg rounded-lg bg-white">
                     <div className="flex flex-col items-center gap-2 ">
-                        <WebsiteIcon className="w-6 h-6 text-gray-600 stroke-2 " />
-                        <p className="text-gray-600 font-semibold flex items-center text-sm">Website</p>
+                        <button
+                        className="cursor-pointer flex flex-col items-center gap-2 "
+                            onClick={() => {
+                                handleCopy({ link: pos?.website, text: "website" });
+                            }}
+                        >
+                              <WebsiteIcon className="w-6 h-6 text-gray-600 stroke-2 " />
+                              {
+                                copied === "website" ? (
+                                    <span className="relative z-1000 text-gray-500 text-sm  rounded w-full text-center">
+                                        Copied!
+                                    </span>
+                                )
+                                    :
+                                    
+                                   <p className="text-gray-600 font-semibold flex items-center text-sm">Website</p>  
+                              }
+                        </button>
+                      
+                       
                     </div>
                     <div className="flex flex-col items-center gap-2 ">
-                        <PhoneIcon className="w-6 h-6 text-gray-600 stroke-2 " />
-                        <p className="text-gray-600 font-semibold flex items-center text-sm">Call</p>
+                      
+                        <button
+                        className="cursor-pointer flex flex-col items-center gap-2 "
+                            onClick={() => {
+                                handleCopy({ link: pos?.phone, text: "telephone" });
+                            }}
+                        >
+                              <PhoneIcon className="w-6 h-6 text-gray-600 stroke-2 " />
+                              {
+                                copied === "telephone" ? (
+                                    <span className="relative z-1000 text-gray-500 text-sm  rounded w-full text-center">
+                                        Copied!
+                                    </span>
+                                )
+                                    :
+                                    
+                                   <p className="text-gray-600 font-semibold flex items-center text-sm">Call</p>  
+                              }
+                        </button>
                     </div>
                     <div className="flex flex-col items-center gap-2 ">
-                        <WebsiteIcon className="w-6 h-6 text-gray-600 stroke-2 " />
-                        <p className="text-gray-600 font-semibold flex items-center text-sm">Directions</p>
+                       
+                       
+                          <button
+                        className="cursor-pointer flex flex-col items-center gap-2 "
+                            onClick={() => {
+                                handleCopy({ link: pos?.address.country + pos?.address.city + pos?.address.street, text: "directions" });
+                            }}
+                        >
+                              <WebsiteIcon className="w-6 h-6 text-gray-600 stroke-2 " />
+                              {
+                                copied === "directions" ? (
+                                    <span className="relative z-1000 text-gray-500 text-sm  rounded w-full text-center">
+                                        Copied!
+                                    </span>
+                                )
+                                    :
+                                    
+                                   <p className="text-gray-600 font-semibold flex items-center text-sm">Directions</p>
+                              }
+                        </button>
                     </div>
                     <div className="flex flex-col items-center gap-2 ">
                         <ShareIcon className="w-6 h-6 text-gray-600 stroke-2 " />
@@ -200,11 +267,40 @@ export default function PointOfSaleUserPage() {
                 <div className="px-3 py-2 border-b-2 border-gray-100 w-full">
                     <h4 className="font-bold text-gray-700 ">Opening Hours</h4>
                     <div className="flex justify-between items-center gap-4 py-3">
-                        <p className="text-gray-800 font-semibold">Moday - Sunday</p>
-                        <p className="text-green-500 flex items-center gap-2">10:00 AM - 8:00 PM
+                    <button onClick={() => setShowHours(!showHours)} 
+                    className="w-full flex justify-between items-center py-2 cursor-pointer" > 
+                   
+                        <p className="font-semibold text-gray-800"> Monday - Sunday </p>
+                         <p className="text-sm text-green-500 font-medium"> ● Open now · Closes at 8:00 PM </p> 
+                           <ChevronDownIcon className={`w-5 h-5 stroke-2 text-gray-600 transition-transform duration-300 ${ showHours ? "rotate-180" : "" }`} /> 
+                     
+                  </button>
+                  <div
+        className={`overflow-hidden transition-all duration-300 ${
+            showHours ? "max-h-96 pt-3" : "max-h-0"
+        }`}
+    >
+        
+            {/* <div
+                
+                className="flex justify-between py-2 text-sm border-t border-gray-100"
+            >
+                <span className="text-gray-700">Moday</span>
 
-                            <ChevronDownIcon className="w-4 h-4 text-gray-800 stroke-2 " />
-                        </p>
+                <span
+                    className={
+                        pos.hours.monday.closed === true
+                            ? "text-red-500 font-medium"
+                            : "text-gray-600"
+                    }
+                >
+                    <span>{pos.hours.monday.open} - {pos.hours.monday.close}</span>
+                </span>
+            </div>
+        */}
+    </div>
+
+
                     </div>
                 </div>
 

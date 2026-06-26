@@ -52,7 +52,7 @@ export default function myReviews({posId, reviews}) {
                 :
                   <div className="flex flex-col gap-3 px-4 py-2 items-center mb-10">
                                        {
-                                           myreviews?.length > 0 && myreviews.map((review, index) => (
+                                           myreviews?.length > 0 ? myreviews.map((review, index) => (
                                                <div className="p-3 flex flex-col  gap-3 w-full shadow-lg" key={index || review?._id}>
                                                    <div className="items-start flex justify-start gap-3">
                
@@ -95,6 +95,9 @@ export default function myReviews({posId, reviews}) {
                                                     </div>
                                                </div>
                                            ))
+                                           : 
+                                            <div className="flex flex-col items-center justify-center gap-2 w-full p-5"><p style={{'fontSize':'18px'}}className="text-lg font-semibold text-gray-300">You left no reviews yet!</p>
+                                            </div>
                                        }
                                        </div>
                 }
