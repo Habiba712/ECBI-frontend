@@ -54,7 +54,7 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                 <div className="flex flex-col gap-3 mt-3 text-start p-4 bg-gray-100 rounded-lg border-b border-gray-100 ">
                     <div className="flex gap-2 items-center">
                          <div>
-                        <Image src={review.item.avatar || defaultUser} alt="restaurant" width={50} height={50} className="rounded-full object-cover aspect-square" />
+                        <Image src={review?.item?.avatar || defaultUser} alt="restaurant" width={50} height={50} className="rounded-full object-cover aspect-square" />
                         </div>
                     <div className="text-start">
                         <p className="text-sm font-semibold">{review.item.userName}</p>

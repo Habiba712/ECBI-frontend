@@ -7,7 +7,8 @@ export async function middleware(request) {
     const isPublicPage = pathname.includes('/login') || 
                          pathname.includes('/register') || 
                          pathname.includes('/createOwner') || 
-                         pathname.includes('/password');
+                         pathname.includes('/password') ||
+                         pathname.includes('/pages/pointOfSale/user/${pos._id}');
 
     // 2. Extract session validation token
     const token = request.cookies.get('token')?.value;
