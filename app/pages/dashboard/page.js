@@ -11,7 +11,7 @@ import Image from "next/image"
 import { formatDistanceToNow } from "date-fns";
 import defaultUser from "../../../public/default_user.png";
 
-export default function PointOfSale() {
+export default function PointOfSaleOwner() {
 
     const [userId, setUserId] = useState();
     const [token, setToken] = useState("");

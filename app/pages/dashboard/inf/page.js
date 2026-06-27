@@ -154,6 +154,28 @@ export default function PointOfSale() {
             getAllPosts();
         }
     }
+
+    const handleShare = async ({posId, posName}) => {
+      const sit_url= "https://ecbi.vercel.app/pages/pointOfSale/user/${posId}"
+
+  const shareData = {
+    title: posName,
+    text: `Check out ${posName}! 👀 `,
+    url: sit_url,
+  };
+
+  try {
+    if (navigator.share) {
+      await navigator.share(shareData);
+    } else {
+      await navigator.clipboard.writeText(sit_url);
+      toast.success("Link copied!");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
     useEffect(() => {
         const session = JSON.parse(localStorage.getItem("sessionData")) || null;
          setUserId(session?.userId);
@@ -267,7 +289,7 @@ export default function PointOfSale() {
                                 </button>
                               
                                 <button className="font-semibold flex items-center gap-1"
-                                    onClick={() => handleShare()}
+                                    onClick={() => handleShare({posId: post?.pos?._id, posName: post?.pos?.name})}
                                 >
 
                                     <ShareIcon className="w-6 h-6 text-gray-800 cursor-pointer" />

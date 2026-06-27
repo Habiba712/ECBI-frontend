@@ -7,6 +7,7 @@ import ReviewsReplies from "../../../components/modals/reviewsReplies";
 import ReplyIcon from "../../../../public/svg/reply";
 import StarIcon from "../../../../public/svg/star";
 import defaultUser from "../../../../public/default_user.png";
+import { motion } from "framer-motion";
 
 export default function OwnerReviews() {
     const [reviews, setReviews] = useState();
@@ -17,6 +18,7 @@ export default function OwnerReviews() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalReview, setModalReview] = useState();
     const [reply, setReply] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
     // const sessionData = JSON.parse(localStorage?.getItem("sessionData"));
     // const userOwnerId = sessionData?.userId;
     // const businessName = sessionData?.businessName;
@@ -64,6 +66,7 @@ export default function OwnerReviews() {
                 }
             ).then((res) => {
                 if (res.ok) {
+                    setIsLoading(false);
                     return res.json();
                 }
             }).then((res) => {
@@ -140,7 +143,7 @@ export default function OwnerReviews() {
 
             </div>
 
-            {/* filter and search section */}
+                          {/* filter and search section */}
             <div className="rounded-lg shadow-lg p-4 flex flex-col gap-3">
                 {/* search bar */}
                 <div className="flex gap-3">
@@ -184,13 +187,51 @@ export default function OwnerReviews() {
                     </select>
                 </div>
 
-            </div>
+            </div>    
+          
 
             {/* list of reviews */}
-            <div className="shadow-lg rounded-lg p-4 mt-3 b">
+         
+                        <div className="shadow-lg rounded-lg p-4 mt-3 b">
 
-                {
-                    reviews && reviews?.length > 0 &&
+                {/* 🌟 GORGEOUS SKELETON LOADER (LinkedIn Ready) */}
+{isLoading ? (
+  <div className="bg-white shadow-sm border border-gray-100 rounded-xl p-6 mt-4 space-y-6">
+    {[1, 2, 3].map((index) => (
+      <div key={index} className="flex flex-col w-full pb-6 border-b border-gray-100 last:border-0 last:pb-0 animate-pulse">
+        
+        {/* Header Skeleton */}
+        <div className="flex justify-between w-full items-start">
+          <div className="flex items-center gap-3">
+            {/* Avatar Circle */}
+            <div className="w-11 h-11 bg-gray-200 rounded-full flex-shrink-0" />
+            
+            {/* Meta Text Blocks */}
+            <div className="flex flex-col space-y-2">
+              <div className="h-4 bg-gray-200 rounded w-24" /> {/* Username */}
+              <div className="h-3 bg-gray-200 rounded w-32" /> {/* Restaurant Name */}
+              <div className="h-3 bg-gray-100 rounded w-16" /> {/* Date */}
+            </div>
+          </div>
+
+          {/* Stars Rating Badge Skeleton */}
+          <div className="h-6 bg-gray-200 rounded-md w-16" />
+        </div>
+
+        {/* Content Comment Skeleton */}
+        <div className="mt-3 w-full pl-[56px] space-y-2">
+          <div className="h-3.5 bg-gray-200 rounded w-full" />
+          <div className="h-3.5 bg-gray-200 rounded w-5/6" />
+          
+          {/* Button Placeholder */}
+          <div className="h-8 bg-gray-100 rounded-lg w-28 mt-4" />
+        </div>
+
+      </div>
+    ))}
+  </div>
+): (
+ reviews && reviews?.length > 0 &&
 
 
 
@@ -292,9 +333,14 @@ export default function OwnerReviews() {
                                 </div>
                             )
                         })
-                }
-
-            </div>
+                
+ 
+                    )
+                    }
+                   
+            </div>     
+                       
+           
             {isModalOpen &&
                 <ReviewsReplies
                     review={modalReview}

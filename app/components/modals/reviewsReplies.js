@@ -16,7 +16,7 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
         e.preventDefault();
         onSend({
             reply:{
-                reviewId: review.item.id,
+                reviewId: review.review.id,
                 replyText: reply
             }
         });
@@ -35,7 +35,7 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                   return stars;
             }
     return(
-        <div key = {review.item.id} className="z-0 w-full  bg-black/50 fixed inset-0
+        <div key = {review.review.id} className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center">
             {/* the parent div should be a modal
              */}
@@ -54,13 +54,13 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                 <div className="flex flex-col gap-3 mt-3 text-start p-4 bg-gray-100 rounded-lg border-b border-gray-100 ">
                     <div className="flex gap-2 items-center">
                          <div>
-                        <Image src={review?.item?.avatar || defaultUser} alt="restaurant" width={50} height={50} className="rounded-full object-cover aspect-square" />
+                        <Image src={review.review?.item?.avatar || defaultUser} alt="restaurant" width={50} height={50} className="rounded-full object-cover aspect-square" />
                         </div>
                     <div className="text-start">
-                        <p className="text-sm font-semibold">{review.item.userName}</p>
+                        <p className="text-sm font-semibold">{review.review.userName}</p>
                         <p className="text-xs text-gray-400">
-                             {review.item.rating && <span className="text-green-500 flex">
-                                                {calculateStars(review.item.rating)}
+                             {review.review.rating && <span className="text-green-500 flex">
+                                                {calculateStars(review.review.rating)}
 
                                             </span>}
                         </p>
@@ -68,7 +68,7 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                     </div>
                    
                     <div>
-                        <p className="text-sm">{review.item.comment}</p>
+                        <p className="text-sm">{review.review.comment}</p>
                     </div>
                 </div>
                 <div className="">
