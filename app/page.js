@@ -9,7 +9,7 @@ import PointOfSaleOwner from "./pages/dashboard/page";
   return (
     <div className="flex min-h-screen items-center justify-center font-sans w-full">
       {
-        role === "RESTO_ADMIN" ? <PointOfSaleOwner /> :  <PointOfSale />
+        role === "RESTO_SUPER_ADMIN" ? <PointOfSaleOwner /> :  <PointOfSale />
       }
     
      
