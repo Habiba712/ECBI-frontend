@@ -26,7 +26,7 @@ export default function Header() {
     const [buisinessName, setBuisinessName] = useState("");
     const [fetchedUser, setFetchedUser] = useState(null);
     const [userId, setUserId] = useState("");
-    const [menuOpen, setMenuOpen] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(true);
     const [notifCount, setNotifCount] = useState(0);
 
     const isLoginPage = pathname.includes("/register") || 
@@ -175,81 +175,110 @@ export default function Header() {
                 </header>
             )}
 
-            {role === "RESTO_SUPER_ADMIN" && (
-                <header 
-                    className={`gap-3 py-3 flex flex-col bg-white h-full min-h-screen sticky top-0 transition-all duration-500 ease-in-out ${menuOpen ? 'w-[80px]' : 'w-[260px]'}`}
-                    style={{
-                        "background": "linear-gradient(135deg, rgba(255,255,255,0.1), rgba(175, 158, 158, 0.17))",
-                        "WebkitBackdropFilter": "blur(20px)",
-                        "backdropFilter": "blur(5px)",
-                        "boxShadow": "0 8px 20px 0 rgba(0, 0, 0, 0.15)"
-                    }}
+           {role === "RESTO_SUPER_ADMIN" && (
+    <header className={`flex flex-col bg-white h-full min-h-screen sticky top-0 border-r border-gray-100 transition-all duration-300 ease-in-out ${menuOpen ? 'w-[245px]' : 'w-[60px]'}`}>
+        {
+            menuOpen ? (
+                 <div className="flex items-center gap-3 mb-3 mt-6 px-4 w-full">
+          <div className="w-10 h-10 rounded-lg bg-purple-600 flex items-center justify-center">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2L14 13H2L8 2Z" fill="white" />
+            </svg>
+          </div>
+          <span className="font-bold text-gray-900 text-lg tracking-tight">
+            ECBI
+          </span>
+        </div>
+ 
+            )
+            : 
+            (
+                <div className="flex items-center gap-3 mb-3 mt-6 px-4 w-full">
+          <div className="w-7 h-7 rounded-lg bg-purple-600 flex items-center justify-center">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2L14 13H2L8 2Z" fill="white" />
+            </svg>
+          </div>
+          
+        </div> 
+            )
+        }
+      
+        
+        {/* Top: logo + business */}
+        <div className={`flex items-center border-b border-gray-100 p-4 gap-3 overflow-hidden`}>
+            <Image 
+                src={coverImage || defaultUser} 
+                width={40} height={40} 
+                alt="logo" 
+                className="rounded-full object-cover aspect-square flex-shrink-0" 
+            />
+            <div className={`flex flex-col transition-all duration-300 ease-in-out overflow-hidden ${menuOpen ? 'w-full opacity-100' : 'w-0 opacity-0'}`}>
+                <span className="font-semibold text-gray-800 text-sm whitespace-nowrap truncate">
+                    {buisinessName || "Restaurant Admin"}
+                </span>
+                <span className="text-xs text-gray-400 whitespace-nowrap">Management Hub</span>
+                  
+            </div>
+          <button 
+                onClick={handleMenuButtonClick}
+                className={`${menuOpen ? 'bg-white text-gray-500 rounded-full p-3 w-10 h-10 flex items-center justify-center border-2 border-gray-200 transition-all duration-300 ease-in-out cursor-pointer' : ' hidden'}`}
+            >
+                <MenuBehaviorIcon className="w-5 h-5 text-gray-500" />
+            </button>
+        </div>
+        <div className=" flex justify-center items-center rounded-full px-3 ">
+            <button onClick={handleMenuButtonClick} className={`${menuOpen === false ? 'bg-white text-gray-500  w-10 h-10 flex items-center justify-center transition-all duration-300 ease-in-out cursor-pointer' : ' hidden'}`}>
+                <MenuBehaviorIcon className="w-5 h-5 text-gray-400 stroke-2 rotate-180" />
+            </button>
+        </div>
+
+        {/* Nav links */}
+        <nav className="flex-1 flex flex-col gap-4 px-3 overflow-hidden">
+            {[
+                { href: "/pages/dashboard", label: "Home", Icon: DashboardIcon, active: pathname === '/pages/dashboard' },
+                { href: "/pages/pointOfSale/owner", label: "My Points Of Sale", Icon: RestaurantIcon, active: pathname === '/pages/pointOfSale/owner' },
+                { href: "/pages/reviews/owner", label: "Reviews", Icon: ReviewsIcon, active: pathname === '/pages/reviews/owner' },
+                { href: "/pages/accountSettings", label: "Settings", Icon: SettingsIcon, active: pathname === '/pages/accountSettings' },
+            ].map(({ href, label, Icon, active }) => (
+                <Link
+                    key={href}
+                    href={href}
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
+                        ${active 
+                            ? 'bg-purple-50 text-purple-600' 
+                            : 'text-gray-900 hover:bg-gray-50 hover:text-gray-500'
+                        }`}
                 >
-                    <div className='pb-6 flex items-center w-fit border-b-3 border-gray-100 py-3 relative mx-4'>
-                        <Image src={coverImage || defaultUser} width={100} height={100} alt="logo" className='sidebar-top' />
-                        <div className={`px-3 transition-all duration-800 ease-in-out text-nowrap ${menuOpen ? 'hidden opacity-0 translate-x-4' : 'opacity-100 translate-x-0'}`}>
-                            <h1>{buisinessName || "Restaurant Admin"}</h1>
-                            <span className='text-sm text-gray-400 word-nowrap words-break-all'>Management Hub</span>
-                        </div>
-                        <button
-                            className={menuOpen ? 'transition-all duration-600 ease-in-out menu-button-open' : 'transition-all duration-600 ease-in-out menu-button-close'}
-                            onClick={handleMenuButtonClick}
-                        >
-                            <MenuBehaviorIcon className='w-6 h-6 text-gray-900' />
-                        </button>
-                    </div>
+                    <Icon className={`w-5 h-5 flex-shrink-0 stroke-2 ${active ? 'text-purple-600' : 'text-gray-900 group-hover:text-gray-500'}`} />
+                    <span className={`text-sm font-medium whitespace-nowrap transition-all duration-300 overflow-hidden ${menuOpen ? 'w-full opacity-100' : 'w-0 opacity-0'}`}>
+                        {label}
+                    </span>
+                </Link>
+            ))}
+        </nav>
 
-                    <div className='flex flex-col gap-3 w-full relative grow'>
-                        <nav className={`absolute top-0 left-0 px-3 transition-all duration-800 ease-in-out ${menuOpen ? '-translate-x-3' : 'opacity-100 translate-x-0'}`}>
-                            <ul className='px-3 py-3 flex flex-col gap-7'>
-                                <li className='sidebar-li'>
-                                    <Link href="/pages/dashboard" className="flex items-center gap-3">
-                                        <DashboardIcon className="w-6 h-6 cursor-pointer" />
-                                        <span className={`transition-all duration-800 ease-in-out ${menuOpen ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}`}>
-                                            Home
-                                        </span>
-                                    </Link>
-                                </li>
-                                <li className='sidebar-li'>
-                                    <Link href="/pages/pointOfSale/owner" className="flex items-center gap-3">
-                                        <RestaurantIcon className="w-6 h-6 cursor-pointer" />
-                                        <span className={`transition-all duration-800 ease-in-out ${menuOpen ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'}`}>
-                                            My Points Of Sale
-                                        </span>
-                                    </Link>
-                                </li>
-                                <li className='sidebar-li'>
-                                    <Link href='/pages/reviews/owner' className="flex items-center gap-3">
-                                        <ReviewsIcon className="w-6 h-6 cursor-pointer" />
-                                        <span className={`transition-all duration-800 ease-in-out ${menuOpen ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}`}>
-                                            Reviews
-                                        </span>
-                                    </Link>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+        {/* Bottom: settings + logout */}
+        <div className="flex flex-col  justify-end gap-1 px-3 py-5">
+           
+            <button
+                onClick={handleLogout}
+                className=" flex justify-center items-center gap-3 px-3 py-2.5 rounded-xl text-red-400 hover:bg-red-50 hover:text-red-600 transition-all duration-200 w-full cursor-pointer"
+            >
+                <LogoutIcon className="w-5 h-5  flex-shrink-0 " />
+                <span className={` text-sm flex justify-start font-semibold whitespace-nowrap transition-all duration-300 overflow-hidden  ${menuOpen ? 'w-full opacity-100' : 'w-0 opacity-0'}`}>
+                    Logout
+                </span>
+            </button>
 
-                    <div className='px-3 p-4 flex flex-col gap-5 border-t border-gray-100'>
-                        <div className='sidebar-li'>
-                            <Link href="/pages/accountSettings" className="flex items-center gap-3">
-                                <SettingsIcon className="w-6 h-6 cursor-pointer" />
-                                <span className={`transition-all duration-800 ease-in-out ${menuOpen ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}`}>
-                                    Settings
-                                </span>
-                            </Link>
-                        </div>
-                        <div className='sidebar-li'>
-                            <button className="flex items-center gap-3 cursor-pointer w-full text-left" onClick={handleLogout}>
-                                <LogoutIcon className="w-6 h-6 cursor-pointer text-red-500" />
-                                <span className={`text-red-500 font-semibold transition-all duration-800 ease-in-out ${menuOpen ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 translate-x-0'}`}>
-                                    Logout
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </header>
-            )}
+            {/* Version */}
+            <div className={`mt-2 px-3 transition-all duration-300 overflow-hidden ${menuOpen ? 'w-full opacity-100' : 'hidden'}`}>
+                <p className="text-xs text-gray-300">ECBI v1.0.0</p>
+                <p className="text-xs text-gray-300">Powered by <span className="font-semibold text-gray-400">ECBI</span> <span className="text-purple-400">♥</span></p>
+            </div>
+        </div>
+    </header>
+)}
         </>
     );
 }
