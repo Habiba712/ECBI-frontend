@@ -8,7 +8,7 @@ export async function middleware(request) {
                          pathname.includes('/register') || 
                          pathname.includes('/createOwner') || 
                          pathname.includes('/password') ||
-                         pathname.includes('/pages/pointOfSale/user/${pos._id}');
+                         pathname.includes('/pages/pointOfSale/user/');
 
     // 2. Extract session validation token
     const token = request.cookies.get('token')?.value;
