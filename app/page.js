@@ -5,7 +5,15 @@ import { Children } from "react";
 import PointOfSale from "./pages/dashboard/inf/page";
 import PointOfSaleOwner from "./pages/dashboard/page";
  export default function Home() {
-  const role = JSON.parse(localStorage.getItem("sessionData"))?.role;
+  const [token, setToken] = useState("");
+  const [role, setRole] = useState("");
+  const [userId, setUserId] = useState("");
+   useEffect(() => {
+          const session = JSON.parse(localStorage.getItem("sessionData")) || null;
+           setUserId(session?.userId);
+          setToken(session?.token);
+          setRole(session?.role);
+      }, []);
   return (
     <div className="flex min-h-screen items-center justify-center font-sans w-full">
       {
