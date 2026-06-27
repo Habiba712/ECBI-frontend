@@ -156,7 +156,7 @@ export default function PointOfSale() {
     }
 
     const handleShare = async ({posId, posName}) => {
-      const sit_url= "https://ecbi.vercel.app/pages/pointOfSale/user/${posId}"
+      const sit_url= `https://ecbi.vercel.app/pages/pointOfSale/user/${posId}`
 
   const shareData = {
     title: posName,
