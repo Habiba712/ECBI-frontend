@@ -1,7 +1,7 @@
 'use client'
 import Image from "next/image";
 import Header from "./components/Header";
-import { Children } from "react";
+import { Children, useEffect, useState } from "react";
 import PointOfSale from "./pages/dashboard/inf/page";
 import PointOfSaleOwner from "./pages/dashboard/page";
  export default function Home() {
