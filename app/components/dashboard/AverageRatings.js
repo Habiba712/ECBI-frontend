@@ -11,13 +11,13 @@ const AverageRatingSparkline = ({
   color 
 }) => {
     const total = data.reduce((acc, curr) => acc + curr.value, 0);
-    console.log('total', data);
+    // console.log('total', data);
     const posWithMaxRating = data.find(pos => pos.value === Math.max(...data.map(pos => pos.value)));
-    console.log('posWithMaxRating', posWithMaxRating);
+    // console.log('posWithMaxRating', posWithMaxRating);
     const posWithMinRating = data.find(pos => pos.value === Math.min(...data.map(pos => pos.value)));
-    console.log('posWithMinRating', posWithMinRating);
+    // console.log('posWithMinRating', posWithMinRating);
     const difference = posWithMaxRating?.value - posWithMinRating?.value;
-    console.log('difference', difference);
+    // console.log('difference', difference);
 
   return (
     <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm w-full max-w-[320px] flex flex-col justify-between"style={{ backgroundColor: `${color}15`, color: color }}>

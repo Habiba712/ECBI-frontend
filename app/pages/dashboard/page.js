@@ -84,7 +84,7 @@ export default function PointOfSaleOwner() {
                                 visit => visit?.businessName === businessNameSession
                             ))
 
-
+                        console.log('clients',visitsHis )
                         const chartData = visitsHis.map(user => {
                             const history = user.finalUser.visitHistory.find(
                                 h => h.businessName === businessNameSession
@@ -177,7 +177,7 @@ setReviewsData(processedChartData());
         }
     }
     const calculateStars = (rating) => {
-        console.log('rating', rating);
+        // console.log('rating', rating);
         let stars = [];
         for (let i = 0; i < rating; i++) {
             stars.push(<StarIcon className={'w-5 h-5 text-yellow-500 fill-current'} />)
@@ -199,7 +199,7 @@ setReviewsData(processedChartData());
                 if (res.ok) {
                     res.json().then((data) => {
                         setPossByOwner(data?.map(pos => pos._id));
-                        console.log('data', data);
+                        // console.log('data', data);
                         // Assuming ownerPointsOfSaleList is the array of POS documents fetched for this specific owner
 // 1. Let .map() do the cleaning and build the entire array first
 const ratingChartData = data.map((posDoc, index) => {
@@ -208,14 +208,14 @@ const ratingChartData = data.map((posDoc, index) => {
     value: posDoc?.stats?.averageRating !== undefined ? posDoc.stats.averageRating : 0
   };
 });
-console.log('ratingChartData', ratingChartData);
+// console.log('ratingChartData', ratingChartData);
 const pointsRedeemedChartData = data.map((posDoc, index) => {
   return {
     name: posDoc?.name || `POS ${index + 1}`,
     value: posDoc?.stats?.pointsRedeemed !== undefined ? posDoc.stats.pointsRedeemed : 0
   };
 });
-console.log('pointsRedeemedChartData', pointsRedeemedChartData);
+// console.log('pointsRedeemedChartData', pointsRedeemedChartData);
 
 // 2. Pass the final clean array to your state setter ONCE
 setAvgRatingData(ratingChartData);
@@ -248,6 +248,7 @@ setPointsRedeemedData(pointsRedeemedChartData);
         }
     }, [userId])
     useEffect(() => {
+      console.log('possByOwner', possByOwner);
         if (
             possByOwner
         ) {
@@ -258,6 +259,24 @@ setPointsRedeemedData(pointsRedeemedChartData);
     useEffect(() => {
         handleGetAllReviews();
     }, [possByOwner, userId])
+    // Add this helper above your return
+const getLoyaltyTier = (earnedPoints) => {
+    if (earnedPoints >= 200) return { tier: "Platinum", label: "VIP", ...loyaltyConfig.Platinum };
+    if (earnedPoints >= 100) return { tier: "Gold", label: "Top Visitor", ...loyaltyConfig.Gold };
+    if (earnedPoints >= 50)  return { tier: "Silver", label: "Regular", ...loyaltyConfig.Silver };
+    return { tier: "New", label: "New Customer", ...loyaltyConfig.New };
+};
+
+const getClientVisitInfo = (client) => {
+    const history = client.finalUser.visitHistory.find(
+        h => h.businessName === businessNameSession
+    );
+    return {
+        count: history?.count || 0,
+        date: history?.date ? formatDistanceToNow(new Date(history.date), { addSuffix: true }) : "N/A",
+        pointsEarned: client.finalUser.pointsByPos?.reduce((sum, p) => sum + (p.earnedPoints || 0), 0) || 0,
+    };
+};
     return (
         <section className="mt-1 p-4 text-gray-800 w-full transition-all duration-300 ease-in-out font-sans"
 
@@ -307,239 +326,89 @@ setPointsRedeemedData(pointsRedeemedChartData);
         
             {/* top 3 clients */}
 
-            <div className="p-4 flex flex-col gap-3 ">
-                <div className="p-4 shadow-lg rounded-lg flex flex-col">
-                    <h2 className="font-semibold mb-3 w-full text-lg">Top 3 clients</h2>
-                    {
-                        clients.length > 0 && clients
-                            .sort((a, b) => {
-                                const countA = a?.finalUser?.visitHistory?.find(visit => visit?.businessName === businessNameSession)?.count || 0;
-                                const countB = b?.finalUser?.visitHistory?.find(visit => visit?.businessName === businessNameSession)?.count || 0;
-                                return countB - countA;
-                            })
-                            .slice(0, 3)
-                            .map((client) => (
-
-                                           <div
-              key={client._id}
-              className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm"
-            >
-              <div className="flex items-start justify-between mb-3">
-                <div
-                  className={`w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center`}
-                >
-                  <ClientsIcon className="w-5 h-5 text-purple-600" />
-                </div>
-              </div>
-              <p className="text-xs text-gray-400 font-medium mb-1">
-                {client._id}
-              </p>
-              <div className="flex items-end justify-between">
-                <div>
-                  <p className="text-3xl font-bold text-gray-900">
-                    {/* {card.value} */}
-                    card value
-                  </p>
-                  <p
-                    className={`text-xs mt-0.5 
-                    //   card.subGreen ? "text-green-500" : "text-gray-400"
-                    `}
-                  >
-                    All time
-                  </p>
-                </div>
-                <Sparkline  data={visitsData}
-                    title="Total Visits"
-                    percentage={10}
-                    icon={ClientsIcon}
-                    color="#7C5CFC" />
-              </div>
-            </div>
-          ))}
-        </div>
- 
-        {/* Filters */}
-        <div className="flex items-center gap-3 mb-5">
-          <div className="relative flex-1 max-w-sm">
-            <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-            >
-              <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5" />
-              <path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-            <input
-              className="w-full pl-9 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-400 placeholder-gray-400"
-              placeholder="Search clients by name, email or phone..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+           {clients.slice(0, 3).map((client) => {
+    const { count, date, pointsEarned } = getClientVisitInfo(client);
+    const loyalty = getLoyaltyTier(pointsEarned);
+    return (
+        <div key={client._id} className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+            <img
+                src={client.base.avatar || defaultUser}
+                alt={client.base.name}
+                className="w-10 h-10 rounded-full object-cover flex-shrink-0"
             />
-          </div>
-          {["All Status", "All Loyalty", "Sort: Recent"].map((label) => (
-            <select
-              key={label}
-              className="text-sm bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-200 cursor-pointer"
-            >
-              <option>Top Clients</option>
-            </select>
-          ))}
-          <button className="w-10 h-10 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-gray-500 hover:border-gray-300 transition-colors">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-          </button>
+            <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-gray-800 truncate">{client.base.name}</p>
+                <p className="text-xs text-gray-400">{count} visits · Last {date}</p>
+            </div>
+            <span className={`text-xs font-medium px-2.5 py-1 rounded-full border ${loyalty.bg} ${loyalty.text} ${loyalty.border}`}>
+                {loyalty.tier}
+            </span>
         </div>
- 
-        {/* Table */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-gray-100">
-                {["CLIENT", "LOYALTY STATUS", "TOTAL VISITS", "LAST VISIT", "TOTAL SPENT", "ACTIONS"].map(
-                  (col) => (
-                    <th
-                      key={col}
-                      className="text-left text-xs font-semibold text-gray-400 tracking-wider px-6 py-4"
-                    >
-                      {col}
-                    </th>
-                  )
-                )}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              {filtered.map((client) => {
-                const lc = loyaltyConfig[client.loyalty] || loyaltyConfig.New;
-                return (
-                  <tr
-                    key={client._id}
-                    className="hover:bg-gray-50/50 transition-colors"
-                  >
-                    {/* Client */}
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={client.base.avatar}
-                          alt={client.base.name}
-                          className="w-10 h-10 rounded-full object-cover"
-                        />
-                        <div>
-                          <p className="text-sm font-semibold text-gray-800">
-                            {client.base.name}
-                          </p>
-                          <p className="text-xs text-gray-400">{client.base.email}</p>
-                          <p className="text-xs text-gray-400">{client.base.phone}</p>
-                        </div>
-                      </div>
-                    </td>
- 
-                    {/* Loyalty */}
-                    <td className="px-6 py-4">
-                      <span
-                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${lc.bg} ${lc.text} ${lc.border}`}
-                      >
-                        <span>{lc.icon}</span>
-                        {client.loyalty}
-                      </span>
-                      <p className="text-xs text-gray-400 mt-1 ml-1">
-                        {client.loyaltyLabel}
-                      </p>
-                    </td>
- 
-                    {/* Visits */}
-                    <td className="px-6 py-4">
-                      <span className="text-sm font-semibold text-gray-800">
-                        {client.finalUser.visits}
-                      </span>
-                    </td>
- 
-                    {/* Last Visit */}
-                    <td className="px-6 py-4">
-                      <p className="text-sm text-gray-700">LAst visit</p>
-                      <span
-                        className={`inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-medium ${
-                          client.lastVisitStatus === "Active"
-                            ? "bg-green-100 text-green-600"
-                            : "bg-gray-100 text-gray-500"
-                        }`}
-                      >
-                        {/* {client.lastVisitStatus} */}
-                        last visit status
-                      </span>
-                    </td>
- 
-                    {/* Spent */}
-                    <td className="px-6 py-4">
-                      <p className="text-sm font-semibold text-gray-800">
-                        {/* {client.spent} */}
-                        clients spent
-                      </p>
-                      <p className="text-xs text-purple-500 mt-0.5">
-                        {/* {client.points} */}
-                        cleints points
-                      </p>
-                    </td>
- 
-                    {/* Actions */}
-                    <td className="px-6 py-4">
-                      <button className="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <circle cx="8" cy="3" r="1.2" fill="currentColor" />
-                          <circle cx="8" cy="8" r="1.2" fill="currentColor" />
-                          <circle cx="8" cy="13" r="1.2" fill="currentColor" />
-                        </svg>
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
- 
-          {/* Pagination */}
-          <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100">
-            <p className="text-sm text-gray-400">
-              Showing 1 to 5 of 256 clients
-            </p>
-            <div className="flex items-center gap-1">
-              <button className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M10 4L6 8l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-              {[1, 2, 3].map((p) => (
-                <button
-                  key={p}
-                  onClick={() => setCurrentPage(p)}
-                  className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${
-                    currentPage === p
-                      ? "bg-purple-600 text-white"
-                      : "text-gray-500 hover:bg-gray-100"
-                  }`}
-                >
-                  {p}
-                </button>
-              ))}
-              <span className="w-8 h-8 flex items-center justify-center text-gray-400 text-sm">
-                ...
-              </span>
-              <button className="w-8 h-8 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-100 transition-colors">
-                52
-              </button>
-              <button className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            </div>
-                </div>  
+    );
+})}
 
+{clients.map((client) => {
+    const { count, date, pointsEarned } = getClientVisitInfo(client);
+    const loyalty = getLoyaltyTier(pointsEarned);
+    return (
+        <tr key={client._id} className="hover:bg-gray-50/50 transition-colors">
+            {/* Client */}
+            <td className="px-6 py-4">
+                <div className="flex items-center gap-3">
+                    <img
+                        src={client.base.avatar || defaultUser}
+                        alt={client.base.name}
+                        className="w-10 h-10 rounded-full object-cover"
+                    />
+                    <div>
+                        <p className="text-sm font-semibold text-gray-800">{client.base.name}</p>
+                        <p className="text-xs text-gray-400">{client.base.email}</p>
+                        <p className="text-xs text-gray-400">{client.base.telephone}</p>
+                    </div>
                 </div>
+            </td>
 
-            </div>
+            {/* Loyalty */}
+            <td className="px-6 py-4">
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${loyalty.bg} ${loyalty.text} ${loyalty.border}`}>
+                    {loyalty.tier}
+                </span>
+                <p className="text-xs text-gray-400 mt-1 ml-1">{loyalty.label}</p>
+            </td>
+
+            {/* Visits */}
+            <td className="px-6 py-4">
+                <span className="text-sm font-semibold text-gray-800">{count}</span>
+            </td>
+
+            {/* Last Visit */}
+            <td className="px-6 py-4">
+                <p className="text-sm text-gray-700">{date}</p>
+                <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-medium ${
+                    count > 0 ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"
+                }`}>
+                    {count > 0 ? "Active" : "Inactive"}
+                </span>
+            </td>
+
+            {/* Points */}
+            <td className="px-6 py-4">
+                <p className="text-xs text-purple-500">{pointsEarned} pts earned</p>
+            </td>
+
+            {/* Actions */}
+            <td className="px-6 py-4">
+                <button className="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <circle cx="8" cy="3" r="1.2" fill="currentColor" />
+                        <circle cx="8" cy="8" r="1.2" fill="currentColor" />
+                        <circle cx="8" cy="13" r="1.2" fill="currentColor" />
+                    </svg>
+                </button>
+            </td>
+        </tr>
+    );
+})}
 
             {/* some reviews */}
             <div className="p-4 flex flex-col gap-3 ">
