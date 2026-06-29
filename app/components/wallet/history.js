@@ -12,7 +12,13 @@ import defaultUser from '../../../public/default_user.png';
 
 
 export default function History({ getReferralLinks, getTotalFriends, totalBalance, redeemedPoints, platformGains }) {
+    console.log('getReferralLinks', getReferralLinks);
+    console.log('getTotalFriends', getTotalFriends);
+    console.log('totalBalance', totalBalance);
+    console.log('redeemedPoints', redeemedPoints);
+    console.log('platformGains', platformGains);
     return (
+
         <motion.div
             className="bg-white w-full h-full rounded-lg p-4 overflow-y-auto scrollbar-thin"
             initial={{ y: "100%" }}
@@ -41,99 +47,42 @@ export default function History({ getReferralLinks, getTotalFriends, totalBalanc
                         </button> */}
                 </div>
                 <div className="w-full rounded-lg border border-gray-200 ">
-                     {[
-    ...(getReferralLinks?.flatMap(referral =>
-      (referral.referredUsers || []).map(reff => ({
-        ...reff,
-        type: "referral"
-      }))
-    ) || []),
+                     {
+                            getReferralLinks?.length > 0 && (
+                                getReferralLinks?.map((referral) => (
 
-    ...(platformGains?.map(gain => ({
-      ...gain,
-      type: "login"
-    })) || [])
-  ]
-    .sort((a, b) => {
-      const dateA = new Date(a.joinedAt || a.createdAt).getTime();
-      const dateB = new Date(b.joinedAt || b.createdAt).getTime();
-      return dateB - dateA; // newest first
-    })
-    .map((item, index) =>
-      item.type === "referral" ? (
-        <div key={`ref-${index}`} className="px-3 py-1 flex justify-between gap-3 items-start">
-          <div className="w-1/3 flex items-center">
-            <div className="w-[40px]">
-              <Image
-                src={item?.user?.base?.avatar || defaultUser}
-                alt="avatar"
-                width={50}
-                height={50}
-                className="rounded-full object-cover aspect-square"
-              />
-            </div>
+                                    referral?.referredUsers?.length > 0 && (
+                                        referral?.referredUsers?.map((reff) => (
 
-            <div>
-              <span className="text-blue-600 font-bold rounded-full flex items-center justify-center h-[20px] w-[20px] text-[16px]">
-                +{item.pointsAwarded}
-              </span>
-            </div>
-          </div>
+                                            <div key={reff?.user?._id} className="px-3 py-1 flex justify-between gap-3 items-start">
+                                                <div className="w-1/3 flex items-center ">
+                                                    <div className="w-[40px]">  <Image src={reff?.user?.base?.avatar || defaultUser} alt="avatar" width={50} height={50} className="rounded-full object-cover aspect-square" /></div>
+                                                  <div> <span className="text-blue-600 font-bold  rounded-full flex items-center justify-center h-[20px] w-[20px] text-[16px]">+{reff?.pointsAwarded}
 
-          <div className="w-full flex flex-col">
-            <p className="font-semibold">Referral Completed</p>
-            <span className="text-gray-500 text-xs">
-              Your friend {item?.user?.base?.name} has completed the referral.
-            </span>
-          </div>
+                                                    </span></div>
+                                                   
+                                                </div>
 
-          <div className="w-1/3 flex justify-center items-start">
-            <span className="text-gray-400 text-xs">
-              {formatDistanceToNow(new Date(item.joinedAt), {
-                addSuffix: true,
-              })}
-            </span>
-          </div>
-        </div>
-      ) : (
-        <div key={`login-${index}`} className="px-3 py-1 flex justify-between gap-3 items-start">
-          <div className="w-1/3 flex items-center">
-            <div className="w-[40px]">
-              <Image
-                src={defaultUser}
-                alt="avatar"
-                width={50}
-                height={50}
-                className="rounded-full object-cover aspect-square"
-              />
-            </div>
+                                                <div className="w-full flex flex-col">
+                                                    <p className="font-semibold ">Referral Completed</p>
+                                                    <span className="w-full text-gray-500 text-xs font-sans line-"> Your friend {reff?.user?.base?.name} has completed the referral</span>
+                                                </div>
+                                                <div className="w-1/3 flex justify-center  items-start">
+                                                    <span className="text-gray-400 text-xs font-sans flex-nowrap">
+                                                        {formatDistanceToNow(new Date(reff?.joinedAt), { addSuffix: true })}
+                                                    </span>
+                                                </div>
+                                            </div>
 
-            <div>
-              <span className="text-yellow-600 font-bold rounded-full flex items-center justify-center h-[20px] w-[20px] text-[16px]">
-                +{item.earnedPoints}
-              </span>
-            </div>
-          </div>
+                                        )))
 
-          <div className="w-full flex flex-col">
-            <p className="font-semibold">Daily Login</p>
-            <span className="text-gray-500 text-xs">
-              Earned {item.earnedPoints} points for logging in today.
-            </span>
-          </div>
-
-          <div className="w-1/3 flex justify-center items-start">
-            <span className="text-gray-400 text-xs">
-              {formatDistanceToNow(new Date(item.createdAt), {
-                addSuffix: true,
-              })}
-            </span>
-          </div>
-        </div>
-      )
-    )}
+                                ))
+                            )
+                        }
+  
+     
                     {
-                        platformGains?.length > 0 && (
+                        platformGains?.length > 0 ? (
                             platformGains?.map((gain) => (
                                 <div key={gain?._id} className="px-3 py-1 flex justify-center gap-3 items-start">
                                     <div className="w-1/3 flex items-center ">
@@ -147,11 +96,19 @@ export default function History({ getReferralLinks, getTotalFriends, totalBalanc
                                     </div>
                                     <div className="w-1/3 flex justify-center  items-start">
                                         <span className="text-gray-400 text-xs font-sans flex-nowrap">
-                                            {formatDistanceToNow(new Date(gain?.createdAt), { addSuffix: true })}
+                                        {
+                                            gain?.createdAt && formatDistanceToNow(new Date(gain?.createdAt), { addSuffix: true })
+                                        }    
                                         </span>
                                     </div>
                                 </div>
                             ))
+                        )
+                        : 
+                        (
+                            <div className="text-gray-400 text-sm text-center">
+                                No platform gains so far
+                            </div>
                         )
                     }
 

@@ -198,12 +198,14 @@ data
     }, [userId])
 
     useEffect(() => {
-        console.log('referals balance', referalsBalance);
-        console.log('platform balance', platformBalance);
+        
         calculateBalance(referalsBalance, platformBalance);
     }, [referalsBalance, platformBalance])
-console.log('earned points', earnedPoints);
-console.log('platform gains', platformGains);
+console.log('earned points', getReferralLinks)
+                                console.log('gettotla firend', getTotalFriends)
+                                console.log('total balance', totalBalance)
+                                console.log('redeemed points', redeemedPoints)
+                                console.log('platform gains', platformGains)
 
     return (
         <section className="min-h-screen h-full max-w-md mx-auto flex flex-col   mb-30 ">
@@ -358,12 +360,14 @@ console.log('platform gains', platformGains);
                 <div className="">
                     <AnimatePresence>
                           {tab === "history" ? (
+                                
                         <History
                             getReferralLinks={getReferralLinks}
                             getTotalFriends={getTotalFriends}
                             totalBalance={totalBalance}
                             redeemedPoints={redeemedPoints}
                             platformGains={platformGains}
+                           
                         />
                     ) : tab === "educational" ? (
                         <Educational />

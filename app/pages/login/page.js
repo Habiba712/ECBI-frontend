@@ -4,7 +4,6 @@ import SectionHeader from "../../components/sections/HeaderSection"
 // import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { motion } from 'framer-motion';
-import BackgroundWrapper from "../../components/backgroundWrap";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -58,9 +57,15 @@ export default function Login() {
 
     }
     return (
-   
-         <BackgroundWrapper>
-             <section className="flex flex-col items-center justify-center  max-w-sm p-4 border border-red-800 text-gray-300  rounded-lg shadow-lg "
+        <motion.div 
+                            className="w-full h-full rounded-lg p-4 overflow-y-auto scrollbar-thin"
+                            initial={{ y: "100%" }}
+                            animate={{ y: 0 }}
+                            exit={{ y: "100%" }}
+                            transition={{ type: "spring", damping: 25, stiffness: 250 }}
+                            onClick={(e) => e.stopPropagation()} // Prevents closing when clicking modal content
+                        > 
+                        <section className="flex flex-col items-center justify-center mx-auto max-w-md p-4 text-gray-300 border-gray-300 rounded-lg shadow-lg "
             style={{
                 "background": "bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]",
                 "WebkitBackdropFilter": "blur(20px)",
@@ -131,8 +136,6 @@ export default function Login() {
                         
            
         </section>
-         </BackgroundWrapper>
-                       
-    
+        </motion.div>
     )
 }
