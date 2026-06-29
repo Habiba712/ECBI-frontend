@@ -8,8 +8,10 @@ export async function middleware(request) {
                          pathname.includes('/register') || 
                          pathname.includes('/createOwner') || 
                          pathname.includes('/password') ||
+                         pathname.includes('/pages/qrScan') ||
+
                          pathname.includes('/pages/pointOfSale/user/');
-                         pathname.includes('/pages/posts/createPost/')     // 2. Extract session validation token
+                         
     const token = request.cookies.get('token')?.value;
 
     // Case A: Unauthenticated access to protected boundaries (including root '/')
