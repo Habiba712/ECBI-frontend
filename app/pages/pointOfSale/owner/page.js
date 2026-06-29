@@ -417,7 +417,7 @@ export default function PointOfSale() {
   )
 
   return (
-    <section className=" px-4 py-6 w-full">
+    <section className="p-6 w-full">
       <div className="w-full">
 
         
