@@ -16,9 +16,9 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`scroll-smooth ${jakartaSans.variable}`}>
       
          <body className="font-sans antialiased bg-slate-50 text-slate-900 ">
-          <div className="flex ">
+          <div className="flex w-full min-h-screen">
               <Header/>
-          <main className="flex-1">
+          <main className="flex w-full h-full">
           
            
                 <BackgroundWrapper>

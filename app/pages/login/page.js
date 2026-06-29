@@ -57,15 +57,16 @@ export default function Login() {
 
     }
     return (
+        
         <motion.div 
-                            className="w-full h-full rounded-lg p-4 overflow-y-auto scrollbar-thin"
+                            className="w-full  rounded-lg p-4 overflow-y-auto scrollbar-thin "
                             initial={{ y: "100%" }}
                             animate={{ y: 0 }}
                             exit={{ y: "100%" }}
                             transition={{ type: "spring", damping: 25, stiffness: 250 }}
                             onClick={(e) => e.stopPropagation()} // Prevents closing when clicking modal content
                         > 
-                        <section className="flex flex-col items-center justify-center mx-auto max-w-md p-4 text-gray-300 border-gray-300 rounded-lg shadow-lg "
+                        <section className="flex flex-col items-center justify-center mx-auto max-w-md p- text-gray-300 border-gray-300 rounded-lg shadow-lg w-full h-full "
             style={{
                 "background": "bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]",
                 "WebkitBackdropFilter": "blur(20px)",
@@ -80,7 +81,7 @@ export default function Login() {
 
             <div className="py-4  ">
                 {errorMessage ? <p className="text-red-500 text-center">{errorMessage}</p> : null}
-                <form className="flex flex-col gap-3 px-2 py-4  w-full"
+                <form className="flex flex-col gap-3 px-4 py-4  w-full"
                     onSubmit={handleLogin}
                 >
                     <div className="border-b border-gray-300">

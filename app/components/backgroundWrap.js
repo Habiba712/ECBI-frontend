@@ -7,14 +7,7 @@ export default function BackgroundWrapper({ children }) {
   if(pathname.includes("/register") || pathname.includes("/login") || pathname.includes("/createOwner") || pathname.includes("/password")){
 return (
    <div
-     style={{
-   
-    
-    minHeight: '100vh',
-
-
-  }}
-  className='flex justify-center items-center bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]'
+     className="flex justify-center items-center flex-grow w-full min-h-[100vh] border-3 border-green-3 bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]"
     >
       {children}
     </div>
@@ -24,15 +17,4 @@ return (
 
   
 }
-else{
-  return (
-    <div
-      
-      className='flex justify-center items-center'
-    >
-      {children}
-    </div>
-
-  )
-
-}}
+}
