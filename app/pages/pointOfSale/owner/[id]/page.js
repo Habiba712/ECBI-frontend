@@ -135,7 +135,7 @@ function ReviewCard({ item, onReply }) {
         {!item?.ownerReply ? (
           <button
             onClick={() => onReply({
-              item: {
+              review: {
                 id: item._id,
                 comment: item.comment,
                 rating: item.rating,
@@ -143,7 +143,7 @@ function ReviewCard({ item, onReply }) {
                 userAvatar: item.userId.base.avatar || defaultUser,
               }
             })}
-            className="flex items-center gap-2 text-sm font-semibold text-white bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-xl transition-colors"
+            className="flex items-center gap-2 text-sm font-semibold text-white bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-xl transition-colors cursor-pointer"
           >
             <ReplyIcon />
             Reply to Review
