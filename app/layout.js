@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
          <body className="font-sans antialiased bg-slate-50 text-slate-900 ">
           <div className="flex min-h-screen">
               <Header/>
-          <main className="flex  h-full">
+          <main className="flex border w-full h-full">
           
            
                 <BackgroundWrapper>

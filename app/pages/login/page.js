@@ -59,7 +59,7 @@ export default function Login() {
     return (
         
       
-                        <section className="flex flex-col items-center justify-center mx-auto max-w-md p-4 text-gray-300 border-gray-300 rounded-lg shadow-lg h-full "
+                        <section className="flex flex-col items-center justify-center mx-auto max-w-md  text-gray-300 border-gray-300 rounded-lg shadow-lg "
             style={{
                 "background": "bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]",
                 "WebkitBackdropFilter": "blur(20px)",
