@@ -45,6 +45,7 @@ export default function WalletPage() {
     const [platformBalance, setPlatformBalance] = useState(0);
     const [referalsBalance, setReferralsBalance] = useState(0);
     const [platformGains, setPlatformGains] = useState([]);
+    const [totalBalanceToDollars, setTotalBalanceToDollars] = useState(0)
     const router = useRouter();
 
     const getMyReferralLinks = async () => {
@@ -178,6 +179,7 @@ data
         setEarnedPoints(sum);
 
         console.log('sum', sum);
+        setTotalBalanceToDollars((sum * 0.001).toFixed(2));
         return setTotalBalance(sum);
     }
     useEffect(() => {
@@ -268,7 +270,7 @@ console.log('platform gains', platformGains);
                                 opacity: 0.95,
                                 fontFamily: "sans-serif",
                             }}
-                        >≈ ${totalBalance * 0.001}</p>
+                        >≈ ${totalBalanceToDollars}</p>
 
                     </div>
                     <div className="flex justify-between  gap-3">

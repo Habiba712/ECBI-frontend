@@ -13,19 +13,19 @@ export const metadata = {
    
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`scroll-smooth ${jakartaSans.variable}`}>
+    <html lang="en" className={`scroll-smooth w-full  ${jakartaSans.variable}`}>
       
-         <body className="font-sans antialiased bg-slate-50 text-slate-900 ">
-          <div className="flex ">
+         <body className="font-sans antialiased bg-slate-50 text-slate-900 w-full border-b border-gray-200 ">
+          <div className="w-full ">
               <Header/>
-          <main className="flex-1">
+          <main className=" w-full flex flex-col items-center justify-center h-screen">
           
            
-                <BackgroundWrapper>
+               
                  
 
       {children} 
-      </BackgroundWrapper>
+     
           
            
 
