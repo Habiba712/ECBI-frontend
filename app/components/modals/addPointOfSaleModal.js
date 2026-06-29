@@ -9,6 +9,7 @@ import { useState } from "react";
 import PrintIcon from "../../../public/svg/print";
 import DownloadIcon from "../../../public/svg/download";
 import { on } from "events";
+import { motion } from "framer-motion";
 
 export default function AddtPointOfSaleModal({ setIsModalOpen, onSend, data }) {
 
@@ -43,7 +44,14 @@ console.log('data to add', data);
 
     }
     return (
-        <div className="z-0 w-full mh-100vh bg-black/50 fixed inset-0
+         <motion.div 
+                            className="min-h-screen h-full max-w-md mx-auto z-50 w-full  fixed inset-0 flex items-end sm:items-center justify-center py-8"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsModalOpen(false)}
+                        >
+                             <div className="z-0 w-full mh-100vh bg-black/50 fixed inset-0
         flex items-center justify-center py-8">
             <div className="bg-white w-1/2  h-full rounded-lg p-4 overflow-y-auto scroll-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 ">
                 <div className="w-full flex justify-between border-b border-gray-200">
@@ -359,6 +367,8 @@ onChange={(e)=>setPointOfSaleToAdd({...pointOfSaleToAdd,website:e.target.value})
 
             </div>
 
-        </div>
+        </div>  
+                        </motion.div>
+     
     )
 }

@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import Switch from "@mui/material/Switch";
 import React from 'react';
-
 import { ToastContainer, toast } from 'react-toastify';
+
 export default function AccountSettings() {
 
     const [reviewsNotification, setReviewsNotification] = useState(false);
@@ -17,70 +17,49 @@ export default function AccountSettings() {
     const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
     const [newPhone, setNewPhone] = useState("");
     const [newName, setNewName] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
     const [token, setToken] = useState("");
-
-
-
-    const[businessName, setBusinessName]= useState("")
-    const [ownerId, setOwnerId]= useState("")
-    // const [ownerById, setOwnerById] = useState();
+    const [businessName, setBusinessName] = useState("");
+    const [ownerId, setOwnerId] = useState("");
     const [incorrectOldPassword, setIncorrectOldPassword] = useState("");
     const [newPasswordError, setNewPasswordError] = useState("");
     const [newPhoneError, setNewPhoneError] = useState("");
     const [newNameError, setNewNameError] = useState("");
 
-    const handleToggle = () => {
-        const newState = !isOn;
-        setIsOn(newState);
-        if (onToggle) {
-            onToggle(newState);
-        }
-    };
-    console.log('reviews notificaitions selected', reviewsNotification);
+    // ── Data ─────────────────────────────────────────────────────────────────
 
-    const notify = async () => {
+    const notify = () => {
         toast.success('Your changes have been saved successfully');
-        setTimeout(() => {
-            toast.dismiss();
-        }, 5000);
-    }
-    const getOwnerById = async (req, res) => {
-        console.log('owner id', ownerId);
-        try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/getUserById/${ownerId}`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    method: "GET"
-                }
-            ).then((res) => {
-                if (res.ok) {
-                    console.log('res', res);
-                    return res.json();
-                }
-            }) 
-            console.log('res', res);
-                   
-            setNewEmail(res?.data?.base?.email);
-            setNewPhone(res?.data?.base?.telephone);
-            setNewName(res?.data?.base?.name);
-            setNewBusinessName(res?.data?.ownerInfo?.businessName);
-      
+        setTimeout(() => toast.dismiss(), 5000);
+    };
 
+    const getOwnerById = async () => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/getUserById/${ownerId}`, {
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                method: "GET"
+            });
+            if (!res.ok) return;
+            const data = await res.json();
+            setNewEmail(data?.data?.base?.email);
+            setNewPhone(data?.data?.base?.telephone);
+            setNewName(data?.data?.base?.name);
+            setNewBusinessName(data?.data?.ownerInfo?.businessName);
         } catch (err) {
             console.log('err', err);
         }
-    }
+    };
+
     const handleUpdateSettings = async (e) => {
         e.preventDefault();
+        if (newPassword !== newPasswordConfirm) {
+            setNewPasswordError('Passwords do not match');
+            return;
+        }
         const data = {
             email: newEmail,
             telephone: newPhone,
             name: newName,
-            oldPassword: oldPassword,
+            oldPassword,
             password: newPasswordConfirm,
             preferences: {
                 reviews_notifications: reviewsNotification,
@@ -88,342 +67,248 @@ export default function AccountSettings() {
                 weekly_report: weeklyReportsNotification
             },
             businessName: newBusinessName
-        }
-        console.log('data to update', data);
-  
-        if (newPassword !== newPasswordConfirm) {
-            setNewPasswordError('Passwords do not match');
-            return false;
-        }
-        setErrorMessage('');
-
-        // maybe add a green icon with a check mark as in yes it is correct
-
-
-        console.log('new email', newEmail);
-        console.log('new phone', newPhone);
-        console.log('new name', newName);
-        console.log('old password', oldPassword);
-        console.log('new password', newPassword);
-        console.log('confirm password', newPasswordConfirm);
+        };
         try {
-
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/settingsUpdateById/${ownerId}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 method: "PUT",
-                body: JSON.stringify({
-                    data
-                })
-            })
-                const result = await res.json(); // ALWAYS parse JSON ONCE
-
+                body: JSON.stringify({ data })
+            });
+            const result = await res.json();
             if (res.ok) {
-        notify();
-        // window.scrollTo(0, 0);
-           setNewPasswordError("");
-    setIncorrectOldPassword("");
-    setNewPhoneError("");
-    setNewNameError("");
-        return;
-    }
-let arr = result?.message;
-console.log('arr', arr);
-
-
- // Your backend sends message: [ ... ]
-    console.log('TYPE:', typeof arr);
-    if(typeof result?.message === "string" && result?.message !== "Old Password is incorrect"){
-        try{
-        arr = JSON.parse(result?.message);
-        console.log('arr 2', arr);
-
-        }catch(e){
-            console.error(e);
-            return;
-        }
-    }
-
- 
-   
-
-      // RESET previous errors
-    setNewPasswordError("");
-    setIncorrectOldPassword("");
-    setNewPhoneError("");
-    setNewNameError("");
-    if(Array.isArray(arr)){
-          arr.forEach(e => {
-        const field = e.path?.[0];
-        const msg = e.message;
-
-        switch (field) {
-            case "password":
-                setNewPasswordError(msg);
-                break;
-            case "oldPassword":
-                setIncorrectOldPassword(msg);
-                break;
-            case "telephone":
-                setNewPhoneError(msg);
-                break;
-            case "username":
-                setNewNameError(msg);
-                break;
-            default:
-                console.warn("Unexpected error field:", field, msg);
-        }
-    })
-    }else if(!Array.isArray(arr)){
-            setIncorrectOldPassword(arr);
-
-    }
-              
-
+                notify();
+                setNewPasswordError(""); setIncorrectOldPassword(""); setNewPhoneError(""); setNewNameError("");
+                return;
+            }
+            let arr = result?.message;
+            if (typeof result?.message === "string" && result?.message !== "Old Password is incorrect") {
+                try { arr = JSON.parse(result?.message); } catch (e) { console.error(e); return; }
+            }
+            setNewPasswordError(""); setIncorrectOldPassword(""); setNewPhoneError(""); setNewNameError("");
+            if (Array.isArray(arr)) {
+                arr.forEach(e => {
+                    const field = e.path?.[0];
+                    const msg = e.message;
+                    if (field === "password") setNewPasswordError(msg);
+                    else if (field === "oldPassword") setIncorrectOldPassword(msg);
+                    else if (field === "telephone") setNewPhoneError(msg);
+                    else if (field === "username") setNewNameError(msg);
+                });
+            } else {
+                setIncorrectOldPassword(arr);
+            }
         } catch (err) {
-            console.error(err)
+            console.error(err);
         }
+    };
 
-
-    }
-    const handleEmptyForm = async () =>{
-        setNewEmail("");
-        setNewPhone("");
-        setNewName("");
-        setNewPassword("");
-        setOldPassword("");
-        setNewPasswordConfirm("");
-        setNewPhoneError("");
-        setNewBusinessName("");
-        setNewNameError("");
-        setIncorrectOldPassword("");
+    const handleEmptyForm = () => {
+        setNewEmail(""); setNewPhone(""); setNewName(""); setNewPassword("");
+        setOldPassword(""); setNewPasswordConfirm(""); setNewPhoneError("");
+        setNewBusinessName(""); setNewNameError(""); setIncorrectOldPassword("");
         setNewPasswordError("");
         window.scrollTo(0, 0);
+    };
 
-    
-    }
-    console.log('error message', incorrectOldPassword);
-    console.log('error message', newPhoneError);
- useEffect(() => {
-         
+    useEffect(() => {
         const sessionData = JSON.parse(localStorage?.getItem("sessionData"));
         setOwnerId(sessionData?.userId);
         setToken(sessionData?.token);
-     }, [])
+    }, []);
+
     useEffect(() => {
-        getOwnerById();
-        
-        }, [ownerId])
+        if (ownerId) getOwnerById();
+    }, [ownerId]);
+
+    // ── Shared input class ────────────────────────────────────────────────────
+
+    const inputClass = (hasError) =>
+        `w-full px-4 py-2.5 text-sm rounded-xl border transition-all outline-none focus:ring-2 ${
+            hasError
+                ? 'border-red-300 text-red-500 focus:ring-red-100 bg-red-50'
+                : 'border-gray-200 text-gray-700 focus:ring-purple-100 focus:border-purple-400 bg-white'
+        }`;
+
+    // ── Render ────────────────────────────────────────────────────────────────
+
     return (
-        <section className="mt-1 p-4 text-gray-800 w-full  transition-all duration-300 ease-in-out">
-            <div className="p-4 flex flex-col gap-2 settings-page mb-5">
-                <h1 className="font-semibold  text-4xl font-sans
-                 text-black">Settings</h1>
-                <p className="text-gray-500">You can change your password, email, and other account settings here.</p>
+        <section className="p-6 text-gray-800 w-full font-sans">
+
+            {/* Header */}
+            <div className="mb-8">
+                <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
+                <p className="text-sm text-gray-400 mt-0.5">Manage your account, password and notification preferences.</p>
             </div>
-            <div className="max-w-xl mx-auto">
-                <form onSubmit={handleUpdateSettings}>
-                    
-                    <div className="p-5 mb-5 rounded-lg bg-white settings-form-container">
-                        <h3 className="py-2 px-3 font-semibold">Account Imformation</h3>
-                        <form>
-                            <div className="py-2 flex flex-col w-full gap-2 items-start justify-center">
-                                <label htmlFor="name">Owner Username</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    className="w-full formFields"
-                                    id="name"
-                                    placeholder="Enter your name"
-                                    value={newName}
-                                    onChange={(e) => setNewName(e.target.value)}
-                                />
-                            </div>
-                             <div className="py-2 flex flex-col w-full gap-2 items-start justify-center">
-                                <label htmlFor="businessName">Business Name</label>
-                                <input
-                                    type="text"
-                                    name="businessName"
-                                    className="w-full formFields"
-                                    id="businessName"
-                                    placeholder="Enter your business name"
-                                    defaultValue={newBusinessName}
-                                    value={newBusinessName}
-                                    onChange={(e) => setNewBusinessName(e.target.value)}
-                                />
-                            </div>
-                            <div className="py-2 flex flex-col w-full gap-2 items-start justify-center">
-                                <label htmlFor="email">Email</label>
-                                <input
-                                    type="email"
-                                    className="w-full formFields"
-                                    name="email"
-                                    id="email"
-                                    placeholder="Enter your email"
-                                    defaultValue={newEmail}
-                                    value={newEmail}
-                                    onChange={(e) => setNewEmail(e.target.value)}
-                                />
-                            </div>
-                            <div className="py-2 flex flex-col w-full gap-2 items-start justify-center">
-                                <label htmlFor="phone">Phone</label>
-                                <input
-                                    type="number"
-                                    className="w-full formFields"
-                                    name="phone"
-                                    id="phone"
-                                    placeholder="Enter your phone"
-                                    value={newPhone}
-                                    onChange={(e) => setNewPhone(e.target.value)}
-                                />
-                                 {newPhoneError ? <span className="relative -top-2 px-3 text-red-400 text-sm ">{newPhoneError}</span> : null}
-                            </div>
 
-                        </form>
+            <div className="max-w-5xl">
+                <form onSubmit={handleUpdateSettings} className="flex flex-col gap-5 ">
 
-                    </div>
-                    <div className="p-5 mb-5 rounded-lg bg-white settings-form-container">
-                        <h3 className="py-2 px-3 font-semibold">Change Password</h3>
-
-
-                        <div>
-                            <div>
-                                {/* //password */}
-                                <div className="py-2 flex flex-col w-full gap-2 items-start justify-center">
-                                    <label htmlFor="password">Current Password</label>
+                    {/* Account Info */}
+                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <div className="px-6 py-4 border-b border-gray-100">
+                            <h2 className="text-sm font-semibold text-gray-800">Account Information</h2>
+                            <p className="text-xs text-gray-400 mt-0.5">Update your personal and business details</p>
+                        </div>
+                        <div className="px-6 py-5 flex flex-col gap-4">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-start text-xs font-medium text-gray-600 w-fit">Owner Username</label>
                                     <input
-                                        type="password"
-                                        className={`
-                                            w-full 
-                                            ${incorrectOldPassword ? ' border border-red-500 rounded-full px-4 py-2 text-sm text-red-400 focus:outline-none focus:ring-1 focus:ring-red-500' : ' formFields'}
-                                            `}
-                                        name="password"
-                                        id="password"
-                                        placeholder="Enter your old password"
-                                        value={oldPassword}
-                                        onChange={(e) => setOldPassword(e.target.value)}
+                                        type="text"
+                                        className={inputClass(!!newNameError)}
+                                        placeholder="Enter your name"
+                                        value={newName}
+                                        onChange={(e) => setNewName(e.target.value)}
                                     />
-                                     {incorrectOldPassword ? <span className="relative -top-2 px-3 text-red-400 text-sm ">{incorrectOldPassword}</span> : null}
-                                            
+                                    {newNameError && <span className="text-xs text-red-400">{newNameError}</span>}
                                 </div>
-                                <div className="py-2 flex flex-col w-full gap-2 items-start justify-center">
-                                    <label htmlFor="password">New Password</label>
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-xs font-medium text-gray-600 w-fit ">Business Name</label>
+                                    <input
+                                        type="text"
+                                        className={inputClass(false)}
+                                        placeholder="Enter your business name"
+                                        value={newBusinessName}
+                                        onChange={(e) => setNewBusinessName(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-xs font-medium text-gray-600 w-fit ">Email</label>
+                                    <input
+                                        type="email"
+                                        className={inputClass(false)}
+                                        placeholder="Enter your email"
+                                        value={newEmail}
+                                        onChange={(e) => setNewEmail(e.target.value)}
+                                    />
+                                </div>
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-xs font-medium text-gray-600 w-fit ">Phone</label>
+                                    <input
+                                        type="number"
+                                        className={inputClass(!!newPhoneError)}
+                                        placeholder="Enter your phone"
+                                        value={newPhone}
+                                        onChange={(e) => setNewPhone(e.target.value)}
+                                    />
+                                    {newPhoneError && <span className="text-xs text-red-400">{newPhoneError}</span>}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Change Password */}
+                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <div className="px-6 py-4 border-b border-gray-100">
+                            <h2 className="text-sm font-semibold text-gray-800">Change Password</h2>
+                            <p className="text-xs text-gray-400 mt-0.5">Leave blank to keep your current password</p>
+                        </div>
+                        <div className="px-6 py-5 flex flex-col gap-4">
+                            <div className="flex flex-col gap-1.5">
+                                <label className="text-xs font-medium text-gray-600 w-fit ">Current Password</label>
+                                <input
+                                    type="password"
+                                    className={inputClass(!!incorrectOldPassword)}
+                                    placeholder="Enter your current password"
+                                    value={oldPassword}
+                                    onChange={(e) => setOldPassword(e.target.value)}
+                                />
+                                {incorrectOldPassword && <span className="text-xs text-red-400">{incorrectOldPassword}</span>}
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-xs font-medium text-gray-600 w-fit ">New Password</label>
                                     <input
                                         type="password"
-                                        className={`
-                                            w-full 
-                                            ${newPasswordError ? ' border border-red-500 rounded-full px-4 py-2 text-sm text-red-400 focus:outline-none focus:ring-1 focus:ring-red-500' : ' formFields'}
-                                            `}
-                                        name="password"
-                                        id="password"
-                                        placeholder="Enter your new password"
+                                        className={inputClass(!!newPasswordError)}
+                                        placeholder="Enter new password"
                                         value={newPassword}
                                         onChange={(e) => setNewPassword(e.target.value)}
                                     />
-                                    {newPasswordError ? <span className="px-3 text-red-500 text-sm relative -top-2">{newPasswordError}</span> : null}  
-                                            
-                                  
+                                    {newPasswordError && <span className="text-xs text-red-400">{newPasswordError}</span>}
                                 </div>
-                                <div className="py-2 flex flex-col w-full gap-2 items-start justify-center">
-                                    <label htmlFor="confirmPassword">Confirm Password</label>
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-xs font-medium text-gray-600 w-fit ">Confirm Password</label>
                                     <input
                                         type="password"
-                                          className={`
-                                            w-full 
-                                            ${newPasswordError ? ' border border-red-500 rounded-full px-4 py-2 text-sm text-red-400 focus:outline-none focus:ring-1 focus:ring-red-500' : ' formFields'}
-                                            `}
-                                        name="confirmPassword"
-                                        id="confirmPassword"
-                                        placeholder="Confirm your password"
+                                        className={inputClass(!!newPasswordError)}
+                                        placeholder="Confirm new password"
                                         value={newPasswordConfirm}
                                         onChange={(e) => setNewPasswordConfirm(e.target.value)}
                                     />
-                                     {newPasswordError ? <span className="px-3 text-red-500 text-sm relative -top-2">{newPasswordError}</span> : null}
-                                            
                                 </div>
                             </div>
-
                         </div>
-
-
-
                     </div>
 
-                    <div className="p-5 mb-5 rounded-lg bg-white  settings-form-container">
-                        <h3 className="py-2 px-3 font-semibold">Notification Preferences</h3>
-                        <div className="px-3 flex flex-col gap-3 items-startbetween justify-center switch-container">
-                            <div className="flex justify-between items-center">
-                                <div>
-                                    <p className="switch-text">Email Notifications</p>
-                                    <p className="switch-subtext">Get notified when customers leave reviews</p>
-                                </div>
-                                <div>
+                    {/* Notifications */}
+                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <div className="px-6 py-4 border-b border-gray-100">
+                            <h2 className="text-sm font-semibold text-gray-800">Notification Preferences</h2>
+                            <p className="text-xs text-gray-400 mt-0.5">Choose what you want to be notified about</p>
+                        </div>
+                        <div className="divide-y divide-gray-50">
+                            {[
+                                {
+                                    label: "Email Notifications",
+                                    sub: "Get notified when customers leave reviews",
+                                    checked: reviewsNotification,
+                                    onChange: (e) => setReviewsNotification(e.target.checked)
+                                },
+                                {
+                                    label: "New Visits",
+                                    sub: "Get notified when customers check in",
+                                    checked: newVisitsNotification,
+                                    onChange: (e) => setNewVisitsNotification(e.target.checked)
+                                },
+                                {
+                                    label: "Weekly Reports",
+                                    sub: "Receive weekly analytics via email",
+                                    checked: weeklyReportsNotification,
+                                    onChange: (e) => setWeeklyReportsNotification(e.target.checked)
+                                },
+                            ].map((item) => (
+                                <div key={item.label} className="flex items-center justify-between px-6 py-4">
+                                    <div>
+                                        <p className="text-sm font-medium text-gray-700">{item.label}</p>
+                                        <p className="text-xs text-gray-400 mt-0.5">{item.sub}</p>
+                                    </div>
                                     <Switch
-                                        checked={reviewsNotification}
-                                        onChange={(e) => setReviewsNotification(e.target.checked)}
+                                        checked={item.checked}
+                                        onChange={item.onChange}
                                         color="primary"
                                     />
-
                                 </div>
-
-                            </div>
-
-                            <div className="flex justify-between items-center switch-container">
-                        <div>
-                            <p className="switch-text">New Visits</p>
-                            <p className="switch-subtext">Get notified when customers check in</p>
+                            ))}
                         </div>
-                        <div>
-                            <Switch
-                                        checked={newVisitsNotification}
-                                        onChange={(e) => setNewVisitsNotification(e.target.checked)}
-                                        color="primary"
-                                    />
-                        </div>
-                        
                     </div>
 
-                       <div className="flex justify-between items-center switch-container">
-                        <div>
-                            <p className="switch-text">Weekly Reports
-</p>
-                            <p className="switch-subtext">Receive weekly analytics via email</p>
+                    {/* Actions */}
+                    <div className="flex items-center justify-end gap-3 py-2  w-full">
+                        <div className="flex justify-between gap-3 px-4 py-2 ">
+                             <button
+                             
+                            onClick={handleEmptyForm}
+                            className="w-1/2 px-6 py-2.5 cursor-pointer  text-sm font-medium text-purple-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            className="w-1/2 text-nowrap px-6 py-2.5 text-sm font-medium text-white flex cursor-pointer justify-center items-center flex-nowrap flex-grow bg-purple-600 hover:bg-purple-700 rounded-xl transition-colors"
+                        >
+                            Save Changes
+                        </button>
                         </div>
-                        <div>
-                              <Switch
-                                        checked={weeklyReportsNotification}
-                                        onChange={(e) => setWeeklyReportsNotification(e.target.checked)}
-                                        color="primary"
-                                    />
-                        </div>
-                        
+                       
                     </div>
 
-                        </div>
-
-                    </div>
-                    <div className="w-full flex justify-end items-center gap-3 py-6">
-                        <button className="rounded-full bg-blue-500 py-2 px-5 w-40 text-white font-semibold cursor-pointer text-nowrap
-                                                        hover:scale-110 transition-all duration-500 ease-in-out
-                            "type="submit">Save All Changes</button>
-                        <button className="w-40 rounded-full bg-white py-2 px-5  text-blue-500 border border-blue-500 font-semibold cursor-pointer
-                            hover:scale-110 transition-all duration-500 ease-in-out
-                           " 
-                           onClick={()=>handleEmptyForm()}
-                           >Cancel</button>
-                      
-                    </div>
                 </form>
-
             </div>
 
-  <ToastContainer 
-  
-  />
-
+            <ToastContainer />
         </section>
-    )
+    );
 }
-

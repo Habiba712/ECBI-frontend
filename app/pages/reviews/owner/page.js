@@ -1,13 +1,11 @@
 'use client';
 import { useEffect, useState } from "react";
-import ReviewsData from "../../../../data/data";
 import Image from "next/image";
 import next from "next";
 import ReviewsReplies from "../../../components/modals/reviewsReplies";
 import ReplyIcon from "../../../../public/svg/reply";
 import StarIcon from "../../../../public/svg/star";
 import defaultUser from "../../../../public/default_user.png";
-import { motion } from "framer-motion";
 
 export default function OwnerReviews() {
     const [reviews, setReviews] = useState();
@@ -17,339 +15,336 @@ export default function OwnerReviews() {
     const [filterByRating, setFilterByRating] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalReview, setModalReview] = useState();
-    const [reply, setReply] = useState("");
     const [isLoading, setIsLoading] = useState(true);
-    // const sessionData = JSON.parse(localStorage?.getItem("sessionData"));
-    // const userOwnerId = sessionData?.userId;
-    // const businessName = sessionData?.businessName;
     const [userOwnerId, setUserOwnerId] = useState();
     const [businessName, setBusinessName] = useState();
-    // console.log(ReviewsData);
 
     const handleGetPointsOfSale = async () => {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointsOfSaleByOwnerId/${userOwnerId}`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                        // 'Authorization': `Bearer ${sessionData.token}`
-                    },
-                    method: "GET"
-                }
-            ).then((res) => {
-                if (res.ok) {
-                     return res.json();
-                }
-
-            }).then((res) =>{
-                console.log('res pos', res);
-                            setPointsOfSaleByOwner(res);
-
-            })
-
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointsOfSaleByOwnerId/${userOwnerId}`, {
+                headers: { 'Content-Type': 'application/json' },
+                method: "GET"
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setPointsOfSaleByOwner(data);
+            }
         } catch (err) {
-            next(err)
+            next(err);
         }
-
-    }
+    };
 
     const handleGetAllReviews = async () => {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/getAllReviews`,
-
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                        // 'Authorization': `Bearer ${sessionData.token}`
-                    },
-                    method: "GET"
-                }
-            ).then((res) => {
-                if (res.ok) {
-                    setIsLoading(false);
-                    return res.json();
-                }
-            }).then((res) => {
-                 console.log('res rev', res);
-            setReviews(res.getReviews);
-
-            })
-                               
-
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/getAllReviews`, {
+                headers: { 'Content-Type': 'application/json' },
+                method: "GET"
+            });
+            if (res.ok) {
+                setIsLoading(false);
+                const data = await res.json();
+                setReviews(data.getReviews);
+                setIsLoading(false);
+            }
         } catch (err) {
             console.log(err);
         }
-    }
+    };
 
-    const handleShowMOdal = (review) => {
+    const handleShowModal = (review) => {
         setModalReview(review);
         setIsModalOpen(true);
-    }
+    };
 
     const hundleUpdateReview = async (reply) => {
-        console.log('reply', reply);
         try {
-            const res = fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/updateReviews/${reply.reply.reviewId}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews/updateReviews/${reply.reply.reviewId}`, {
                 headers: { 'content-type': 'application/json' },
                 method: 'PUT',
                 body: JSON.stringify({ ownerReply: reply.reply.replyText })
-            }).then((res) => {
-                if (res.ok) {
-                    handleGetAllReviews();
-                    return res.json();
-                }
-            })
-            console.log('res', res);
-
+            });
+            if (res.ok) handleGetAllReviews();
         } catch (err) {
-            next(err)
+            next(err);
         }
-    }
-    console.log('is modal open', isModalOpen);
-    const calculateStars = (rating) => {
-        console.log('rating', rating);
-        let stars = [];
-        for (let i = 0; i < rating; i++) {
-            stars.push(<StarIcon className={'w-5 h-5 text-yellow-500 fill-current'} />)
+    };
 
-
-        }
-        return stars;
-    }
+    const calculateStars = (rating) =>
+        Array.from({ length: 5 }, (_, i) => (
+            <StarIcon key={i} className={`w-4 h-4 ${i < rating ? 'text-yellow-400 fill-current' : 'text-gray-200 fill-current'}`} />
+        ));
 
     useEffect(() => {
-        handleGetAllReviews()
-        handleGetPointsOfSale()
+        handleGetAllReviews();
+        handleGetPointsOfSale();
         const sessionData = JSON.parse(localStorage?.getItem("sessionData"));
         setUserOwnerId(sessionData?.userId);
         setBusinessName(sessionData?.businessName);
-    }, [userOwnerId])
-    console.log('reviewww fetched', reviews);
-    console.log('poitns of sale', pointsOfSaleByOwner);
+    }, [userOwnerId]);
+
+    // ── Filtering ─────────────────────────────────────────────────────────────
+
+    const filteredReviews = reviews
+        ?.filter(r => r.pointOfSaleId.ownerId === userOwnerId)
+        ?.filter(r => {
+            const matchesSearch = searchText
+                ? r.pointOfSaleId.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                  r.userId?.base?.name?.toLowerCase().includes(searchText.toLowerCase())
+                : true;
+            const matchesRestaurant = filterByRestaurant
+                ? r.pointOfSaleId.name.toLowerCase().includes(filterByRestaurant.toLowerCase())
+                : true;
+            const matchesRating = filterByRating
+                ? r.rating === parseInt(filterByRating)
+                : true;
+            return matchesSearch && matchesRestaurant && matchesRating;
+        });
+
+    const totalReviews = filteredReviews?.length || 0;
+    const avgRating = filteredReviews?.length
+        ? (filteredReviews.reduce((sum, r) => sum + r.rating, 0) / filteredReviews.length).toFixed(1)
+        : "0.0";
+    const repliedCount = filteredReviews?.filter(r => r.ownerReply).length || 0;
+
+    // ── Render ────────────────────────────────────────────────────────────────
 
     return (
+        <section className="p-6 text-gray-800 w-full font-sans">
 
-        <section className="mt-4 mx-auto max-w-4xl p-4 text-gray-700  w-full">
-            {/* first part */}
-            <div className="p-4 text-md flex justify-between items-center w-full">
+            {/* Header */}
+            <div className="flex items-start justify-between mb-6">
                 <div>
-                    <h1 className="font-bold text-md text-2xl text-black">Customer Reviews
-                    </h1>
-                    <p className="text-sm">Manage and respond to customer feedback</p>
+                    <h1 className="text-2xl font-bold text-gray-900">Customer Reviews</h1>
+                    <p className="text-sm text-gray-400 mt-0.5">Manage and respond to customer feedback</p>
                 </div>
-                {/* <div>
-                    <button className="rounded-lg px-3 py-2 bg-blue-500 text-white font-semibold cursor-pointer hover:scale-110 transition-all ease-in-out duration-500">Add Restaurant </button>
-                </div> */}
-
             </div>
-
-                          {/* filter and search section */}
-            <div className="rounded-lg shadow-lg p-4 flex flex-col gap-3">
-                {/* search bar */}
-                <div className="flex gap-3">
-
-                    <input type="text" className="w-full rounded-full border-2 border-gray-200 px-6 py-2 text-sm text-gray-700 " placeholder="Search for a restaurant..."
-                        value={searchText} onChange={(e) => setSearchText(e.target.value)} />
-                </div>
-
-
-                {/* filter by restaurant name */}
-                <div className="flex gap-3">
-
-                    <select onChange={(e) => setFilterByRestaurant(e.target.value)} className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 "
-
-                    >
-                        <option value="">All Restaurants</option>
-                        {pointsOfSaleByOwner && pointsOfSaleByOwner?.length > 0 && pointsOfSaleByOwner
-                            ?.map((restaurant, index) => {
-                                return (
-                                    <option value={restaurant.id} key={index}>{restaurant.name}</option>
-                                )
-                            })
-                        }
-
-
-
-                    </select>
-                </div>
-                {/* filter by rating stars */}
-                <div className="flex gap-3">
-
-                    <select onChange={(e) => setFilterByRating(e.target.value)} className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 "
-
-                    >
-                        <option value="">All Ratings</option>
-                        <option value="5">5 Stars</option>
-                        <option value="4">4 Stars</option>
-                        <option value="3">3 Stars</option>
-                        <option value="2">2 Stars</option>
-                        <option value="1">1 Stars</option>
-                    </select>
-                </div>
-
-            </div>    
-          
-
-            {/* list of reviews */}
-         
-                        <div className="shadow-lg rounded-lg p-4 mt-3 b">
-
-                {/* 🌟 GORGEOUS SKELETON LOADER (LinkedIn Ready) */}
+            {/* Skeleton Loading Visual Sheet */}
 {isLoading ? (
-  <div className="bg-white shadow-sm border border-gray-100 rounded-xl p-6 mt-4 space-y-6">
-    {[1, 2, 3].map((index) => (
-      <div key={index} className="flex flex-col w-full pb-6 border-b border-gray-100 last:border-0 last:pb-0 animate-pulse">
-        
-        {/* Header Skeleton */}
-        <div className="flex justify-between w-full items-start">
-          <div className="flex items-center gap-3">
-            {/* Avatar Circle */}
-            <div className="w-11 h-11 bg-gray-200 rounded-full flex-shrink-0" />
+  <div className="p-6 space-y-6 bg-white rounded-2xl border border-gray-100 shadow-sm">
+    {[1, 2, 3].map((i) => (
+      <div 
+        key={i} 
+        className="flex flex-col w-full pb-6 border-b border-slate-100 last:border-0 last:pb-0 relative overflow-hidden"
+      >
+        {/* Shimmer Header Row */}
+        <div className="flex justify-between w-full items-start animate-pulse">
+          <div className="flex items-center gap-4">
             
-            {/* Meta Text Blocks */}
+            {/* Avatar Circle Placeholder */}
+            <div className="w-12 h-12 bg-slate-200 rounded-full flex-shrink-0" />
+            
+            {/* Metadata Text Stack Placeholders */}
             <div className="flex flex-col space-y-2">
-              <div className="h-4 bg-gray-200 rounded w-24" /> {/* Username */}
-              <div className="h-3 bg-gray-200 rounded w-32" /> {/* Restaurant Name */}
-              <div className="h-3 bg-gray-100 rounded w-16" /> {/* Date */}
+              <div className="h-4 bg-slate-200 rounded w-28" />
+              <div className="h-3 bg-slate-200 rounded w-40" />
+              <div className="h-2.5 bg-slate-100 rounded w-16" />
             </div>
+
           </div>
 
-          {/* Stars Rating Badge Skeleton */}
-          <div className="h-6 bg-gray-200 rounded-md w-16" />
+          {/* Star Rating Layout Placeholder */}
+          <div className="h-4 bg-slate-200 rounded-md w-24" />
         </div>
 
-        {/* Content Comment Skeleton */}
-        <div className="mt-3 w-full pl-[56px] space-y-2">
-          <div className="h-3.5 bg-gray-200 rounded w-full" />
-          <div className="h-3.5 bg-gray-200 rounded w-5/6" />
+        {/* Comment Narrative Content Area Placeholder */}
+        <div className="mt-4 w-full pl-16 space-y-2 animate-pulse">
+          <div className="h-3.5 bg-slate-200 rounded w-full" />
+          <div className="h-3.5 bg-slate-200 rounded w-4/5" />
           
-          {/* Button Placeholder */}
-          <div className="h-8 bg-gray-100 rounded-lg w-28 mt-4" />
+          {/* Action Button Placeholder */}
+          <div className="h-9 bg-slate-100 rounded-xl w-32 mt-4" />
         </div>
-
       </div>
     ))}
   </div>
-): (
- reviews && reviews?.length > 0 &&
+)
+: 
+(
+    <>  {/* Stat pills */}
+            <div className="flex gap-4 mb-6">
+                {[
+                    { label: "Total Reviews", value: totalReviews, color: "bg-purple-50 text-purple-700 border-purple-100" },
+                    { label: "Avg. Rating",   value: `⭐ ${avgRating}`, color: "bg-yellow-50 text-yellow-700 border-yellow-100" },
+                    { label: "Replied",       value: repliedCount,  color: "bg-green-50 text-green-700 border-green-100"  },
+                    { label: "Pending Reply", value: totalReviews - repliedCount, color: "bg-orange-50 text-orange-700 border-orange-100" },
+                ].map(stat => (
+                    <div key={stat.label} className={`flex items-center gap-3 px-4 py-3 rounded-2xl border text-sm font-medium ${stat.color}`}>
+                        <span className="text-lg font-bold">{stat.value}</span>
+                        <span className="text-xs opacity-70">{stat.label}</span>
+                    </div>
+                ))}
+            </div>
 
+            {/* Search + Filters */}
+          <div className="flex items-start gap-3 mb-5 w-full">
+             <div className="flex items-center gap-2 max-w-sm w-1/4 bg-white border border-gray-200 rounded-xl px-3 py-2.5 focus-within:ring-2 focus-within:ring-purple-200 focus-within:border-purple-400">
+    <svg className="text-gray-400 flex-shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+    <input
+        type="text"
+        className="flex-1 text-sm bg-transparent border-none outline-none placeholder-gray-400"
+        placeholder="Search by customer or restaurant..."
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+    />
+</div>
+                <div className="relative flex justify-between items-center gap-2 w-2/4">
+                     <select
+                    onChange={(e) => setFilterByRestaurant(e.target.value)}
+                    className="text-sm bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-200 cursor-pointer"
+                >
+                    <option value="">All Restaurants</option>
+                    {pointsOfSaleByOwner?.map((pos, i) => (
+                        <option key={i} value={pos.id}>{pos.name}</option>
+                    ))}
+                </select>
+                <select
+                    onChange={(e) => setFilterByRating(e.target.value)}
+                    className="text-sm bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-200 cursor-pointer"
+                >
+                    <option value="">All Ratings</option>
+                    {[5, 4, 3, 2, 1].map(r => (
+                        <option key={r} value={r}>{r} Stars</option>
+                    ))}
+                </select>
+                </div>
+               <div className="relative flex justify-between items-center gap-2 w-1/4">
+                <button className="w-10 h-10 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-gray-500 hover:border-gray-300 transition-colors">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
+                </button>
+               </div>
+          </div>
+                
+            
+            {/* Reviews list */}
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
 
-
-                    reviews
-                        ?.filter(item => {
-                            if (searchText) {
-                                return item.pointOfSaleId.name.toLowerCase().includes(searchText.toLowerCase())
-                            }
-                            else if (filterByRestaurant) {
-                                return item.pointOfSaleId.name.toLowerCase().includes(filterByRestaurant.toLowerCase())
-                            }
-                            else if (filterByRating) {
-                                return item.rating === parseInt(filterByRating)
-                            }
-                            else {
-                                return true;
-                            }
-                        }
-                        )
-                        .filter((element) => element.pointOfSaleId.ownerId === userOwnerId)
-                        ?.map((review, index) => {
-
-                            return (
-                                <div key={index} className="flex flex-col items-center w-full mb-5 border-b border-gray-100">
-                                    <div className="flex justify-between w-full items-center">
-                                        <div className="flex justify-around gap-2 w-fit">
-                                            <div className="w-fit  flex justify-center items-center">
-                                                <Image src={review?.userId?.base?.avatar || defaultUser} alt="restaurant" width={50} height={50} className="rounded-full object-cover aspect-square" />
-                                            </div>
-
-                                            <div className=" flex flex-col">
-                                                <p className="font-semibold" style={{
-                                                    'font-size': "14px"
-                                                }}>{review.userId.base.name}</p>
-                                                <p style={{
-                                                    'font-size': "12px"
-                                                }}>{review?.pointOfSaleId?.name}</p>
-                                                <span className="text-gray-400" style={{
-                                                    'font-size': "12px"
-                                                }}>
-                                                    {review.visitedAt.replace('T', ' ').split(' ')[0].toString()}</span>
-
-                                            </div>
+                {/* Skeleton */}
+                {isLoading && (
+                    <div className="p-6 space-y-6">
+                        {[1, 2, 3].map(i => (
+                            <div key={i} className="flex flex-col w-full pb-6 border-b border-gray-100 last:border-0 last:pb-0 animate-pulse">
+                                <div className="flex justify-between w-full items-start">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-11 h-11 bg-gray-200 rounded-full flex-shrink-0" />
+                                        <div className="flex flex-col space-y-2">
+                                            <div className="h-4 bg-gray-200 rounded w-24" />
+                                            <div className="h-3 bg-gray-200 rounded w-32" />
+                                            <div className="h-3 bg-gray-100 rounded w-16" />
                                         </div>
-                                        <div className="flex flex-col items-end">
-                                            <span style={{
-                                                'font-size': "12px"
-                                            }}>
-
-                                                {review.rating && <span className="text-green-500 flex">
-                                                    {calculateStars(review.rating)}
-
-                                                </span>}
-
-                                            </span>
-                                            {/* <span style={{
-                                                'font-size': "12px"
-                                            }} className="text-green-600">
-                                                +{review?.pointsEarned ? review.pointsEarned : 0} points earned
-                                            </span> */}
-                                        </div>
-
-
                                     </div>
-                                    <div className="flex flex-col items-end w-full">
-                                        <p className=" py-3 w-full">{review.comment}</p>
-                                        {
-                                            !review.ownerReply ?
-                                                <div className="w-full py-2">
-                                                    <button className="text-sm rounded-lg px-3 py-2 bg-blue-500 text-white font-semibold cursor-pointer hover:scale-110 transition-all ease-in-out duration-500 flex gap-2 items-center text-nowrap"
-                                                        onClick={() => handleShowMOdal({
-                                                            review: {
-                                                                id: review._id,
-                                                                comment: review.comment,
-                                                                rating: review.rating,
-                                                                userName: review.userId.base.name,
-                                                                avatar: review.userId.base.avatar
+                                    <div className="h-6 bg-gray-200 rounded-md w-16" />
+                                </div>
+                                <div className="mt-3 w-full pl-14 space-y-2">
+                                    <div className="h-3.5 bg-gray-200 rounded w-full" />
+                                    <div className="h-3.5 bg-gray-200 rounded w-5/6" />
+                                    <div className="h-8 bg-gray-100 rounded-lg w-28 mt-4" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
 
-                                                            }
-                                                        })}
-                                                    >
-                                                        <ReplyIcon className="w-5 h-5 " />
-                                                        <span>Reply to Review</span>
-                                                    </button>
-                                                </div>
+                {/* Actual reviews */}
+                {!isLoading && filteredReviews?.length > 0 && (
+                    <div className="divide-y divide-gray-50">
+                        {filteredReviews.map((review, index) => (
+                            <div key={index} className="p-6 hover:bg-gray-50/50 transition-colors">
+                                <div className="flex items-start justify-between gap-4">
 
-                                                :
-                                                <div className="w-full py-2">
-                                                    <p style={{
-                                                        'font-size': "12px"
-                                                    }} className="w-full p-4 border-l-3 border-blue-400 bg-blue-100 rounded-lg">
-                                                        {review.ownerReply}
-                                                    </p>
-                                                </div>
+                                    {/* Left: avatar + meta */}
+                                    <div className="flex items-start gap-3">
+                                        <Image
+                                            src={review?.userId?.base?.avatar || defaultUser}
+                                            alt="reviewer"
+                                            width={44}
+                                            height={44}
+                                            className="rounded-full object-cover aspect-square flex-shrink-0"
+                                        />
+                                        <div>
+                                            <p className="text-sm font-semibold text-gray-800">{review.userId.base.name}</p>
+                                            <p className="text-xs text-gray-400">{review?.pointOfSaleId?.name}</p>
+                                            <p className="text-xs text-gray-300 mt-0.5">
+                                                {review.visitedAt?.replace('T', ' ').split(' ')[0]}
+                                            </p>
+                                        </div>
+                                    </div>
 
-                                        }
-
+                                    {/* Right: stars */}
+                                    <div className="flex gap-0.5 flex-shrink-0">
+                                        {calculateStars(review.rating)}
                                     </div>
                                 </div>
-                            )
-                        })
-                
- 
-                    )
-                    }
-                   
-            </div>     
-                       
-           
-            {isModalOpen &&
+
+                                {/* Comment */}
+                                <p className="mt-3 text-sm text-gray-600 leading-relaxed pl-14">
+                                    {review.comment}
+                                </p>
+
+                                {/* Reply or button */}
+                                <div className="pl-14 mt-3">
+                                    {review.ownerReply ? (
+                                        <div className="flex items-start gap-2 bg-purple-50 border-l-4 border-purple-400 rounded-r-xl px-4 py-3">
+                                            <div>
+                                                <p className="text-xs font-semibold text-purple-600 mb-1">Your reply</p>
+                                                <p className="text-sm text-gray-600">{review.ownerReply}</p>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <button
+                                            onClick={() => handleShowModal({
+                                                review: {
+                                                    id: review._id,
+                                                    comment: review.comment,
+                                                    rating: review.rating,
+                                                    userName: review.userId.base.name,
+                                                    avatar: review.userId.base.avatar
+                                                }
+                                            })}
+                                            className="flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white transition-colors cursor-pointer"
+                                        >
+                                            <ReplyIcon className="w-4 h-4" />
+                                            Reply to Review
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* Empty state */}
+                {!isLoading && (!filteredReviews || filteredReviews.length === 0) && (
+                    <div className="flex flex-col items-center justify-center py-16 text-center">
+                        <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center mb-4">
+                            <StarIcon className="w-7 h-7 text-gray-300" />
+                        </div>
+                        <p className="text-sm font-medium text-gray-500">No reviews found</p>
+                        <p className="text-xs text-gray-300 mt-1">Try adjusting your filters</p>
+                    </div>
+                )}
+            </div>
+
+            {/* Modal */}
+            {isModalOpen && (
                 <ReviewsReplies
                     review={modalReview}
                     isModalOpen={isModalOpen}
                     setIsModalOpen={setIsModalOpen}
                     onSend={hundleUpdateReview}
-                />}
+                />
+            )}  
+    </>
+ 
+)
+
+}
+
+           
         </section>
-
-
-    )
+    );
 }

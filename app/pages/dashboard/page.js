@@ -31,6 +31,23 @@ export default function PointOfSaleOwner() {
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [loyaltyFilter, setLoyaltyFilter] = useState("All Loyalty");
   const [sortFilter, setSortFilter] = useState("Sort: Recent");
+  const [isLoading, setIsLoading] = useState(true);
+  const now = new Date();
+
+  const [currentTime, setCurrentTime] = useState("");
+
+  const calculateTimeDifference = (date) => {
+    const hour = new Date().getHours();
+
+  if (hour < 12) {
+    setCurrentTime("Morning");
+  } else if (hour < 18) {
+    setCurrentTime("Afternoon");
+  } else {
+    setCurrentTime("Evening");
+  }
+    
+  }
 
   const loyaltyConfig = {
     New: { bg: "bg-gray-100", text: "text-gray-500", border: "border-gray-200" },
@@ -96,6 +113,7 @@ export default function PointOfSaleOwner() {
 
       setVisitsData(chartData);
       setClients(visitsHis);
+      setIsLoading(false);
     } catch (err) {
       console.log('error', err);
     }
@@ -158,7 +176,6 @@ export default function PointOfSaleOwner() {
     }
   };
 
-  // ── Effects ───────────────────────────────────────────────────────────────
 
   useEffect(() => {
     const session = JSON.parse(localStorage.getItem("sessionData")) || null;
@@ -177,9 +194,10 @@ export default function PointOfSaleOwner() {
 
   useEffect(() => {
     handleGetAllReviews();
+    const now = new Date();
+    calculateTimeDifference(now);
   }, [possByOwner]);
 
-  // ── Filter + Search ───────────────────────────────────────────────────────
 
   useEffect(() => {
     if (!clients.length) return;
@@ -222,273 +240,285 @@ export default function PointOfSaleOwner() {
     setFiltered(result);
   }, [search, clients, statusFilter, loyaltyFilter, sortFilter]);
 
-  // ── Pagination ────────────────────────────────────────────────────────────
 
   const itemsPerPage = 5;
   const totalPages = Math.ceil(filtered.length / itemsPerPage);
   const paginated = filtered.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  // ── Render ────────────────────────────────────────────────────────────────
 
   return (
+  
     <section className="mt-1 p-4 text-gray-800 w-full transition-all duration-300 ease-in-out font-sans">
 
-      {/* Header */}
-      <div className="p-4 flex flex-col mb-5">
-        <h1 className="text-2xl font-semibold text-gray-700">
-          Good evening, {businessNameSession}! 👋
-        </h1>
-        <p className="text-gray-500">Here's your business overview.</p>
-      </div>
-
-      {/* Sparkline stat cards */}
-      <div className="flex justify-between gap-3 p-4">
-        <Sparkline data={visitsData} title="Total Visits" percentage={10} icon={ClientsIcon} color="#7C5CFC" />
-        <Sparkline data={reviewsData} title="Total Reviews" percentage={5} icon={MessageReviewIcon} color="#10B981" />
-        <AverageRatingSparkline data={avgRatingData} title="Avg. Rating" percentage={3} icon={StarIcon} color="#1E88E5" />
-        <AverageRatingSparkline data={pointsRedeemedData} title="Points Redeemed" percentage={3} icon={AwardIcon} color="#F97316" />
-      </div>
-
-      {/* Top 3 clients */}
-      <div className="p-4">
-        <div className="p-4 shadow-sm rounded-2xl border border-gray-100 bg-white mb-6">
-          <h2 className="font-semibold text-lg text-gray-800 mb-4">Top 3 clients</h2>
-          <div className="flex flex-col gap-2">
-            {clients.slice(0, 3).map((client) => {
-              const { count, date, pointsEarned } = getClientVisitInfo(client);
-              const loyalty = getLoyaltyTier(pointsEarned);
-              return (
-                <div key={client._id} className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors">
-                  <img
-                    src={client.base.avatar || defaultUser.src}
-                    alt={client.base.name}
-                    className="w-10 h-10 rounded-full object-cover flex-shrink-0"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-gray-800 truncate">{client.base.name}</p>
-                    <p className="text-xs text-gray-400">{count} visits · Last {date}</p>
-                  </div>
-                  <span className={`text-xs font-medium px-2.5 py-1 rounded-full border ${loyalty.bg} ${loyalty.text} ${loyalty.border}`}>
-                    {loyalty.tier}
-                  </span>
-                </div>
-              );
-            })}
-            {clients.length === 0 && (
-              <p className="text-sm text-gray-400 text-center py-4">No clients yet.</p>
-            )}
-          </div>
+        {/* Header — always visible */}
+        <div className="p-4 flex flex-col mb-5">
+            <h1 className="text-2xl font-semibold text-gray-700">
+                Good {currentTime}, <span className="text-purple-600">{businessNameSession}</span>! 👋
+            </h1>
+            <p className="text-gray-500">Here's your business overview.</p>
         </div>
 
-        {/* Search + Filters */}
-      
-<div className="flex items-start gap-3 mb-5 w-full">
-    <div className="relative flex-1 max-w-sm w-1/4">
-        <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-        <input
-            className="w-full pl-9 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-400 placeholder-gray-400"
-            placeholder="Search clients by name, email or phone..."
-            value={search}
-            onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
-        />
-    </div>
-    <div className="relative flex justify-between items-center gap-2 w-2/4">
-         <select
-        value={statusFilter}
-        onChange={(e) => { setStatusFilter(e.target.value); setCurrentPage(1); }}
-        className="text-sm bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-200 cursor-pointer"
-    >
-        <option>All Status</option>
-        <option>Active</option>
-        <option>Inactive</option>
-    </select>
-    <select
-        value={loyaltyFilter}
-        onChange={(e) => { setLoyaltyFilter(e.target.value); setCurrentPage(1); }}
-        className="text-sm bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-200 cursor-pointer"
-    >
-        <option>All Loyalty</option>
-        <option>Platinum</option>
-        <option>Gold</option>
-        <option>Silver</option>
-        <option>New</option>
-    </select>
-    <select
-        value={sortFilter}
-        onChange={(e) => { setSortFilter(e.target.value); setCurrentPage(1); }}
-        className="text-sm bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-200 cursor-pointer"
-    >
-        <option>Sort: Recent</option>
-        <option>Sort: Most Visits</option>
-        <option>Sort: Most Points</option>
-    </select>
-    </div>
- <div className="relative flex justify-between items-center gap-2 w-1/4">
-   <button className="w-10 h-10 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-gray-500 hover:border-gray-300 transition-colors">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-    </button>
- </div>
-   
-</div>
+        {isLoading ? (
+            /* ── SKELETON ────────────────────────────────────────────── */
+            <div className="animate-pulse p-4 flex flex-col gap-6">
 
-        {/* Table */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-gray-100">
-                {["CLIENT", "LOYALTY", "TOTAL VISITS", "LAST VISIT", "POINTS EARNED", "ACTIONS"].map(col => (
-                  <th key={col} className="text-left text-xs font-semibold text-gray-400 tracking-wider px-6 py-4">
-                    {col}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              {paginated.length > 0 ? paginated.map((client) => {
-                const { count, date, pointsEarned } = getClientVisitInfo(client);
-                const loyalty = getLoyaltyTier(pointsEarned);
-                return (
-                  <tr key={client._id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={client.base.avatar || defaultUser.src}
-                          alt={client.base.name}
-                          className="w-10 h-10 rounded-full object-cover"
-                        />
-                        <div>
-                          <p className="text-sm font-semibold text-gray-800">{client.base.name}</p>
-                          <p className="text-xs text-gray-400">{client.base.email}</p>
-                          <p className="text-xs text-gray-400">{client.base.telephone}</p>
+                {/* Stat cards skeleton */}
+                <div className="flex justify-between gap-3">
+                    {[1, 2, 3, 4].map(i => (
+                        <div key={i} className="flex-1 bg-white rounded-2xl border border-gray-100 p-5 flex flex-col gap-3">
+                            <div className="w-10 h-10 bg-gray-200 rounded-xl" />
+                            <div className="h-3 bg-gray-200 rounded w-24" />
+                            <div className="h-8 bg-gray-200 rounded w-16" />
+                            <div className="h-3 bg-gray-100 rounded w-20" />
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${loyalty.bg} ${loyalty.text} ${loyalty.border}`}>
-                        {loyalty.tier}
-                      </span>
-                      <p className="text-xs text-gray-400 mt-1 ml-1">{loyalty.label}</p>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm font-semibold text-gray-800">{count}</span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <p className="text-sm text-gray-700">{date}</p>
-                      <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-medium ${count > 0 ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"}`}>
-                        {count > 0 ? "Active" : "Inactive"}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <p className="text-xs text-purple-500">{pointsEarned} pts earned</p>
-                    </td>
-                    <td className="px-6 py-4">
-                      <button className="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <circle cx="8" cy="3" r="1.2" fill="currentColor" />
-                          <circle cx="8" cy="8" r="1.2" fill="currentColor" />
-                          <circle cx="8" cy="13" r="1.2" fill="currentColor" />
-                        </svg>
-                      </button>
-                    </td>
-                  </tr>
-                );
-              }) : (
-                <tr>
-                  <td colSpan={6} className="px-6 py-10 text-center text-sm text-gray-400">
-                    No clients match your search.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-
-          {/* Pagination */}
-          <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100">
-            <p className="text-sm text-gray-400">
-              Showing {filtered.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filtered.length)} of {filtered.length} clients
-            </p>
-            <div className="flex items-center gap-1">
-              <button
-                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gray-100 disabled:opacity-30 transition-colors"
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M10 4L6 8l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-              {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => i + 1).map(p => (
-                <button
-                  key={p}
-                  onClick={() => setCurrentPage(p)}
-                  className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${currentPage === p ? "bg-purple-600 text-white" : "text-gray-500 hover:bg-gray-100"}`}
-                >
-                  {p}
-                </button>
-              ))}
-              {totalPages > 5 && <span className="w-8 h-8 flex items-center justify-center text-gray-400 text-sm">...</span>}
-              <button
-                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                disabled={currentPage === totalPages}
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gray-100 disabled:opacity-30 transition-colors"
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Recent reviews */}
-      <div className="p-4">
-        <div className="p-4 shadow-sm rounded-2xl border border-gray-100 bg-white">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="font-semibold text-lg text-gray-800">Recent reviews</h2>
-            <button
-              onClick={() => router.push('/pages/reviews/owner')}
-              className="text-sm font-semibold text-purple-600 hover:text-purple-800 transition-colors"
-            >
-              See all
-            </button>
-          </div>
-          <div className="flex flex-wrap gap-4">
-            {reviews && reviews
-              .filter(r => r?.pointOfSaleId?.name === businessNameSession)
-              .slice(0, 4)
-              .map((review, index) => (
-                <div key={index} className="w-[calc(50%-8px)] flex items-start gap-3 bg-gray-50 px-4 py-3 rounded-xl">
-                  <Image
-                    src={review?.userId?.base?.avatar || defaultUser}
-                    alt="reviewer"
-                    width={40}
-                    height={40}
-                    className="rounded-full object-cover aspect-square flex-shrink-0"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="text-sm font-semibold text-gray-800 truncate">{review.userId?.base?.name}</p>
-                      <span className="flex gap-0.5 flex-shrink-0">{calculateStars(review.rating)}</span>
-                    </div>
-                    <p className="text-xs text-gray-400 mb-1">{review?.pointOfSaleId?.name} · {review?.visitedAt?.split('T')[0]}</p>
-                    <p className="text-sm text-gray-600 line-clamp-2">{review.comment}</p>
-                  </div>
+                    ))}
                 </div>
-              ))
-            }
-            {(!reviews || reviews.filter(r => r?.pointOfSaleId?.name === businessNameSession).length === 0) && (
-              <p className="text-sm text-gray-400 w-full text-center py-4">No reviews yet.</p>
-            )}
-          </div>
-        </div>
-      </div>
 
+                {/* Top 3 clients skeleton */}
+                <div className="bg-white rounded-2xl border border-gray-100 p-5 flex flex-col gap-4">
+                    <div className="h-4 bg-gray-200 rounded w-32" />
+                    {[1, 2, 3].map(i => (
+                        <div key={i} className="flex items-center gap-4 p-3">
+                            <div className="w-10 h-10 bg-gray-200 rounded-full flex-shrink-0" />
+                            <div className="flex-1 flex flex-col gap-2">
+                                <div className="h-3.5 bg-gray-200 rounded w-32" />
+                                <div className="h-3 bg-gray-100 rounded w-48" />
+                            </div>
+                            <div className="h-6 bg-gray-200 rounded-full w-16" />
+                        </div>
+                    ))}
+                </div>
+
+                {/* Table skeleton */}
+                <div className="bg-white rounded-2xl border border-gray-100 p-5 flex flex-col gap-4">
+                    {/* Header row */}
+                    <div className="flex gap-6 pb-3 border-b border-gray-100">
+                        {[120, 80, 80, 80, 80, 40].map((w, i) => (
+                            <div key={i} className="h-3 bg-gray-200 rounded" style={{ width: w }} />
+                        ))}
+                    </div>
+                    {/* Rows */}
+                    {[1, 2, 3, 4, 5].map(i => (
+                        <div key={i} className="flex items-center gap-6 py-2">
+                            <div className="flex items-center gap-3" style={{ width: 120 }}>
+                                <div className="w-10 h-10 bg-gray-200 rounded-full flex-shrink-0" />
+                                <div className="flex flex-col gap-1.5">
+                                    <div className="h-3 bg-gray-200 rounded w-20" />
+                                    <div className="h-2.5 bg-gray-100 rounded w-28" />
+                                </div>
+                            </div>
+                            <div className="h-6 bg-gray-200 rounded-full w-16" />
+                            <div className="h-3 bg-gray-200 rounded w-8" />
+                            <div className="h-3 bg-gray-200 rounded w-20" />
+                            <div className="h-3 bg-gray-200 rounded w-20" />
+                            <div className="w-8 h-8 bg-gray-100 rounded-lg" />
+                        </div>
+                    ))}
+                </div>
+
+                {/* Reviews skeleton */}
+                <div className="bg-white rounded-2xl border border-gray-100 p-5 flex flex-col gap-4">
+                    <div className="h-4 bg-gray-200 rounded w-32" />
+                    <div className="flex flex-wrap gap-4">
+                        {[1, 2].map(i => (
+                            <div key={i} className="w-[calc(50%-8px)] flex items-start gap-3 bg-gray-50 px-4 py-3 rounded-xl">
+                                <div className="w-10 h-10 bg-gray-200 rounded-full flex-shrink-0" />
+                                <div className="flex-1 flex flex-col gap-2">
+                                    <div className="h-3.5 bg-gray-200 rounded w-28" />
+                                    <div className="h-3 bg-gray-100 rounded w-36" />
+                                    <div className="h-3 bg-gray-100 rounded w-full" />
+                                    <div className="h-3 bg-gray-100 rounded w-4/5" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+            </div>
+        ) : (
+            /* ── ACTUAL CONTENT ──────────────────────────────────────── */
+            <>
+                {/* Sparkline stat cards */}
+                <div className="flex justify-between gap-3 p-4">
+                    <Sparkline data={visitsData} title="Total Visits" percentage={10} icon={ClientsIcon} color="#7C5CFC" />
+                    <Sparkline data={reviewsData} title="Total Reviews" percentage={5} icon={MessageReviewIcon} color="#10B981" />
+                    <AverageRatingSparkline data={avgRatingData} title="Avg. Rating" percentage={3} icon={StarIcon} color="#1E88E5" />
+                    <AverageRatingSparkline data={pointsRedeemedData} title="Points Redeemed" percentage={3} icon={AwardIcon} color="#F97316" />
+                </div>
+
+                {/* Top 3 clients */}
+                <div className="p-4">
+                    <div className="p-4 shadow-sm rounded-2xl border border-gray-100 bg-white mb-6">
+                        <h2 className="font-semibold text-lg text-gray-800 mb-4">Top 3 clients</h2>
+                        <div className="flex flex-col gap-2">
+                            {clients.slice(0, 3).map((client) => {
+                                const { count, date, pointsEarned } = getClientVisitInfo(client);
+                                const loyalty = getLoyaltyTier(pointsEarned);
+                                return (
+                                    <div key={client._id} className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                                        <img src={client.base.avatar || defaultUser.src} alt={client.base.name} className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-semibold text-gray-800 truncate">{client.base.name}</p>
+                                            <p className="text-xs text-gray-400">{count} visits · Last {date}</p>
+                                        </div>
+                                        <span className={`text-xs font-medium px-2.5 py-1 rounded-full border ${loyalty.bg} ${loyalty.text} ${loyalty.border}`}>
+                                            {loyalty.tier}
+                                        </span>
+                                    </div>
+                                );
+                            })}
+                            {clients.length === 0 && <p className="text-sm text-gray-400 text-center py-4">No clients yet.</p>}
+                        </div>
+                    </div>
+
+                    {/* Search + Filters */}
+                    <div className="flex items-center gap-3 mb-5">
+                        <div className="flex items-center gap-2 flex-1 max-w-sm bg-white border border-gray-200 rounded-xl px-3 py-2.5 focus-within:ring-2 focus-within:ring-purple-200 focus-within:border-purple-400">
+                            <svg className="text-gray-400 flex-shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5" />
+                                <path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                            </svg>
+                            <input
+                                className="flex-1 text-sm bg-transparent border-none outline-none placeholder-gray-400"
+                                placeholder="Search clients by name, email or phone..."
+                                value={search}
+                                onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
+                            />
+                        </div>
+                        <select value={statusFilter} onChange={(e) => { setStatusFilter(e.target.value); setCurrentPage(1); }} className="text-sm bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-200 cursor-pointer">
+                            <option>All Status</option>
+                            <option>Active</option>
+                            <option>Inactive</option>
+                        </select>
+                        <select value={loyaltyFilter} onChange={(e) => { setLoyaltyFilter(e.target.value); setCurrentPage(1); }} className="text-sm bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-200 cursor-pointer">
+                            <option>All Loyalty</option>
+                            <option>Platinum</option>
+                            <option>Gold</option>
+                            <option>Silver</option>
+                            <option>New</option>
+                        </select>
+                        <select value={sortFilter} onChange={(e) => { setSortFilter(e.target.value); setCurrentPage(1); }} className="text-sm bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-200 cursor-pointer">
+                            <option>Sort: Recent</option>
+                            <option>Sort: Most Visits</option>
+                            <option>Sort: Most Points</option>
+                        </select>
+                        <button className="w-10 h-10 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-gray-500 hover:border-gray-300 transition-colors">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    {/* Table */}
+                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <table className="w-full">
+                            <thead>
+                                <tr className="border-b border-gray-100">
+                                    {["CLIENT", "LOYALTY", "TOTAL VISITS", "LAST VISIT", "POINTS EARNED", "ACTIONS"].map(col => (
+                                        <th key={col} className="text-left text-xs font-semibold text-gray-400 tracking-wider px-6 py-4">{col}</th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-50">
+                                {paginated.length > 0 ? paginated.map((client) => {
+                                    const { count, date, pointsEarned } = getClientVisitInfo(client);
+                                    const loyalty = getLoyaltyTier(pointsEarned);
+                                    return (
+                                        <tr key={client._id} className="hover:bg-gray-50/50 transition-colors">
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-3">
+                                                    <img src={client.base.avatar || defaultUser.src} alt={client.base.name} className="w-10 h-10 rounded-full object-cover" />
+                                                    <div>
+                                                        <p className="text-sm font-semibold text-gray-800">{client.base.name}</p>
+                                                        <p className="text-xs text-gray-400">{client.base.email}</p>
+                                                        <p className="text-xs text-gray-400">{client.base.telephone}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${loyalty.bg} ${loyalty.text} ${loyalty.border}`}>{loyalty.tier}</span>
+                                                <p className="text-xs text-gray-400 mt-1 ml-1">{loyalty.label}</p>
+                                            </td>
+                                            <td className="px-6 py-4"><span className="text-sm font-semibold text-gray-800">{count}</span></td>
+                                            <td className="px-6 py-4">
+                                                <p className="text-sm text-gray-700">{date}</p>
+                                                <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-medium ${count > 0 ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"}`}>
+                                                    {count > 0 ? "Active" : "Inactive"}
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4"><p className="text-xs text-purple-500">{pointsEarned} pts earned</p></td>
+                                            <td className="px-6 py-4">
+                                                <button className="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors">
+                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                        <circle cx="8" cy="3" r="1.2" fill="currentColor" />
+                                                        <circle cx="8" cy="8" r="1.2" fill="currentColor" />
+                                                        <circle cx="8" cy="13" r="1.2" fill="currentColor" />
+                                                    </svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    );
+                                }) : (
+                                    <tr><td colSpan={6} className="px-6 py-10 text-center text-sm text-gray-400">No clients match your search.</td></tr>
+                                )}
+                            </tbody>
+                        </table>
+
+                        {/* Pagination */}
+                        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100">
+                            <p className="text-sm text-gray-400">
+                                Showing {filtered.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filtered.length)} of {filtered.length} clients
+                            </p>
+                            <div className="flex items-center gap-1">
+                                <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gray-100 disabled:opacity-30 transition-colors">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 4L6 8l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                                </button>
+                                {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => i + 1).map(p => (
+                                    <button key={p} onClick={() => setCurrentPage(p)} className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${currentPage === p ? "bg-purple-600 text-white" : "text-gray-500 hover:bg-gray-100"}`}>{p}</button>
+                                ))}
+                                {totalPages > 5 && <span className="w-8 h-8 flex items-center justify-center text-gray-400 text-sm">...</span>}
+                                <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gray-100 disabled:opacity-30 transition-colors">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Recent reviews */}
+                <div className="p-4">
+                    <div className="p-4 shadow-sm rounded-2xl border border-gray-100 bg-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="font-semibold text-lg text-gray-800">Recent reviews</h2>
+                            <button onClick={() => router.push('/pages/reviews/owner')} className="text-sm font-semibold text-purple-600 hover:text-purple-800 transition-colors">See all</button>
+                        </div>
+                        <div className="flex flex-wrap gap-4">
+                            {reviews && reviews
+                                .filter(r => r?.pointOfSaleId?.name === businessNameSession)
+                                .slice(0, 4)
+                                .map((review, index) => (
+                                    <div key={index} className="w-[calc(50%-8px)] flex items-start gap-3 bg-gray-50 px-4 py-3 rounded-xl">
+                                        <Image src={review?.userId?.base?.avatar || defaultUser} alt="reviewer" width={40} height={40} className="rounded-full object-cover aspect-square flex-shrink-0" />
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center justify-between gap-2">
+                                                <p className="text-sm font-semibold text-gray-800 truncate">{review.userId?.base?.name}</p>
+                                                <span className="flex gap-0.5 flex-shrink-0">{calculateStars(review.rating)}</span>
+                                            </div>
+                                            <p className="text-xs text-gray-400 mb-1">{review?.pointOfSaleId?.name} · {review?.visitedAt?.split('T')[0]}</p>
+                                            <p className="text-sm text-gray-600 line-clamp-2">{review.comment}</p>
+                                        </div>
+                                    </div>
+                                ))
+                            }
+                            {(!reviews || reviews.filter(r => r?.pointOfSaleId?.name === businessNameSession).length === 0) && (
+                                <p className="text-sm text-gray-400 w-full text-center py-4">No reviews yet.</p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </>
+        )}
     </section>
+
   );
 }

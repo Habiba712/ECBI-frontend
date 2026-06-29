@@ -5,6 +5,7 @@ import Image from "next/image";
 import CloseIcon from "../../../public/svg/close";
 import { useState } from "react";
 import StarIcon from "../../../public/svg/star";
+import { motion } from "framer-motion";
 import defaultUser from "../../../public/default_user.png";
 
 export default function ReviewsReplies({review, setIsModalOpen, onSend}){
@@ -35,7 +36,14 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                   return stars;
             }
     return(
-        <div key = {review.review.id} className="z-0 w-full  bg-black/50 fixed inset-0
+         <motion.div 
+                    className="min-h-screen h-full max-w-md mx-auto z-50 w-full  fixed inset-0 flex items-end sm:items-center justify-center py-8"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => setIsModalOpen(false)}
+                >
+                 <div key = {review.review.id} className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center">
             {/* the parent div should be a modal
              */}
@@ -99,6 +107,8 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
 
 
              </form>
-        </div>
+        </div>     
+                </motion.div>
+      
     )
 }
