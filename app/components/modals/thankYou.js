@@ -3,10 +3,18 @@
 import Image from "next/image";
 import thankYou from "../../../public/checked.png";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 export default function ThankYou({id, onClose}) {
     const router = useRouter();
     return (
-         <div className="min-h-screen h-full max-w-md mx-auto z-0 w-full mh-100vh bg-black/50 fixed inset-0
+      <motion.div 
+                 className="min-h-screen h-full max-w-md mx-auto z-50 w-full  fixed inset-0 flex items-end sm:items-center justify-center py-8"
+                 initial={{ opacity: 0 }}
+                 animate={{ opacity: 1 }}
+                 exit={{ opacity: 0 }}
+                 onClick={() => setIsModalOpen(false)}
+             >
+       <div className="min-h-screen h-full max-w-md mx-auto z-0 w-full mh-100vh bg-black/50 fixed inset-0
         flex items-center justify-center py-8">
             <div className="bg-white w-full h-full rounded-lg p-4 overflow-y-auto scroll-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 ">
             
@@ -28,6 +36,8 @@ export default function ThankYou({id, onClose}) {
                 </button>
             </div>
             </div>
-            </div>
+            </div>  
+    </motion.div>
+        
     )
 }
