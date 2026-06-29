@@ -18,10 +18,37 @@ export default function OwnerReviews() {
     const [isLoading, setIsLoading] = useState(true);
     const [userOwnerId, setUserOwnerId] = useState();
     const [businessName, setBusinessName] = useState();
+    const [token, setToken] = useState("");
+    const [avgRating, setAvgRating] = useState(0);
+    const [userId, setUserId] = useState();
+
+    const getPoSsByOwnerId = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointsOfSaleByOwnerId/${userId}`,
+        { headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, method: "GET" }
+      );
+      if (!res.ok) return;
+      const data = await res.json();
+      console.log('data jjj', data);
+
+      // setPossByOwner(data?.map(pos => pos._id));
+      // setAvgRatingData(data.map((pos, i) => ({
+      //   name: pos?.name || `POS ${i + 1}`,
+      //   value: pos?.stats?.averageRating ?? 0,
+      // })));
+      setAvgRating(data?.length
+  ? Math.max(...data.map(p => p?.stats?.averageRating || 0)).toFixed(1)
+  : "0.0");
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
     const handleGetPointsOfSale = async () => {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointsOfSaleByOwnerId/${userOwnerId}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pointOfSale/getPointsOfSaleByOwnerId/${userId}`, {
                 headers: { 'Content-Type': 'application/json' },
                 method: "GET"
             });
@@ -75,17 +102,24 @@ export default function OwnerReviews() {
         ));
 
     useEffect(() => {
-        handleGetAllReviews();
+        if (userId) {
+  handleGetAllReviews();
+        getPoSsByOwnerId();
         handleGetPointsOfSale();
-        const sessionData = JSON.parse(localStorage?.getItem("sessionData"));
-        setUserOwnerId(sessionData?.userId);
+        }
+      
+        
+    }, [userId]);
+
+ useEffect(() => {
+    const sessionData = JSON.parse(localStorage.getItem("sessionData")) || null;
+    setToken(sessionData?.token);
+    setUserId(sessionData?.userId);
+    setUserOwnerId(sessionData?.userId);
         setBusinessName(sessionData?.businessName);
-    }, [userOwnerId]);
-
-    // ── Filtering ─────────────────────────────────────────────────────────────
-
+  }, [])
     const filteredReviews = reviews
-        ?.filter(r => r.pointOfSaleId.ownerId === userOwnerId)
+        ?.filter(r => r.pointOfSaleId.ownerId === userId)
         ?.filter(r => {
             const matchesSearch = searchText
                 ? r.pointOfSaleId.name.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -101,9 +135,7 @@ export default function OwnerReviews() {
         });
 
     const totalReviews = filteredReviews?.length || 0;
-    const avgRating = filteredReviews?.length
-        ? (filteredReviews.reduce((sum, r) => sum + r.rating, 0) / filteredReviews.length).toFixed(1)
-        : "0.0";
+    
     const repliedCount = filteredReviews?.filter(r => r.ownerReply).length || 0;
 
     // ── Render ────────────────────────────────────────────────────────────────

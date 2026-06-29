@@ -4,7 +4,9 @@ import React from 'react';
 import { AreaChart, Area, Tooltip, ResponsiveContainer } from 'recharts';
 
 const Sparkline = ({ title, value, percentage, icon: Icon, data, color }) => {
-    const total = data.reduce((acc, curr) => acc + curr.value, 0);
+  console.log('data', title, data);
+  console.log('value', value);
+
 
   return (
     <div 
@@ -28,7 +30,7 @@ const Sparkline = ({ title, value, percentage, icon: Icon, data, color }) => {
           {/* <h2 className="text-3xl font-bold text-slate-900 mt-2 tracking-tight">{value}</h2> */}
 
           <h4 className="text-3xl text-center 
-           font-bold py-3 ">{total}</h4>
+           font-bold py-3 ">{value}</h4>
           
           {/* Trend Indicator */}
           <div className="flex items-center gap-1 mt-1 text-xs font-medium text-emerald-500">

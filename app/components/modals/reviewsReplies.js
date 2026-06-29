@@ -41,14 +41,15 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    onClick={() => setIsModalOpen(false)}
-                >
+                 >
                  <div key = {review.review.id} className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center">
             {/* the parent div should be a modal
              */}
              <form className="z-1 h-fit bg-white opacity-100 rounded-lg w-1/2 h-1/2 p-4 shadow-lg" onSubmit={handleSubmit}>
-                <div className="w-full flex justify-between">
+                <div
+                key={review.review.id}
+                className="w-full flex justify-between">
                     <h3 className="text-md font-semibold" style={{
                         'color':'black'
                     }}>Reply To Review</h3>
@@ -82,7 +83,7 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                 <div className="">
                     <textarea className="mt-3 w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 h-50 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-blue-300" placeholder="Add a reply..." value={reply} onChange={(e) => setReply(e.target.value)} />
 
-                    <p className="bg-blue-100 py-2 px-3 rounded-lg mt-2">
+                    <div className="bg-blue-100 py-2 px-3 rounded-lg mt-2">
                         💡 Tips for great replies:
                         <ul>
                             <li>• Thank the customer for their feedback</li>
@@ -94,8 +95,10 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
  
  
  
-                    </p>
-                        <div className="flex justify-around w-full mt-3 px-2 text-center items-center gap-3">
+                    </div>
+                       
+                </div>
+ <div className="flex justify-around w-full mt-3 px-2 text-center items-center gap-3">
                            
                             <button className="rounded-full bg-blue-300 py-2 px-3 w-full text-white font-semibold cursor-pointer"
                             type="sumbit"
@@ -103,8 +106,6 @@ export default function ReviewsReplies({review, setIsModalOpen, onSend}){
                             onClick={()=>setIsModalOpen(false)}
                             >Cancel</button>
                         </div>
-                </div>
-
 
              </form>
         </div>     

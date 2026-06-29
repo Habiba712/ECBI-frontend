@@ -33,6 +33,8 @@ export default function PointOfSaleOwner() {
   const [loyaltyFilter, setLoyaltyFilter] = useState("All Loyalty");
   const [sortFilter, setSortFilter] = useState("Sort: Recent");
   const [isLoading, setIsLoading] = useState(true);
+  const [visitsDataTotal, setVisitsDataTotal] = useState(0);
+  const [reviewsDataTotal, setReviewsDataTotal] = useState(0);
   const now = new Date();
 
   const [currentTime, setCurrentTime] = useState("");
@@ -111,8 +113,12 @@ export default function PointOfSaleOwner() {
           h => h.businessName === businessNameSession
         )?.count || 0,
       }));
+      // console.log('chartData', chartData);
 
       setVisitsData(chartData);
+      setVisitsDataTotal(chartData.reduce((acc, curr) => acc + curr.value, 0));
+      // console.log('visitsDataTotal', chartData.reduce((acc, curr) => acc + curr.value, 0));
+
       setClients(visitsHis);
       setIsLoading(false);
     } catch (err) {
@@ -128,7 +134,7 @@ export default function PointOfSaleOwner() {
       });
       if (!res.ok) return;
       const data = await res.json();
-
+console.log('data gt', data.getReviews);
       const businessReviews = data.getReviews.filter(
         review => review?.pointOfSaleId?.name === businessNameSession
       );
@@ -147,13 +153,30 @@ export default function PointOfSaleOwner() {
           return { date, value: runningTotal };
         });
 
-      setReviewsData(processedChartData);
+      setReviewsData(data.getReviews?.length > 0 ? processedChartData : 0);
+      console.log('data.getReviews', data.getReviews);
       setReviews(data.getReviews);
+      setReviewsDataTotal(data?.getReviews?.length || 0);
+
+      console.log('reviewsDataTotal', data.getReviews[data.getReviews.length - 1]);
+
     } catch (err) {
       console.log(err);
     }
   };
-
+const getOwnerName = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/getUserById/${userId}`, {
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        method: "GET"
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      setOwnerName(data?.data?.base?.name);
+    } catch (err) {
+      console.log('Error fetching owner name:', err);
+    }
+  };
   const getPoSsByOwnerId = async () => {
     try {
       const res = await fetch(
@@ -183,22 +206,11 @@ export default function PointOfSaleOwner() {
     setUserId(session?.userId);
     setBusinessNameSession(session?.businessName);
     setToken(session?.token);
+    handleGetAllReviews();
     // getOwnerName();
   }, []);
 
-  const getOwnerName = async () => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/getUserById/${userId}`, {
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        method: "GET"
-      });
-      if (!res.ok) return;
-      const data = await res.json();
-      setOwnerName(data?.data?.base?.name);
-    } catch (err) {
-      console.log('Error fetching owner name:', err);
-    }
-  };
+  
   useEffect(() => {
     if (userId) {
       getPoSsByOwnerId();
@@ -207,7 +219,9 @@ export default function PointOfSaleOwner() {
   }, [userId]);
 
   useEffect(() => {
-    if (possByOwner.length) getClients();
+    if (possByOwner.length){ getClients();
+      handleGetAllReviews();
+    }
   }, [possByOwner]);
 
   useEffect(() => {
@@ -354,18 +368,25 @@ export default function PointOfSaleOwner() {
 
             </div>
         ) : (
-            /* ── ACTUAL CONTENT ──────────────────────────────────────── */
-            <>
-                {/* Sparkline stat cards */}
-                    <div className="p-4 flex flex-col mb-5">
+             <>
+                     <div className="p-4 flex flex-col mb-5">
             <h1 className="text-2xl font-semibold text-gray-700">
                 Good {currentTime}, <span className="text-purple-600">{ownerName}</span>! 👋
             </h1>
             <p className="text-gray-500">Here's your business overview.</p>
         </div>
                 <div className="flex justify-between gap-3 p-4">
-                    <Sparkline data={visitsData} title="Total Visits" percentage={10} icon={ClientsIcon} color="#7C5CFC" />
-                    <Sparkline data={reviewsData} title="Total Reviews" percentage={5} icon={MessageReviewIcon} color="#10B981" />
+                    <Sparkline data={visitsData} 
+                    value={visitsDataTotal}
+                    title="Total Visits" percentage={10} icon={ClientsIcon} color="#7C5CFC" />
+                  
+                    <Sparkline 
+                    data={reviewsData} 
+                    value={reviewsDataTotal}
+                    title="Total Reviews" 
+                    percentage={5} 
+                    icon={MessageReviewIcon} color="#10B981" />
+
                     <AverageRatingSparkline data={avgRatingData} title="Avg. Rating" percentage={3} icon={StarIcon} color="#1E88E5" />
                     <AverageRatingSparkline data={pointsRedeemedData} title="Points Redeemed" percentage={3} icon={AwardIcon} color="#F97316" />
                 </div>
@@ -518,7 +539,7 @@ export default function PointOfSaleOwner() {
                             <h2 className="w-full flex gap-2 font-semibold text-lg text-gray-800">
                               <MessageReviewIcon className="w-7 h-7 text-purple-500 stroke-2 " /> Recent reviews
                             </h2>
-                            <button onClick={() => router.push('/pages/reviews/owner')} className="text-sm font-semibold text-purple-600 hover:text-purple-800 transition-colors">See all</button>
+                            <button onClick={() => router.push('/pages/reviews/owner')} className="text-sm text-nowrap cursor-pointer font-semibold text-purple-600 hover:text-purple-800 transition-colors">See all</button>
                         </div>
                         <div className="flex flex-wrap gap-4">
                             {reviews && reviews
