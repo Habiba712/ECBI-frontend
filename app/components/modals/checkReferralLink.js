@@ -2,13 +2,14 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import GiftIcon from "../../../public/svg/gift";
-
+import { motion } from "framer-motion";
 export default function CheckReferralLink({ props, closeModal, setExpiredLink, setIsActive, onClose }) {
     const [referralLinksList, setReferralLinksList] = useState(props?.myReferralLinksForThisPos);
     console.log('props', referralLinksList);
     const [loggedIn, setLoggedIn] = useState(null);
     const [referralUser, setReferralUser] = useState(null);
     const [visitorRewarded, setVisitorRewarded] = useState(false);
+
 
     useEffect(() => {
         const sessionData = JSON.parse(localStorage?.getItem("sessionData")) ? JSON.parse(localStorage?.getItem("sessionData")) : null;
@@ -41,7 +42,14 @@ export default function CheckReferralLink({ props, closeModal, setExpiredLink, s
     // console.log('referral links', myReferralLinksForThisPos);
     console.log('referral user', referralUser);
     return (
-        <div className="z-0 w-full  bg-black/50 fixed inset-0
+         <motion.div 
+                    className="min-h-screen h-full max-w-md mx-auto z-50 w-full bg-black/50 fixed inset-0 flex items-end sm:items-center justify-center py-8"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => setIsModalOpen(false)}
+                >
+                   <div className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center  h-full max-w-md mx-auto px-3 ">
 
             <div className="bg-white rounded-lg w-full min-h-100 flex flex-col mx-6 ">
@@ -87,5 +95,7 @@ export default function CheckReferralLink({ props, closeModal, setExpiredLink, s
 
             </div>
         </div>
-    )
+   
+                </motion.div>
+          )
 }

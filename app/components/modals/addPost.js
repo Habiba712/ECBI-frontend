@@ -11,6 +11,7 @@ import { useParams } from "next/navigation";
 import UploadIcon from "../../../public/svg/upload";
 
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import CheckReferralLink from "./checkReferralLink";
 export default function AddPost() {
     const { id } = useParams();
@@ -180,7 +181,14 @@ export default function AddPost() {
 
 
     return (
-        <div className="z-0 w-full  bg-black/50 fixed inset-0
+         <motion.div 
+            className="min-h-screen h-full max-w-md mx-auto z-50 w-full bg-black/50 fixed inset-0 flex items-end sm:items-center justify-center py-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsModalOpen(false)}
+        >
+           <div className="z-0 w-full  bg-black/50 fixed inset-0
         flex items-center justify-center py-8  h-full max-w-md mx-auto px-3 ">
 
             <div className={`my-10 w-full bg-white rounded-lg p-4 overflow-y-auto scroll-auto scrollbar-thin scrollbar-thumb-gray-20 scrollbar-track-gray-100`}
@@ -308,7 +316,9 @@ export default function AddPost() {
             </div>
 
 
-        </div>
+        </div>   
+        </motion.div>
+      
 
 
     )
