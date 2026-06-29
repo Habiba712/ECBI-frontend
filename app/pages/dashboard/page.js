@@ -16,6 +16,7 @@ import AverageRatingSparkline from "../../components/dashboard/AverageRatings";
 export default function PointOfSaleOwner() {
 
   const [userId, setUserId] = useState();
+  const [ownerName, setOwnerName] = useState("");
   const [token, setToken] = useState("");
   const [clients, setClients] = useState([]);
   const [possByOwner, setPossByOwner] = useState([]);
@@ -182,10 +183,27 @@ export default function PointOfSaleOwner() {
     setUserId(session?.userId);
     setBusinessNameSession(session?.businessName);
     setToken(session?.token);
+    // getOwnerName();
   }, []);
 
+  const getOwnerName = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/getUserById/${userId}`, {
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        method: "GET"
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      setOwnerName(data?.data?.base?.name);
+    } catch (err) {
+      console.log('Error fetching owner name:', err);
+    }
+  };
   useEffect(() => {
-    if (userId) getPoSsByOwnerId();
+    if (userId) {
+      getPoSsByOwnerId();
+     
+    };
   }, [userId]);
 
   useEffect(() => {
@@ -193,10 +211,12 @@ export default function PointOfSaleOwner() {
   }, [possByOwner]);
 
   useEffect(() => {
-    handleGetAllReviews();
+   getOwnerName(); 
+   handleGetAllReviews();
     const now = new Date();
     calculateTimeDifference(now);
-  }, [possByOwner]);
+    
+  }, [userId]);
 
 
   useEffect(() => {
@@ -251,17 +271,15 @@ export default function PointOfSaleOwner() {
     <section className="mt-1 p-4 text-gray-800 w-full transition-all duration-300 ease-in-out font-sans">
 
         {/* Header — always visible */}
-        <div className="p-4 flex flex-col mb-5">
-            <h1 className="text-2xl font-semibold text-gray-700">
-                Good {currentTime}, <span className="text-purple-600">{businessNameSession}</span>! 👋
-            </h1>
-            <p className="text-gray-500">Here's your business overview.</p>
-        </div>
+    
 
         {isLoading ? (
-            /* ── SKELETON ────────────────────────────────────────────── */
-            <div className="animate-pulse p-4 flex flex-col gap-6">
-
+             <div className="animate-pulse p-4 flex flex-col gap-6">
+<div className="p-4 flex flex-col mb-5">
+          <div className="w-100 h-5 bg-gray-200 rounded-full flex-shrink-0 mb-2" />
+            
+            <div className="w-60 h-3 bg-gray-200 rounded-full flex-shrink-0" />
+        </div>
                 {/* Stat cards skeleton */}
                 <div className="flex justify-between gap-3">
                     {[1, 2, 3, 4].map(i => (
@@ -339,6 +357,12 @@ export default function PointOfSaleOwner() {
             /* ── ACTUAL CONTENT ──────────────────────────────────────── */
             <>
                 {/* Sparkline stat cards */}
+                    <div className="p-4 flex flex-col mb-5">
+            <h1 className="text-2xl font-semibold text-gray-700">
+                Good {currentTime}, <span className="text-purple-600">{ownerName}</span>! 👋
+            </h1>
+            <p className="text-gray-500">Here's your business overview.</p>
+        </div>
                 <div className="flex justify-between gap-3 p-4">
                     <Sparkline data={visitsData} title="Total Visits" percentage={10} icon={ClientsIcon} color="#7C5CFC" />
                     <Sparkline data={reviewsData} title="Total Reviews" percentage={5} icon={MessageReviewIcon} color="#10B981" />
@@ -349,7 +373,9 @@ export default function PointOfSaleOwner() {
                 {/* Top 3 clients */}
                 <div className="p-4">
                     <div className="p-4 shadow-sm rounded-2xl border border-gray-100 bg-white mb-6">
-                        <h2 className="font-semibold text-lg text-gray-800 mb-4">Top 3 clients</h2>
+
+                     
+                        <h2 className="w-full flex gap-2 font-semibold text-lg text-gray-800"> <ClientsIcon className="w-7 h-7 text-purple-500 stroke-2 " /> Top 3 clients</h2>
                         <div className="flex flex-col gap-2">
                             {clients.slice(0, 3).map((client) => {
                                 const { count, date, pointsEarned } = getClientVisitInfo(client);
@@ -489,7 +515,9 @@ export default function PointOfSaleOwner() {
                 <div className="p-4">
                     <div className="p-4 shadow-sm rounded-2xl border border-gray-100 bg-white">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="font-semibold text-lg text-gray-800">Recent reviews</h2>
+                            <h2 className="w-full flex gap-2 font-semibold text-lg text-gray-800">
+                              <MessageReviewIcon className="w-7 h-7 text-purple-500 stroke-2 " /> Recent reviews
+                            </h2>
                             <button onClick={() => router.push('/pages/reviews/owner')} className="text-sm font-semibold text-purple-600 hover:text-purple-800 transition-colors">See all</button>
                         </div>
                         <div className="flex flex-wrap gap-4">

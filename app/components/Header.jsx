@@ -244,16 +244,23 @@ export default function Header() {
                 <Link
                     key={href}
                     href={href}
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group w-full
+                        ${!menuOpen && 'justify-center'}
                         ${active 
                             ? 'bg-purple-50 text-purple-600' 
                             : 'text-gray-900 hover:bg-gray-50 hover:text-gray-500'
                         }`}
                 >
-                    <Icon className={`w-5 h-5 flex-shrink-0 stroke-2 ${active ? 'text-purple-600' : 'text-gray-900 group-hover:text-gray-500'}`} />
-                    <span className={`text-sm font-medium whitespace-nowrap transition-all duration-300 overflow-hidden ${menuOpen ? 'w-full opacity-100' : 'w-0 opacity-0'}`}>
+                 
+                <Icon className={`w-5 h-5 flex-shrink-0 stroke-2 ${active ? 'text-purple-600' : 'text-gray-900 group-hover:text-gray-500'}
+                
+                `} />
+                   
+                   {
+                    menuOpen && <span className={`text-sm font-medium whitespace-nowrap transition-all duration-300 overflow-hidden `}>
                         {label}
                     </span>
+                   } 
                 </Link>
             ))}
         </nav>
