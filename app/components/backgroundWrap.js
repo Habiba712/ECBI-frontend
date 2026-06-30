@@ -14,8 +14,7 @@ return (
 
 
   }}
-  className='flex justify-center items-center bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%
-,#A78BFA_70%,#60A5FA_100%)]'
+  className='flex justify-center items-center bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]'
     >
       {children}
     </div>
