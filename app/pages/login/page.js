@@ -1,6 +1,7 @@
 'use client'
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -9,6 +10,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -50,7 +52,13 @@ export default function Login() {
       w-full + overflow-hidden prevents the horizontal bleed you're seeing.
     */
     <div className="w-full overflow-hidden px-4 py-8 flex justify-center items-center min-h-screen bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]">
-      <div
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="w-full"
+          style={{ maxWidth: "400px" }}
+        > <div
         className="w-full"
         style={{ maxWidth: "400px" }}
       >
@@ -180,7 +188,9 @@ export default function Login() {
           </div>
 
         </div>
-      </div>
+      </div>  
+        </motion.div>
+      
     </div>
   );
 }
