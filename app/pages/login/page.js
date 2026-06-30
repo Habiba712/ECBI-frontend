@@ -92,8 +92,8 @@ export default function Login() {
           <form onSubmit={handleLogin} className="flex flex-col gap-4">
 
             {/* email field */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-white/70 text-xs font-semibold ml-1">Email</label>
+            <div className="flex flex-col items-start gap-1.5">
+              <label className=" text-white/70 text-xs font-semibold ml-1">Email</label>
               <input
                 type="email"
                 placeholder="Enter your email"
@@ -107,16 +107,16 @@ export default function Login() {
                   width: "100%",
                   boxSizing: "border-box",
                 }}
-                className="px-4 py-3 text-sm placeholder-white/30 outline-none focus:border-white/50"
+                className="px-4 py-3 text-sm placeholder-white/30 outline-none focus:border-white/50 "
               />
             </div>
 
             {/* password field */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-white/70 text-xs text-start w-full font-semibold ml-1">Password</label>
+            <div className="flex flex-col items-start gap-1.5">
+              <label className=" text-white/70 text-xs font-semibold ml-1">Password</label>
               <div className="relative w-full">
                 <input
-                  type={password}
+                  type="password"
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
