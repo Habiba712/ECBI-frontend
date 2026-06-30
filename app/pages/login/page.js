@@ -16,6 +16,7 @@ export default function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
         console.log(email, password);
+        setIsLoading(true);
         // const formData = new FormData();
         // formData.append("email", email);
         // formData.append("password", password);
@@ -39,6 +40,7 @@ export default function Login() {
                         console.log(data.token);
                         localStorage.setItem("sessionData", JSON.stringify(data));
                         document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Strict; Secure`; 
+                        setIsLoading(false);
                         router.push("/");
                     });
                 }
@@ -50,6 +52,7 @@ export default function Login() {
             }
             )
         } catch (err) {
+            setIsLoading(false);
             console.log(err);
 
         }
@@ -108,7 +111,43 @@ export default function Login() {
 
                         </div>
                         <div className="w-full flex justify-center items-center py-2 gap-3">
-                            <button className="auth-button" type="submit">Login</button>
+                            <button
+    type="submit"
+    disabled={isLoading}
+    className={`auth-button flex items-center justify-center gap-2 ${
+        isLoading ? "opacity-70 cursor-not-allowed" : ""
+    }`}
+>
+    {isLoading ? (
+        <>
+            <svg
+                className="w-5 h-5 animate-spin"
+                viewBox="0 0 24 24"
+                fill="none"
+            >
+                <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    className="opacity-25"
+                />
+                <path
+                    d="M22 12a10 10 0 00-10-10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    className="opacity-90"
+                />
+            </svg>
+
+            <span>Signing in...</span>
+        </>
+    ) : (
+        "Login"
+    )}
+</button>
                         </div>
                     </div>
 
