@@ -1,10 +1,8 @@
-
 'use client'
 import { useState } from "react";
 import SectionHeader from "../../components/sections/HeaderSection"
 // import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { motion } from 'framer-motion';
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -59,11 +57,10 @@ export default function Login() {
 
     }
     return (
-
-        <section className="flex flex-col items-center justify-center mx-auto m
-ax-w-md p-4 text-gray-300 border-gray-300 rounded-lg shadow-lg "
+        <section className="flex flex-col items-center justify-center mx-auto max-w-md p-4 text
+-gray-300 border-gray-300 rounded-lg shadow-lg "
             style={{
-                "background": "bg-[linear dient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100 %)]",
+                "background": "bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]",
                 "WebkitBackdropFilter": "blur(20px)",
                 "backdropFilter": "blur(5px)",
                 "boxShadow": "0 8px 20px 0 rgba(0,0,0,0.37)",
@@ -71,9 +68,7 @@ ax-w-md p-4 text-gray-300 border-gray-300 rounded-lg shadow-lg "
                 "borderRadius": "20px",
             }}
         >
-
-            <SectionHeader title="Login" description="Everybody Can Be Influencer"
-            />
+            <SectionHeader title="Login" description="Everybody Can Be Influencer" />
 
             <div className="py-4  ">
                 {errorMessage ? <p className="text-red-500 text-center">{errorMessage}</p> : null}
@@ -121,15 +116,13 @@ ax-w-md p-4 text-gray-300 border-gray-300 rounded-lg shadow-lg "
                         <div className="flex justify-between w-full py-2 px-2 text-center items
 -center gap-3">
 
-                            <p className="text-sm text-white">Don't have an account? </p><a cla
-                                ssName="text-white text-md font-semibold hover:scale-90 transition-all ease-in-out" href="/page
-s/register">Register</a>
+                            <p className="text-sm text-white">Don't have an account? </p><a className="text-white text-md font-semibold hover:scale-90 transition-all ease-in-out" href="/pages/register">Register</a>
                         </div>
                         <div className="flex justify-between items-center w-full py-2 px-2 gap-
 3"><p className="text-sm text-white">
 
-                                forgot your password?
-                            </p><a className=" text-white text-md font-semibold hover:scale-90 tran
+                            forgot your password?
+                        </p><a className=" text-white text-md font-semibold hover:scale-90 tran
 sition-all ease-in-out" href="/pages/password/forgot">Forgot Password</a>
                         </div>
                     </div>
@@ -137,9 +130,6 @@ sition-all ease-in-out" href="/pages/password/forgot">Forgot Password</a>
 
                 </form>
             </div>
-
-
         </section>
-       
     )
 }
