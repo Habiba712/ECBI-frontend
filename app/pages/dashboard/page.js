@@ -282,7 +282,7 @@ const getOwnerName = async () => {
 
   return (
   
-    <section className="mt-20 p-4 text-gray-800 w-full transition-all duration-300 ease-in-out font-sans">
+    <section className="mt-1 p-4 text-gray-800 w-full transition-all duration-300 ease-in-out font-sans">
 
         {/* Header — always visible */}
     
