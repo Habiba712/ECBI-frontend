@@ -41,7 +41,9 @@ export default function Login() {
                         setRole(data.role);
                         console.log(data.token);
                         localStorage.setItem("sessionData", JSON.stringify(data));
-                        document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Strict; Secure`; router.push("/");
+                        document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Strict; Secure`;
+                        setIsLoading(false);
+                        router.push("/");
                     });
                 }
                 else {
@@ -109,7 +111,7 @@ export default function Login() {
 
                         </div>
                         <div className="w-full flex justify-center items-center py-2 gap-3">
-                            <button className="auth-button" type="submit">Login</button>
+                            <button className={`auth-button ${isLoading && "bg-blue-500 text-white opacity-30 disabled"}`} type="submit">Login</button>
                         </div>
                     </div>
 
