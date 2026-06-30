@@ -80,7 +80,7 @@ export default function Login() {
                 <form className="flex flex-col gap-3  py-4 "
                     onSubmit={handleLogin}
                 >
-                    <div className="mx-auto">
+                    <div className="px-4 ">
                         <div className="formFields flex justify-between  items-center py-2">
                             <div className=" flex justify-center items-center ">
                                 <label className="">Email</label>
