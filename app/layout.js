@@ -27,11 +27,11 @@ export default function RootLayout({ children }) {
           <main className="flex-1">
           
            
-                <BackgroundWrapper>
+                {/* <BackgroundWrapper> */}
                  
 
       {children} 
-      </BackgroundWrapper>
+      {/* </BackgroundWrapper> */}
           
            
 

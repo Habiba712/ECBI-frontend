@@ -60,18 +60,23 @@ export default function Login() {
 
     }
     return (
-        <section className="flex flex-col items-center justify-center mx-auto max-w-md p-4 text
--gray-300 border-gray-300 rounded-lg shadow-lg "
-            style={{
+        <section 
+        className="border-3 border-green-400 min-h-[100vh] flex items-center px-3 bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]"
+          
+        
+        >
+            <div
+             style={{
                 "background": "bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]",
                 "WebkitBackdropFilter": "blur(20px)",
                 "backdropFilter": "blur(5px)",
                 "boxShadow": "0 8px 20px 0 rgba(0,0,0,0.37)",
                 "border": "1px solid rgba(255,255,255,0.18)",
                 "borderRadius": "20px",
-            }}
-        >
-            <SectionHeader title="Login" description="Everybody Can Be Influencer" />
+            }}  
+            className="flex flex-col items-center justify-center mx-auto max-w-md p-4 text-gray-300 border-gray-300 rounded-lg shadow-lg "
+           >
+                 <SectionHeader title="Login" description="Everybody Can Be Influencer" />
 
             <div className="py-4  ">
                 {errorMessage ? <p className="text-red-500 text-center">{errorMessage}</p> : null}
@@ -169,6 +174,8 @@ sition-all ease-in-out" href="/pages/password/forgot">Forgot Password</a>
 
                 </form>
             </div>
+            </div>
+           
         </section>
     )
 }
