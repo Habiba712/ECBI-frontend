@@ -24,14 +24,14 @@ export default function RootLayout({ children }) {
          <body className="  transition-all duration-700 ease-in-out">
           <div className="flex ">
               <Header/>
-          <main className="flex-1 bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]">
+          <main className="flex-1">
           
            
-                {/* <BackgroundWrapper> */}
+                <BackgroundWrapper>
                  
 
       {children} 
-      {/* </BackgroundWrapper> */}
+      </BackgroundWrapper>
           
            
 

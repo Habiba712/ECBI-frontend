@@ -1,181 +1,186 @@
 'use client'
 import { useState } from "react";
-import SectionHeader from "../../components/sections/HeaderSection"
-// import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-    const [role, setRole] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [token, setToken] = useState("");
-    const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        console.log(email, password);
-        setIsLoading(true);
-        // const formData = new FormData();
-        // formData.append("email", email);
-        // formData.append("password", password);
-
-        if (!email || !password) {
-            setErrorMessage('Please fill in all fields.');
-            return;
-        }
-
-        try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
-                headers: { 'content-Type': 'application/json' },
-                method: "POST",
-                credentials: 'include',
-                body: JSON.stringify({ email, password })
-            }).then((res) => {
-                if (res.ok) {
-                    return res.json().then((data) => {
-                        setToken(data.token);
-                        setRole(data.role);
-                        console.log(data.token);
-                        localStorage.setItem("sessionData", JSON.stringify(data));
-                        document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Strict; Secure`; 
-                        setIsLoading(false);
-                        router.push("/");
-                    });
-                }
-                else {
-                    setErrorMessage("Invalid Credentials");
-                    setEmail("");
-                    setPassword("");
-                }
-            }
-            )
-        } catch (err) {
-            setIsLoading(false);
-            console.log(err);
-
-        }
-
-
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setErrorMessage("Please fill in all fields.");
+      return;
     }
-    return (
-        <section 
-        className="min-h-screen h-full max-w-md mx-auto flex items-center  justify-center  w-full "
-          
-        
+    setIsLoading(true);
+    setErrorMessage("");
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
+        headers: { "content-Type": "application/json" },
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({ email, password }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem("sessionData", JSON.stringify(data));
+        document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Strict; Secure`;
+        router.push("/");
+      } else {
+        setErrorMessage("Invalid email or password.");
+        setEmail("");
+        setPassword("");
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorMessage("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    /* 
+      This outer div fills whatever the BackgroundWrapper gives it.
+      px-4 keeps 16px breathing room on both sides on any screen.
+      w-full + overflow-hidden prevents the horizontal bleed you're seeing.
+    */
+    <div className="w-full overflow-hidden px-4 py-8 flex justify-center items-center min-h-screen bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]">
+      <div
+        className="w-full"
+        style={{ maxWidth: "400px" }}
+      >
+        {/* glass card */}
+        <div
+          style={{
+            background: "rgba(255,255,255,0.13)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+            border: "1px solid rgba(255,255,255,0.25)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
+            borderRadius: "24px",
+          }}
+          className="w-full p-6"
         >
+          {/* header */}
+          <div className="text-center mb-8">
             <div
-             style={{
-                "background": "bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]",
-                "WebkitBackdropFilter": "blur(20px)",
-                "backdropFilter": "blur(5px)",
-                "boxShadow": "0 8px 20px 0 rgba(0,0,0,0.37)",
-                "border": "1px solid rgba(255,255,255,0.18)",
-                "borderRadius": "20px",
-            }}  
-            className="flex flex-col items-center justify-center p-4 text-gray-300 border-gray-300 rounded-lg shadow-lg "
-           >
-                 <SectionHeader title="Login" description="Everybody Can Be Influencer" />
-
-            <div className="py-4  ">
-                {errorMessage ? <p className="text-red-500 text-center">{errorMessage}</p> : null}
-                <form className="flex flex-col gap-3 px-2 py-4  w-full"
-                    onSubmit={handleLogin}
-                >
-                    <div className="border-b border-gray-300">
-                        <div className="formFields flex justify-between w-full items-center py-
-2">
-                            <div className=" flex justify-center items-center ">
-                                <label className="">Email</label>
-
-                            </div>
-                            <div className=" flex items-center justify-center"> <input
-                                className=""
-                                type="email"
-                                placeholder="Enter your email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-
-                            /></div>
-
-                        </div>
-                        <div className="formFields flex justify-between w-full items-center py-
-2">
-                            <div className=" flex justify-center items-center ">
-                                <label className="">Password</label>
-
-                            </div>
-                            <div className=" flex items-center justify-center"> <input
-                                className=""
-                                type="password"
-                                placeholder="Enter your password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            /></div>
-
-                        </div>
-                        <div className="w-full flex justify-center items-center py-2 gap-3">
-                            <button
-    type="submit"
-    disabled={isLoading}
-    className={`auth-button flex items-center justify-center gap-2 ${
-        isLoading ? "opacity-70 cursor-not-allowed" : ""
-    }`}
->
-    {isLoading ? (
-        <>
-            <svg
-                className="w-5 h-5 animate-spin"
-                viewBox="0 0 24 24"
-                fill="none"
+              style={{ borderRadius: "14px" }}
+              className="inline-flex items-center justify-center w-12 h-12 bg-white mb-4"
             >
-                <circle
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                    className="opacity-25"
-                />
-                <path
-                    d="M22 12a10 10 0 00-10-10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    className="opacity-90"
-                />
-            </svg>
-
-            <span>Signing in...</span>
-        </>
-    ) : (
-        "Login"
-    )}
-</button>
-                        </div>
-                    </div>
-
-                    <div className="mt-8">
-                        <div className="flex justify-between w-full py-2 px-2 text-center items
--center gap-3">
-
-                            <p className="text-sm text-white">Don't have an account? </p><a className="text-white text-md font-semibold hover:scale-90 transition-all ease-in-out" href="/pages/register">Register</a>
-                        </div>
-                        <div className="flex justify-between items-center w-full py-2 px-2 gap-
-3"><p className="text-sm text-white">
-
-                            forgot your password?
-                        </p><a className=" text-white text-md font-semibold hover:scale-90 tran
-sition-all ease-in-out" href="/pages/password/forgot">Forgot Password</a>
-                        </div>
-                    </div>
-
-
-                </form>
+              <span className="text-purple-600 text-xl font-black">E</span>
             </div>
+            <h1 className="text-2xl font-bold text-white tracking-tight">Login</h1>
+            <p className="text-white/60 text-sm mt-1">Everybody Can Be Influencer</p>
+          </div>
+
+          {/* error */}
+          {errorMessage && (
+            <div
+              style={{ borderRadius: "12px" }}
+              className="mb-5 bg-red-500/20 border border-red-400/40 text-red-200 text-sm text-center py-2.5 px-4"
+            >
+              {errorMessage}
             </div>
-           
-        </section>
-    )
+          )}
+
+          {/* form */}
+          <form onSubmit={handleLogin} className="flex flex-col gap-4">
+
+            {/* email field */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-white/70 text-xs font-semibold ml-1">Email</label>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                style={{
+                  borderRadius: "12px",
+                  background: "rgba(255,255,255,0.12)",
+                  border: "1px solid rgba(255,255,255,0.22)",
+                  color: "white",
+                  width: "100%",
+                  boxSizing: "border-box",
+                }}
+                className="px-4 py-3 text-sm placeholder-white/30 outline-none focus:border-white/50"
+              />
+            </div>
+
+            {/* password field */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-white/70 text-xs text-start w-full font-semibold ml-1">Password</label>
+              <div className="relative w-full">
+                <input
+                  type={password}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{
+                    borderRadius: "12px",
+                    background: "rgba(255,255,255,0.12)",
+                    border: "1px solid rgba(255,255,255,0.22)",
+                    color: "white",
+                    width: "100%",
+                    boxSizing: "border-box",
+                  }}
+                  className="px-4 py-3 pr-11 text-sm placeholder-white/30 outline-none focus:border-white/50"
+                />
+                         </div>
+            </div>
+
+            {/* forgot */}
+            <div className="flex justify-end -mt-1">
+              <a href="/pages/password/forgot" className="text-xs text-white/50 hover:text-white transition-colors">
+                Forgot password?
+              </a>
+            </div>
+
+            {/* submit */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              style={{
+                borderRadius: "12px",
+                width: "100%",
+                boxSizing: "border-box",
+              }}
+              className="bg-white text-purple-700 font-bold py-3 text-sm hover:bg-white/90 active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
+            >
+              {isLoading ? (
+                <>
+                  <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25"/>
+                    <path d="M22 12a10 10 0 00-10-10" stroke="currentColor" strokeWidth="4" strokeLinecap="round" className="opacity-90"/>
+                  </svg>
+                  Signing in...
+                </>
+              ) : "Sign In"}
+            </button>
+          </form>
+
+          {/* links */}
+          <div className="mt-6 flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-white/60">Don&apos;t have an account?</p>
+              <a href="/pages/register" className="text-white text-sm font-semibold hover:underline transition-all">
+                Register
+              </a>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-white/60">Forgot your password?</p>
+              <a href="/pages/password/forgot" className="text-white text-sm font-semibold hover:underline transition-all">
+                Reset it
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
 }
