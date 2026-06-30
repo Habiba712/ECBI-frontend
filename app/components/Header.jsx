@@ -65,9 +65,9 @@ export default function Header() {
             
             if (res.ok) {
                 const data = await res.json();
-                console.log('Fetched User Profile Data:', data?.data?.base?.avatar);
+                console.log('Fetched User Profile Data:', data?.user?.base?.avatar);
 
-                setCoverImage(data?.user?.base?.avatar);
+                setCoverImage(data?.uer?.base?.avatar);
                 
                 setFetchedUser(data?.user?.finalUser || null);
                 
