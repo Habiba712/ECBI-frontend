@@ -61,7 +61,7 @@ export default function Login() {
     }
     return (
         <section 
-        className="border-3 border-green-400 min-h-[100vh] flex items-center px-3 bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]"
+        className="min-h-screen h-full max-w-md mx-auto flex items-center  justify-center  w-full "
           
         
         >
@@ -74,7 +74,7 @@ export default function Login() {
                 "border": "1px solid rgba(255,255,255,0.18)",
                 "borderRadius": "20px",
             }}  
-            className="flex flex-col items-center justify-center mx-auto max-w-md p-4 text-gray-300 border-gray-300 rounded-lg shadow-lg "
+            className="flex flex-col items-center justify-center p-4 text-gray-300 border-gray-300 rounded-lg shadow-lg "
            >
                  <SectionHeader title="Login" description="Everybody Can Be Influencer" />
 
