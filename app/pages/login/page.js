@@ -38,8 +38,8 @@ export default function Login() {
                         setRole(data.role);
                         console.log(data.token);
                         localStorage.setItem("sessionData", JSON.stringify(data));
-                        document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite
-=Strict; Secure`; router.push("/");
+                        document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Strict; Secure`; 
+                        router.push("/");
                     });
                 }
                 else {
