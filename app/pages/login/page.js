@@ -1,10 +1,10 @@
+
 'use client'
 import { useState } from "react";
 import SectionHeader from "../../components/sections/HeaderSection"
 // import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { motion } from 'framer-motion';
-import BackgroundWrapper from "../../components/backgroundWrap";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -14,7 +14,6 @@ export default function Login() {
     const [isLoading, setIsLoading] = useState(false);
     const [token, setToken] = useState("");
     const router = useRouter();
-    // const [isLoading, setIsLoading] = useState(true);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -41,9 +40,8 @@ export default function Login() {
                         setRole(data.role);
                         console.log(data.token);
                         localStorage.setItem("sessionData", JSON.stringify(data));
-                        document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Strict; Secure`;
-                        setIsLoading(false);
-                        router.push("/");
+                        document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite
+=Strict; Secure`; router.push("/");
                     });
                 }
                 else {
@@ -61,10 +59,11 @@ export default function Login() {
 
     }
     return (
-      
-            <section className="flex flex-col items-center justify-center mx-auto max-w-sm text-gray-300  rounded-lg shadow-lg overflow-hidden px-3 py-4"
+
+        <section className="flex flex-col items-center justify-center mx-auto m
+ax-w-md p-4 text-gray-300 border-gray-300 rounded-lg shadow-lg "
             style={{
-                "background": "bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]",
+                "background": "bg-[linear dient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100 %)]",
                 "WebkitBackdropFilter": "blur(20px)",
                 "backdropFilter": "blur(5px)",
                 "boxShadow": "0 8px 20px 0 rgba(0,0,0,0.37)",
@@ -72,16 +71,18 @@ export default function Login() {
                 "borderRadius": "20px",
             }}
         >
-            
-                         <SectionHeader title="Login" description="Everybody Can Be Influencer" />
 
-            <div className="py-4">
+            <SectionHeader title="Login" description="Everybody Can Be Influencer"
+            />
+
+            <div className="py-4  ">
                 {errorMessage ? <p className="text-red-500 text-center">{errorMessage}</p> : null}
-                <form className="flex flex-col gap-3  py-4 "
+                <form className="flex flex-col gap-3 px-2 py-4  w-full"
                     onSubmit={handleLogin}
                 >
-                    <div className="px-4 ">
-                        <div className="formFields flex justify-between  items-center py-2">
+                    <div className="border-b border-gray-300">
+                        <div className="formFields flex justify-between w-full items-center py-
+2">
                             <div className=" flex justify-center items-center ">
                                 <label className="">Email</label>
 
@@ -96,7 +97,8 @@ export default function Login() {
                             /></div>
 
                         </div>
-                        <div className="formFields flex justify-between items-center py-2">
+                        <div className="formFields flex justify-between w-full items-center py-
+2">
                             <div className=" flex justify-center items-center ">
                                 <label className="">Password</label>
 
@@ -111,33 +113,33 @@ export default function Login() {
 
                         </div>
                         <div className="w-full flex justify-center items-center py-2 gap-3">
-                            <button className={`auth-button ${isLoading && "bg-blue-500 text-white opacity-30 disabled"}`} type="submit">Login</button>
+                            <button className="auth-button" type="submit">Login</button>
                         </div>
                     </div>
 
                     <div className="mt-8">
-                        <div className="flex justify-between w-full py-2 px-2 text-center items-center gap-3">
+                        <div className="flex justify-between w-full py-2 px-2 text-center items
+-center gap-3">
 
-                            <p className="text-sm text-white">Don't have an account? </p><a className="text-white text-md font-semibold hover:scale-90 transition-all ease-in-out" href="/pages/register">Register</a>
+                            <p className="text-sm text-white">Don't have an account? </p><a cla
+                                ssName="text-white text-md font-semibold hover:scale-90 transition-all ease-in-out" href="/page
+s/register">Register</a>
                         </div>
-                        <div className="flex justify-between items-center w-full py-2 px-2 gap-3"><p className="text-sm text-white">
+                        <div className="flex justify-between items-center w-full py-2 px-2 gap-
+3"><p className="text-sm text-white">
 
-                            forgot your password?
-                        </p><a className=" text-white text-md font-semibold hover:scale-90 transition-all ease-in-out" href="/pages/password/forgot">Forgot Password</a>
+                                forgot your password?
+                            </p><a className=" text-white text-md font-semibold hover:scale-90 tran
+sition-all ease-in-out" href="/pages/password/forgot">Forgot Password</a>
                         </div>
                     </div>
 
 
                 </form>
-            </div>    
-                        
-           
+            </div>
+
+
         </section>
-     
-          
-                     
-      
-                        
-        
+       
     )
 }
