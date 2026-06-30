@@ -13,6 +13,7 @@ export default function Login() {
     const [isLoading, setIsLoading] = useState(false);
     const [token, setToken] = useState("");
     const router = useRouter();
+    // const [isLoading, setIsLoading] = useState(true);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -57,7 +58,7 @@ export default function Login() {
 
     }
     return (
-          <section className="flex flex-col items-center justify-center mx-auto max-w-md  text-gray-300 border-gray-300 rounded-lg shadow-lg overflow-hidden"
+          <section className="flex flex-col items-center justify-center mx-auto max-w-md  text-gray-300  rounded-lg shadow-lg overflow-hidden"
             style={{
                 "background": "bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]",
                 "WebkitBackdropFilter": "blur(20px)",
@@ -72,11 +73,11 @@ export default function Login() {
 
             <div className="py-4  px-3">
                 {errorMessage ? <p className="text-red-500 text-center">{errorMessage}</p> : null}
-                <form className="flex flex-col gap-3  py-4  "
+                <form className="flex flex-col gap-3  py-4 "
                     onSubmit={handleLogin}
                 >
-                    <div className="border-b border-gray-300">
-                        <div className="formFields flex justify-between w-full items-center py-2">
+                    <div className="mx-auto">
+                        <div className="formFields flex justify-between  items-center py-2 px-3 ">
                             <div className=" flex justify-center items-center ">
                                 <label className="">Email</label>
 
@@ -91,7 +92,7 @@ export default function Login() {
                             /></div>
 
                         </div>
-                        <div className="formFields flex justify-between w-full items-center py-2">
+                        <div className="formFields flex justify-between items-center py-2">
                             <div className=" flex justify-center items-center ">
                                 <label className="">Password</label>
 
