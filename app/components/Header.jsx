@@ -176,7 +176,7 @@ export default function Header() {
                 </header>
             )}
 
-           {/* {role === "RESTO_SUPER_ADMIN" && (
+           {role === "RESTO_SUPER_ADMIN" && (
     <header className={`flex flex-col bg-white h-full min-h-screen sticky top-0 border-r border-gray-100 transition-all duration-300 ease-in-out ${menuOpen ? 'w-[245px]' : 'w-[60px]'}`}>
         {
             menuOpen ? (
@@ -278,14 +278,14 @@ export default function Header() {
                 </span>
             </button>
 
-           
+            {/* Version */}
             <div className={`mt-2 px-3 transition-all duration-300 overflow-hidden ${menuOpen ? 'w-full opacity-100' : 'hidden'}`}>
                 <p className="text-xs text-gray-300">ECBI v1.0.0</p>
                 <p className="text-xs text-gray-300">Powered by <span className="font-semibold text-gray-400">ECBI</span> <span className="text-purple-400">♥</span></p>
             </div>
         </div>
     </header>
-)} */}
+)}
         </>
     );
 }
