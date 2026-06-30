@@ -60,7 +60,7 @@ export default function Login() {
     }
     return (
       
-            <section className="flex flex-col items-center justify-center mx-auto max-w-sm text-gray-300  rounded-lg shadow-lg overflow-hidden"
+            <section className="flex flex-col items-center justify-center mx-auto max-w-sm text-gray-300  rounded-lg shadow-lg overflow-hidden px-3 py-4"
             style={{
                 "background": "bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]",
                 "WebkitBackdropFilter": "blur(20px)",
@@ -73,13 +73,13 @@ export default function Login() {
             
                          <SectionHeader title="Login" description="Everybody Can Be Influencer" />
 
-            <div className="py-4  px-3">
+            <div className="py-4">
                 {errorMessage ? <p className="text-red-500 text-center">{errorMessage}</p> : null}
                 <form className="flex flex-col gap-3  py-4 "
                     onSubmit={handleLogin}
                 >
                     <div className="mx-auto">
-                        <div className="formFields flex justify-between  items-center py-2 px-3 ">
+                        <div className="formFields flex justify-between  items-center py-2">
                             <div className=" flex justify-center items-center ">
                                 <label className="">Email</label>
 
