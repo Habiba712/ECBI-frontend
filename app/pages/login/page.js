@@ -75,7 +75,7 @@ export default function Login() {
             
                          <SectionHeader title="Login" description="Everybody Can Be Influencer" />
 
-            <div className="py-4 border">
+            <div className="py-4">
                 {errorMessage ? <p className="text-red-500 text-center">{errorMessage}</p> : null}
                 <form className="flex flex-col gap-3  py-4 "
                     onSubmit={handleLogin}

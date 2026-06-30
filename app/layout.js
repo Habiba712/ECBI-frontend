@@ -15,34 +15,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`scroll-smooth ${jakartaSans.variable}`}>
       
-         <body className="font-sans antialiased bg-slate-50 text-slate-900 ">
-          <div className="flex ">
-              <Header/>
-          <main className="flex-1  min-h-[100vh] mx-auto">
-          
-           
-                <BackgroundWrapper>
-                 
+     <body className="font-sans antialiased bg-slate-50 text-slate-900">
+  <div className="flex min-h-screen">
+    <Header />
 
-      {children} 
+    <main className="flex-1 w-full">
+      <BackgroundWrapper>
+        {children}
       </BackgroundWrapper>
-          
-           
-
-
-          </main>
-          </div>
-         
-        
-        <footer>
-          {/* <p>copy right 2023</p>
-          <p>created by lenovo</p>
-          <p>powered by next.js</p>
-          <p>made with love</p> */}
-
-        </footer>
-      
-      </body>
+    </main>
+  </div>
+</body>
      
      
     </html>
