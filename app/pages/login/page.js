@@ -59,8 +59,8 @@ export default function Login() {
 
     }
     return (
-        <BackgroundWrapper>
-            <section className="flex flex-col items-center justify-center mx-auto max-w-md  text-gray-300  rounded-lg shadow-lg overflow-hidden"
+      
+            <section className="flex flex-col items-center justify-center mx-auto max-w-sm text-gray-300  rounded-lg shadow-lg overflow-hidden"
             style={{
                 "background": "bg-[linear-gradient(135deg,#6D5BFF_0%,#8A7CFF_35%,#A78BFA_70%,#60A5FA_100%)]",
                 "WebkitBackdropFilter": "blur(20px)",
@@ -131,7 +131,7 @@ export default function Login() {
                         
            
         </section>
-        </BackgroundWrapper>
+     
           
                      
       
